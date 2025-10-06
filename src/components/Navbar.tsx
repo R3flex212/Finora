@@ -52,7 +52,7 @@ const Navbar = () => {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-4">
-            <Button variant="ghost" onClick={() => scrollToSection("lead-magnet")}>
+            <Button variant="ghost" onClick={() => scrollToSection("lead-magnet")} className="text-slate-50">
               Autentificare
             </Button>
             <Button className="gradient-primary shadow-glow" onClick={() => scrollToSection("lead-magnet")}>
