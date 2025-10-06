@@ -50,7 +50,7 @@ const Navbar = () => {
         Login
       </Button>
       <Button
-        className="bg-[hsl(var(--minty-green))] hover:bg-[hsl(var(--minty-green))]/90 text-black font-semibold rounded-full px-4 py-2 text-sm shadow-glow"
+        className="bg-[hsl(var(--aqua))] hover:bg-[hsl(var(--aqua))]/90 text-white font-semibold rounded-full px-4 py-2 text-sm shadow-glow"
         onClick={() => scrollToSection("lead-magnet")}
       >
         <span className="hidden sm:inline">Crează cont</span>
