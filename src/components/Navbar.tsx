@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { NavBar } from "@/components/ui/tubelight-navbar";
+import { Home, Wrench, DollarSign, Info } from "lucide-react";
+
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -11,31 +13,25 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const navItems = [
+    { name: "Cursuri", url: "cursuri", icon: Home },
+    { name: "Tool-uri", url: "tool-uri", icon: Wrench },
+    { name: "Prețuri", url: "preturi", icon: DollarSign },
+    { name: "Despre", url: "despre", icon: Info },
+  ];
+
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({
-        behavior: "smooth"
-      });
-      setIsMobileMenuOpen(false);
+      element.scrollIntoView({ behavior: "smooth" });
     }
   };
-  const navLinks = [{
-    name: "Cursuri",
-    id: "cursuri"
-  }, {
-    name: "Tool-uri",
-    id: "tool-uri"
-  }, {
-    name: "Prețuri",
-    id: "preturi"
-  }, {
-    name: "Despre",
-    id: "despre"
-  }];
-  return <nav className={`fixed top-0 left-0 right-0 z-50 transition-smooth ${isScrolled ? "bg-background/80 backdrop-blur-lg shadow-sm" : "bg-transparent"}`}>
+
+  return (
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-smooth ${isScrolled ? "bg-background/80 backdrop-blur-lg shadow-sm" : "bg-transparent"}`}>
       <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-4">
           {/* Logo */}
           <div className="flex items-center">
             <span className="text-2xl font-bold bg-gradient-to-r from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))] bg-clip-text text-transparent">
@@ -43,39 +39,50 @@ const Navbar = () => {
             </span>
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            {navLinks.map(link => <button key={link.id} onClick={() => scrollToSection(link.id)} className="transition-colors text-slate-50">
-                {link.name}
-              </button>)}
+          {/* Center Navigation */}
+          <div className="hidden md:flex flex-1 justify-center">
+            <NavBar items={navItems} className="relative" />
           </div>
 
-          {/* Desktop CTA */}
-          <div className="hidden md:flex items-center gap-4">
-            <Button variant="ghost" onClick={() => scrollToSection("lead-magnet")} className="text-slate-50">
-              Autentificare
+          {/* Right Auth Buttons */}
+          <div className="hidden md:flex items-center gap-3">
+            <Button
+              variant="ghost"
+              onClick={() => scrollToSection("lead-magnet")}
+              className="text-foreground/80 hover:text-primary rounded-full px-6"
+            >
+              Login
             </Button>
-            <Button className="gradient-primary shadow-glow" onClick={() => scrollToSection("lead-magnet")}>
-              Începe gratuit
+            <Button
+              className="gradient-primary shadow-glow rounded-full px-6"
+              onClick={() => scrollToSection("lead-magnet")}
+            >
+              Crează cont
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button className="md:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          {/* Mobile Menu - Simple buttons */}
+          <div className="md:hidden flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => scrollToSection("lead-magnet")}
+              className="text-xs"
+            >
+              Login
+            </Button>
+            <Button
+              size="sm"
+              className="gradient-primary shadow-glow text-xs"
+              onClick={() => scrollToSection("lead-magnet")}
+            >
+              Cont
+            </Button>
+          </div>
         </div>
-
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && <div className="md:hidden mt-4 pb-4 space-y-4">
-            {navLinks.map(link => <button key={link.id} onClick={() => scrollToSection(link.id)} className="block w-full text-left py-2 text-foreground/80 hover:text-foreground transition-colors">
-                {link.name}
-              </button>)}
-            <Button className="w-full gradient-primary shadow-glow" onClick={() => scrollToSection("lead-magnet")}>
-              Începe gratuit
-            </Button>
-          </div>}
       </div>
-    </nav>;
+    </nav>
+  );
 };
+
 export default Navbar;
