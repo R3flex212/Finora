@@ -23,7 +23,7 @@ const Hero = () => {
       <div className="absolute inset-0 opacity-30">
         <Squares
           direction="diagonal"
-          speed={0.3}
+          speed={0.1}
           squareSize={40}
           borderColor="rgba(83, 223, 221, 0.3)"
           hoverFillColor="rgba(83, 223, 221, 0.15)"
