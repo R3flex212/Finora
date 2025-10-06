@@ -26,7 +26,7 @@ export const FloatingNav = ({
   return (
     <div
       className={cn(
-        "flex fixed top-6 inset-x-0 mx-auto max-w-fit border border-white/10 rounded-full glass-effect bg-black/40 backdrop-blur-lg shadow-lg z-[5000] px-6 py-3 items-center justify-center gap-6",
+        "flex fixed top-6 inset-x-0 mx-auto max-w-fit border border-white/10 rounded-full glass-effect bg-black/70 backdrop-blur-lg shadow-lg z-[5000] px-6 py-3 items-center justify-center gap-6",
         className
       )}
     >
@@ -38,14 +38,14 @@ export const FloatingNav = ({
             <button
               onClick={navItem.onClick}
               className={cn(
-                "relative items-center flex space-x-1 text-foreground/80 hover:text-[hsl(var(--aqua))] transition-colors px-4 py-2 text-sm font-medium"
+                "relative items-center flex space-x-1 text-white/90 hover:text-[hsl(var(--aqua))] transition-colors px-4 py-2 text-sm font-medium"
               )}
             >
               <span className="block sm:hidden">{navItem.icon}</span>
               <span className="hidden sm:block">{navItem.name}</span>
             </button>
             {idx < navItems.length - 1 && (
-              <div className="h-5 w-px bg-white/10" />
+              <div className="h-5 w-px bg-white/20" />
             )}
           </React.Fragment>
         ))}

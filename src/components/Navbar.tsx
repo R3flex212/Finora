@@ -45,7 +45,7 @@ const Navbar = () => {
       <Button
         variant="ghost"
         onClick={() => scrollToSection("lead-magnet")}
-        className="text-foreground/80 hover:text-[hsl(var(--aqua))] hover:bg-transparent px-4 py-2 text-sm hidden sm:flex"
+        className="text-white/90 hover:text-[hsl(var(--aqua))] hover:bg-transparent px-4 py-2 text-sm hidden sm:flex"
       >
         Login
       </Button>
