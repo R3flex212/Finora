@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Users, Globe, Star } from "lucide-react";
 import heroCard from "@/assets/finora-card.png";
+import { Squares } from "@/components/ui/squares-background";
 
 const Hero = () => {
   const scrollToSection = (id: string) => {
@@ -18,15 +19,14 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center gradient-hero overflow-hidden">
-      {/* Grid Pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div
-          className="w-full h-full"
-          style={{
-            backgroundImage: `linear-gradient(to right, hsl(var(--aqua) / 0.3) 1px, transparent 1px),
-                             linear-gradient(to bottom, hsl(var(--aqua) / 0.3) 1px, transparent 1px)`,
-            backgroundSize: "40px 40px",
-          }}
+      {/* Animated Squares Background */}
+      <div className="absolute inset-0 opacity-30">
+        <Squares
+          direction="diagonal"
+          speed={0.3}
+          squareSize={40}
+          borderColor="rgba(83, 223, 221, 0.3)"
+          hoverFillColor="rgba(83, 223, 221, 0.15)"
         />
       </div>
 
