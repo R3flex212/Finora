@@ -2,10 +2,10 @@ import { Star } from "lucide-react";
 
 const SocialProof = () => {
   const testimonials = [
-    { text: "M-a ajutat enorm să îmi organizez banii", initials: "AM" },
-    { text: "Cea mai bună decizie financiară", initials: "RP" },
-    { text: "Simplu și foarte eficient", initials: "MC" },
-    { text: "Recomand cu încredere", initials: "DI" },
+    { text: "Am ieșit din roșu în 3 luni", initials: "AM" },
+    { text: "Știu acum exact unde îmi merg banii", initials: "RP" },
+    { text: "Template-urile m-au ajutat instant", initials: "MC" },
+    { text: "Comunitatea e super activă și prietenoasă", initials: "DI" },
   ];
 
   return (

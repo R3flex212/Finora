@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/button";
 import { ArrowRight, Users, Globe, Star } from "lucide-react";
 import { Squares } from "@/components/ui/squares-background";
 import { LayoutTextFlip } from "@/components/ui/layout-text-flip";
+import { StarBorder } from "@/components/ui/star-border";
 const Hero = () => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -47,37 +47,74 @@ const Hero = () => {
           <div className="space-y-8 text-center lg:text-left">
             <h1 className="flex flex-wrap items-center justify-center lg:justify-start gap-2 leading-tight">
               <LayoutTextFlip
-                text="Drumul tău către"
-                words={["Libertate financiară", "Bogăție durabilă", "Succes financiar"]}
+                text="Educație financiară pentru"
+                words={["Libertate financiară", "Independență financiară", "Bogăție durabilă", "Succes financiar"]}
                 duration={3000}
               />
             </h1>
 
             <p className="text-lg md:text-xl text-white/80 max-w-2xl">
-              Cursuri, instrumente și ghidare ca să treci de la zero la libertate financiară.
+              Învață să gestionezi banii inteligent, să ieși din datorii și să construiești economii — chiar dacă pornești de la zero.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button
-                size="lg"
-                className="gradient-primary shadow-glow text-lg px-8"
-                onClick={() => scrollToSection("lead-magnet")}
-              >
-                Începe gratuit
-                <ArrowRight className="ml-2" size={20} />
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="bg-white/10 border-white/20 text-white hover:bg-white/20 text-lg"
-                onClick={() => scrollToSection("preturi")}
-              >
-                Vezi programele
-              </Button>
+            <div className="space-y-3 text-white/90 max-w-2xl">
+              <div className="flex items-center gap-3">
+                <div className="w-5 h-5 rounded-full bg-[hsl(var(--minty-green))] flex items-center justify-center flex-shrink-0">
+                  <span className="text-black text-xs">✓</span>
+                </div>
+                <span className="text-sm">Cursuri pas cu pas, de la începător la avansat</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-5 h-5 rounded-full bg-[hsl(var(--minty-green))] flex items-center justify-center flex-shrink-0">
+                  <span className="text-black text-xs">✓</span>
+                </div>
+                <span className="text-sm">Calculatoare și template-uri gata de folosit</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-5 h-5 rounded-full bg-[hsl(var(--minty-green))] flex items-center justify-center flex-shrink-0">
+                  <span className="text-black text-xs">✓</span>
+                </div>
+                <span className="text-sm">Comunitate activă și Q&A cu experți</span>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <StarBorder
+                  as="button"
+                  className="shadow-glow"
+                  color="hsl(var(--aqua))"
+                  speed="6s"
+                  onClick={() => scrollToSection("lead-magnet")}
+                >
+                  <span className="text-lg font-semibold">
+                    Începe acum
+                    <ArrowRight className="ml-2 inline" size={20} />
+                  </span>
+                </StarBorder>
+                <StarBorder
+                  as="button"
+                  className="bg-white/5"
+                  color="hsl(var(--minty-green))"
+                  speed="8s"
+                  onClick={() => scrollToSection("de-ce-finora")}
+                >
+                  <span className="text-lg">De ce Finora</span>
+                </StarBorder>
+              </div>
+              <p className="text-xs text-center lg:text-left text-white/70">Fără card • 1 minut</p>
             </div>
 
             {/* Stats Mini Bar */}
-            <div className="grid grid-cols-3 gap-4 pt-8">{stats.map((stat, index) => {})}</div>
+            <div className="grid grid-cols-3 gap-4 pt-8">
+              {stats.map((stat, index) => (
+                <div key={index} className="text-center">
+                  <stat.icon className="w-8 h-8 mx-auto mb-2 text-[hsl(var(--aqua))]" />
+                  <p className="text-sm font-semibold text-white">{stat.value}</p>
+                  <p className="text-xs text-white/70">{stat.label}</p>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Right Content - 3D Spline */}

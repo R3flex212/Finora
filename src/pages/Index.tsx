@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import SocialProof from "@/components/SocialProof";
+import WhyFinora from "@/components/WhyFinora";
 import HowItWorks from "@/components/HowItWorks";
 import ToolsDemo from "@/components/ToolsDemo";
 import LeadMagnet from "@/components/LeadMagnet";
@@ -16,6 +17,7 @@ const Index = () => {
       <Navbar />
       <Hero />
       <SocialProof />
+      <WhyFinora />
       <HowItWorks />
       <ToolsDemo />
       <LeadMagnet />

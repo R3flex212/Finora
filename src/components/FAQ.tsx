@@ -42,6 +42,11 @@ const FAQ = () => {
       answer:
         "Folosim criptare SSL, respectăm GDPR și nu vindem niciodată datele tale. Toate informațiile financiare pe care le introduci în calculatoare rămân local în browser-ul tău.",
     },
+    {
+      question: "Mai am întrebări, cum vă contactez?",
+      answer:
+        "Poți să ne scrii la contact@finora.ro sau să folosești secțiunea de suport din cont. Răspundem în maxim 24 de ore.",
+    },
   ];
 
   return (

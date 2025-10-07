@@ -11,9 +11,9 @@ const LeadMagnet = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const benefits = [
-    { icon: FileText, text: "Checklist PDF: Primii 7 pași spre un buget sănătos" },
+    { icon: FileText, text: "Checklist PDF complet: Primii 7 pași spre un buget sănătos" },
     { icon: Mail, text: "Mini-curs pe email 5 zile: Restart Financiar" },
-    { icon: Table, text: "Template de buget (Notion/Excel)" },
+    { icon: Table, text: "Template de buget (Notion/Excel) gata de folosit" },
   ];
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -43,10 +43,10 @@ const LeadMagnet = () => {
             {/* Left - Benefits */}
             <div className="p-8 md:p-12 bg-gradient-to-br from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))] text-white">
               <h2 className="text-3xl font-bold mb-4">
-                Ia ghidul gratuit
+                Ghid gratuit: Primii 7 pași spre un buget sănătos
               </h2>
               <p className="text-lg mb-8 text-white/90">
-                Primii 7 pași spre un buget sănătos
+                Află cum să îți organizezi banii și să economisești mai mult
               </p>
 
               <div className="space-y-4">

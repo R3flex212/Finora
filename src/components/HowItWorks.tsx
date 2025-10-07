@@ -4,18 +4,18 @@ const HowItWorks = () => {
   const steps = [
     {
       icon: UserPlus,
-      title: "Înregistrează-te",
-      description: "Crează contul gratuit în 2 minute",
+      title: "Te înregistrezi",
+      description: "Contul gratuit îți ia mai puțin de 60 de secunde",
     },
     {
       icon: Route,
-      title: "Alege traseul tău",
-      description: "Începător, Intermediar sau Avansat",
+      title: "Îți alegi traseul",
+      description: "Începător, Intermediar sau Avansat — ce ți se potrivește",
     },
     {
       icon: Zap,
-      title: "Aplică rapid",
-      description: "Folosește tool-urile Finora direct",
+      title: "Aplici cu tool-urile Finora",
+      description: "Calculatoare, template-uri și lecții scurte — rezultate imediate",
     },
   ];
 
@@ -27,7 +27,7 @@ const HowItWorks = () => {
             Cum funcționează?
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Simplu. Clar. Aplicabil.
+            Primești claritate și rezultate măsurabile — fără complicații.
           </p>
         </div>
 

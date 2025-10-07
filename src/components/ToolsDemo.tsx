@@ -44,7 +44,7 @@ const ToolsDemo = () => {
             Tool-uri inteligente
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Calculatoare și simulatoare care te ajută să iei decizii financiare informate
+            Exemple reale, fișe de lucru, calcule automate — totul în câteva click-uri
           </p>
         </div>
 

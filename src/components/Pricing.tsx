@@ -64,7 +64,7 @@ const Pricing = () => {
             Alege planul potrivit pentru tine
           </h2>
           <p className="text-lg text-muted-foreground mb-8">
-            De la primii pași la strategii avansate
+            Simplu. Clar. Fără costuri ascunse.
           </p>
 
           {/* Toggle */}
