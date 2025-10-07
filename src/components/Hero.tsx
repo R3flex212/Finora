@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Users, Globe, Star } from "lucide-react";
 import { Squares } from "@/components/ui/squares-background";
+import { LayoutTextFlip } from "@/components/ui/layout-text-flip";
 
 const Hero = () => {
   const scrollToSection = (id: string) => {
@@ -33,11 +34,12 @@ const Hero = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div className="space-y-8 text-center lg:text-left">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white">
-              Educație financiară de top,{" "}
-              <span className="bg-gradient-to-r from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))] bg-clip-text text-transparent">
-                accesibilă tuturor
-              </span>
+            <h1 className="flex flex-wrap items-center justify-center lg:justify-start gap-2 leading-tight">
+              <LayoutTextFlip
+                text="Educație financiară pentru"
+                words={["Libertate financiară", "Independență financiară", "Bogăție durabilă", "Succes financiar"]}
+                duration={3000}
+              />
             </h1>
 
             <p className="text-lg md:text-xl text-white/80 max-w-2xl">
