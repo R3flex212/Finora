@@ -69,7 +69,7 @@ export const FloatingNav = ({
           ))}
         </div>
 
-        {rightButtons && <div className="flex items-center gap-2 md:gap-3 flex-shrink-0">{rightButtons}</div>}
+        {rightButtons && <div className="hidden md:flex items-center gap-2 md:gap-3 flex-shrink-0">{rightButtons}</div>}
       </div>
 
       {/* Mobile Menu Dropdown */}
