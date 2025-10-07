@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Users, Globe, Star } from "lucide-react";
-import heroCard from "@/assets/finora-card.png";
 import { Squares } from "@/components/ui/squares-background";
 
 const Hero = () => {
@@ -76,13 +75,15 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Right Content - Card */}
+          {/* Right Content - 3D Spline */}
           <div className="relative">
-            <div className="relative transform hover:scale-105 transition-transform duration-500">
-              <img
-                src={heroCard}
-                alt="Finora Card"
-                className="w-full max-w-md mx-auto drop-shadow-2xl"
+            <div className="relative transform hover:scale-105 transition-transform duration-500 w-full max-w-md mx-auto aspect-square">
+              <iframe 
+                src='https://my.spline.design/globaltransactions-djf0FeA8QXVr5uzPp4hZELje/' 
+                frameBorder='0' 
+                width='100%' 
+                height='100%'
+                className="rounded-lg"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))] opacity-20 blur-3xl -z-10" />
             </div>
