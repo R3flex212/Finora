@@ -1,7 +1,7 @@
+import { Button } from "@/components/ui/button";
 import { ArrowRight, Users, Globe, Star } from "lucide-react";
 import { Squares } from "@/components/ui/squares-background";
 import { LayoutTextFlip } from "@/components/ui/layout-text-flip";
-import { StarBorder } from "@/components/ui/star-border";
 const Hero = () => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -58,35 +58,26 @@ const Hero = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <StarBorder
-                className="text-lg"
+              <Button
+                size="lg"
+                className="gradient-primary shadow-glow text-lg px-8"
                 onClick={() => scrollToSection("lead-magnet")}
               >
-                <span className="flex items-center justify-center gap-2">
-                  Începe gratuit
-                  <ArrowRight size={20} />
-                </span>
-              </StarBorder>
-              <StarBorder
-                className="text-lg"
+                Începe gratuit
+                <ArrowRight className="ml-2" size={20} />
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="bg-white/10 border-white/20 text-white hover:bg-white/20 text-lg"
                 onClick={() => scrollToSection("preturi")}
               >
                 Vezi programele
-              </StarBorder>
+              </Button>
             </div>
 
             {/* Stats Mini Bar */}
-            <div className="grid grid-cols-3 gap-4 pt-8">
-              {stats.map((stat, index) => (
-                <div key={index} className="text-center lg:text-left">
-                  <div className="flex items-center justify-center lg:justify-start gap-2 mb-1">
-                    <stat.icon className="w-5 h-5 text-primary" />
-                  </div>
-                  <p className="text-sm text-white/60">{stat.label}</p>
-                  <p className="text-white font-semibold">{stat.value}</p>
-                </div>
-              ))}
-            </div>
+            <div className="grid grid-cols-3 gap-4 pt-8">{stats.map((stat, index) => {})}</div>
           </div>
 
           {/* Right Content - 3D Spline */}
