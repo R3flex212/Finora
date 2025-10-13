@@ -7,37 +7,37 @@ const WhyFinora = () => {
       title: "Claritate & Structură",
       description: "Trasee în 3 niveluri: Începător, Intermediar, Avansat — alegi ce ți se potrivește și urmezi un plan clar, pas cu pas.",
       className: "col-span-2 row-span-2 bento-aqua",
-      icon: <Target className="w-10 h-10 text-white" />,
+      icon: <Target className="w-10 h-10 text-gray-900 dark:text-gray-900" />,
     },
     {
       title: "Tool-uri practice",
       description: "Template-uri Excel, calculatoare și fișe de lucru gata de folosit imediat.",
       className: "bento-mint",
-      icon: <Calculator className="w-8 h-8 text-white" />,
+      icon: <Calculator className="w-8 h-8 text-gray-900 dark:text-gray-900" />,
     },
     {
       title: "Educație aplicabilă",
       description: "Cursuri video clare și directe, fără fluff teoretic.",
       className: "bento-aqua-light",
-      icon: <BookOpen className="w-8 h-8 text-foreground" />,
+      icon: <BookOpen className="w-8 h-8 text-gray-900 dark:text-gray-900" />,
     },
     {
       title: "Comunitate activă",
       description: "Q&A live, suport din partea comunității și responsabilizare reciprocă.",
       className: "row-span-2 bento-mint-light",
-      icon: <Users className="w-8 h-8 text-foreground" />,
+      icon: <Users className="w-8 h-8 text-gray-900 dark:text-gray-900" />,
     },
     {
       title: "Progres măsurabil",
       description: "Obiective clare, trackere și pași pe care îi vezi cum se îndeplinesc în timp real.",
       className: "col-span-2 bento-gradient",
-      icon: <TrendingUp className="w-8 h-8 text-white" />,
+      icon: <TrendingUp className="w-8 h-8 text-gray-900 dark:text-gray-900" />,
     },
     {
       title: "Aplicabil instant",
       description: "Folosești ce înveți în aceeași zi — fără timp pierdut.",
       className: "bento-aqua",
-      icon: <FileText className="w-8 h-8 text-white" />,
+      icon: <FileText className="w-8 h-8 text-gray-900 dark:text-gray-900" />,
     },
   ];
 
