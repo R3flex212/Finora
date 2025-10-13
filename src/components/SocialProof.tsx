@@ -1,4 +1,6 @@
 import { Star } from "lucide-react";
+import { Boxes } from "@/components/ui/background-boxes";
+
 const SocialProof = () => {
   const testimonials = [{
     text: "Am ieșit din roșu în 3 luni",
@@ -13,8 +15,10 @@ const SocialProof = () => {
     text: "Comunitatea e super activă și prietenoasă",
     initials: "DI"
   }];
-  return <section className="py-16 bg-muted/30">
-      <div className="container mx-auto px-4">
+  return <section className="py-16 bg-muted/30 relative overflow-hidden">
+      <Boxes />
+      <div className="absolute inset-0 w-full h-full bg-muted/30 z-10 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+      <div className="container mx-auto px-4 relative z-20">
         <div className="text-center mb-8">
           <p className="text-sm font-medium text-muted-foreground mb-2">
             Încredere în creștere
