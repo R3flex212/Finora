@@ -103,8 +103,8 @@ const Testimonials = () => {
           </p>
         </div>
 
-        <div className="flex justify-center">
-          <div className="border border-border rounded-lg relative flex h-96 w-full max-w-[800px] flex-row items-center justify-center overflow-hidden gap-1.5 [perspective:300px]">
+        <div className="flex justify-center w-full">
+          <div className="relative flex h-96 w-full flex-row items-center justify-center overflow-hidden gap-1.5 [perspective:300px]">
             <div
               className="flex flex-row items-center gap-4"
               style={{
