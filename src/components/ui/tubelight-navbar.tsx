@@ -25,7 +25,7 @@ export function NavBar({ items, className, logo, rightButtons }: NavBarProps) {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768)
+      setIsMobile(window.innerWidth < 1024)
     }
 
     handleResize()
@@ -43,26 +43,26 @@ export function NavBar({ items, className, logo, rightButtons }: NavBarProps) {
     <>
       <div
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 pt-4 md:pt-6",
+          "fixed top-0 left-0 right-0 z-50 pt-4 lg:pt-6",
           className,
         )}
       >
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between md:justify-center gap-4 bg-gradient-to-r from-[hsl(var(--deep-teal))]/10 via-[hsl(var(--aqua))]/5 to-[hsl(var(--minty-green))]/10 border border-border/20 backdrop-blur-lg py-3 px-4 rounded-full shadow-lg">
+        <div className="px-4 lg:flex lg:justify-center">
+          <div className="flex items-center justify-between lg:justify-center gap-4 bg-gradient-to-r from-[hsl(var(--deep-teal))]/10 via-[hsl(var(--aqua))]/5 to-[hsl(var(--minty-green))]/10 border border-border/20 backdrop-blur-lg py-3 px-4 rounded-full shadow-lg lg:w-auto">
             {/* Logo - always visible */}
             {logo && <div className="flex-shrink-0 px-2">{logo}</div>}
             
-            {/* Hamburger Menu Button - Mobile Only */}
+            {/* Hamburger Menu Button - Mobile/Tablet */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden text-foreground hover:text-foreground hover:bg-[hsl(var(--aqua))]/20 transition-all p-2 rounded-full"
+              className="lg:hidden text-foreground hover:text-foreground hover:bg-[hsl(var(--aqua))]/20 transition-all p-2 rounded-full"
               aria-label="Toggle menu"
             >
               {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-2">
+            <div className="hidden lg:flex items-center gap-2">
               {items.map((item) => {
                 const Icon = item.icon
                 const isActive = activeTab === item.name
@@ -105,7 +105,7 @@ export function NavBar({ items, className, logo, rightButtons }: NavBarProps) {
             </div>
 
             {/* Right Buttons - Desktop Only */}
-            {rightButtons && <div className="hidden md:flex items-center gap-2 flex-shrink-0">{rightButtons}</div>}
+            {rightButtons && <div className="hidden lg:flex items-center gap-2 flex-shrink-0">{rightButtons}</div>}
           </div>
         </div>
       </div>
@@ -118,7 +118,7 @@ export function NavBar({ items, className, logo, rightButtons }: NavBarProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden fixed top-20 left-0 right-0 z-40 mx-4"
+            className="lg:hidden fixed top-20 left-0 right-0 z-40 mx-4"
           >
             <div className="bg-gradient-to-r from-[hsl(var(--deep-teal))]/10 via-[hsl(var(--aqua))]/5 to-[hsl(var(--minty-green))]/10 border border-border/20 backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden">
               <div className="flex flex-col p-2 gap-1">
