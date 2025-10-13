@@ -66,7 +66,7 @@ const Navbar = () => {
         rightButtons={rightButtons}
       />
       {/* Spacer to prevent content from going under navbar */}
-      <div className="h-[68px]" />
+      <div className="h-[120px] lg:h-[68px]" />
     </>
   );
 };
