@@ -45,16 +45,15 @@ const Navbar = () => {
       <Button
         variant="ghost"
         onClick={() => scrollToSection("lead-magnet")}
-        className="text-white/90 hover:text-[hsl(var(--aqua))] hover:bg-transparent px-4 py-2 text-sm hidden sm:flex"
+        className="text-foreground hover:bg-[hsl(var(--aqua))]/10 px-5 py-2.5 text-sm rounded-full font-medium"
       >
         Login
       </Button>
       <Button
-        className="bg-[hsl(var(--minty-green))] hover:bg-[hsl(var(--minty-green))]/90 text-black font-semibold rounded-full px-4 py-2 text-sm shadow-glow"
+        className="bg-gradient-to-r from-[hsl(var(--minty-green))] to-[hsl(var(--aqua))] hover:opacity-90 text-white font-semibold rounded-full px-5 py-2.5 text-sm shadow-glow transition-opacity"
         onClick={() => scrollToSection("lead-magnet")}
       >
-        <span className="hidden sm:inline">Crează cont</span>
-        <span className="sm:hidden">Cont</span>
+        Crează cont
       </Button>
     </>
   );
