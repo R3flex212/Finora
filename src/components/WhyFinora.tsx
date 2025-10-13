@@ -39,17 +39,29 @@ const WhyFinora = () => {
   ];
 
   return (
-    <section id="de-ce-finora" className="py-20 bg-muted/30">
-      <div className="container mx-auto px-4">
+    <section id="de-ce-finora" className="relative py-20 overflow-hidden bg-gradient-to-br from-background via-muted/30 to-background">
+      {/* Decorative gradient orbs */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[hsl(var(--aqua))] opacity-10 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[hsl(var(--minty-green))] opacity-10 rounded-full blur-3xl" />
+      
+      {/* Frosted glass overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/5 to-transparent backdrop-blur-[2px]" />
+      
+      <div className="container mx-auto px-4 relative z-10">
         <CyberneticBentoGrid 
           title="De ce Finora?"
           items={bentoItems}
         />
         
         <div className="max-w-3xl mx-auto text-center mt-12">
-          <p className="text-muted-foreground">
-            <strong>Ce ne diferențiază:</strong> Finora îmbină educația structurată cu tool-uri practice și o comunitate activă — totul într-un singur loc.
-          </p>
+          <div className="glass-effect rounded-xl p-6 shadow-glow border-[hsl(var(--aqua))]/20">
+            <p className="text-foreground">
+              <strong className="text-transparent bg-clip-text bg-gradient-to-r from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))]">
+                Ce ne diferențiază:
+              </strong>{" "}
+              Finora îmbină educația structurată cu tool-uri practice și o comunitate activă — totul într-un singur loc.
+            </p>
+          </div>
         </div>
       </div>
     </section>
