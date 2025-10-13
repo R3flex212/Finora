@@ -39,10 +39,10 @@ export function NavBar({ items, className, logo, rightButtons }: NavBarProps) {
         className,
       )}
     >
-      <div className="flex items-center gap-3 bg-gradient-to-r from-[hsl(var(--deep-teal))]/10 via-[hsl(var(--aqua))]/5 to-[hsl(var(--minty-green))]/10 border border-border/20 backdrop-blur-lg py-2 px-3 rounded-full shadow-lg">
+      <div className="flex items-center gap-4 bg-gradient-to-r from-[hsl(var(--deep-teal))]/10 via-[hsl(var(--aqua))]/5 to-[hsl(var(--minty-green))]/10 border border-border/20 backdrop-blur-lg py-3 px-4 rounded-full shadow-lg">
         {logo && <div className="flex-shrink-0 px-2">{logo}</div>}
         
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2">
           {items.map((item) => {
             const Icon = item.icon
             const isActive = activeTab === item.name
@@ -55,9 +55,9 @@ export function NavBar({ items, className, logo, rightButtons }: NavBarProps) {
                   item.onClick()
                 }}
                 className={cn(
-                  "relative cursor-pointer text-sm font-semibold px-5 py-2.5 rounded-full transition-colors",
-                  "text-foreground/80 hover:text-[hsl(var(--aqua))]",
-                  isActive && "text-[hsl(var(--aqua))]",
+                  "relative cursor-pointer text-sm font-semibold px-6 py-3 rounded-full transition-colors whitespace-nowrap",
+                  "text-foreground/70 hover:text-foreground hover:bg-[hsl(var(--aqua))]/20",
+                  isActive && "text-foreground bg-gradient-to-r from-[hsl(var(--aqua))]/20 to-[hsl(var(--minty-green))]/20",
                 )}
               >
                 <span className="hidden md:inline">{item.name}</span>
@@ -67,7 +67,7 @@ export function NavBar({ items, className, logo, rightButtons }: NavBarProps) {
                 {isActive && (
                   <motion.div
                     layoutId="lamp"
-                    className="absolute inset-0 w-full bg-[hsl(var(--aqua))]/10 rounded-full -z-10"
+                    className="absolute inset-0 w-full bg-gradient-to-r from-[hsl(var(--aqua))]/15 to-[hsl(var(--minty-green))]/15 rounded-full -z-10"
                     initial={false}
                     transition={{
                       type: "spring",
@@ -75,10 +75,10 @@ export function NavBar({ items, className, logo, rightButtons }: NavBarProps) {
                       damping: 30,
                     }}
                   >
-                    <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-1 bg-gradient-to-r from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))] rounded-t-full">
-                      <div className="absolute w-12 h-6 bg-[hsl(var(--aqua))]/20 rounded-full blur-md -top-2 -left-2" />
-                      <div className="absolute w-8 h-6 bg-[hsl(var(--minty-green))]/20 rounded-full blur-md -top-1" />
-                      <div className="absolute w-4 h-4 bg-[hsl(var(--aqua))]/30 rounded-full blur-sm top-0 left-2" />
+                    <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-10 h-1.5 bg-gradient-to-r from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))] rounded-t-full shadow-glow">
+                      <div className="absolute w-14 h-7 bg-[hsl(var(--aqua))]/30 rounded-full blur-md -top-2 -left-2" />
+                      <div className="absolute w-10 h-7 bg-[hsl(var(--minty-green))]/30 rounded-full blur-md -top-1" />
+                      <div className="absolute w-5 h-5 bg-[hsl(var(--aqua))]/40 rounded-full blur-sm top-0 left-2" />
                     </div>
                   </motion.div>
                 )}
