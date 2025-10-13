@@ -241,3 +241,49 @@ All colors MUST be HSL.
 .row-span-2 {
   grid-row: span 2;
 }
+
+/* Colorful Bento Card Variants */
+.bento-aqua {
+  background: linear-gradient(135deg, hsl(var(--aqua) / 0.8), hsl(var(--aqua) / 0.6)) !important;
+  border-color: hsl(var(--aqua) / 0.3);
+  color: white;
+}
+
+.bento-aqua h3,
+.bento-aqua p {
+  color: white !important;
+}
+
+.bento-mint {
+  background: linear-gradient(135deg, hsl(var(--minty-green) / 0.8), hsl(var(--minty-green) / 0.6)) !important;
+  border-color: hsl(var(--minty-green) / 0.3);
+  color: white;
+}
+
+.bento-mint h3,
+.bento-mint p {
+  color: white !important;
+}
+
+.bento-aqua-light {
+  background: linear-gradient(135deg, hsl(var(--aqua) / 0.15), hsl(var(--aqua) / 0.08)) !important;
+  border-color: hsl(var(--aqua) / 0.2);
+}
+
+.bento-mint-light {
+  background: linear-gradient(135deg, hsl(var(--minty-green) / 0.15), hsl(var(--minty-green) / 0.08)) !important;
+  border-color: hsl(var(--minty-green) / 0.2);
+}
+
+.bento-gradient {
+  background: linear-gradient(135deg, 
+    hsl(var(--aqua) / 0.7) 0%, 
+    hsl(var(--minty-green) / 0.7) 100%) !important;
+  border-color: hsl(var(--aqua) / 0.3);
+  color: white;
+}
+
+.bento-gradient h3,
+.bento-gradient p {
+  color: white !important;
+}

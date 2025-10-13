@@ -6,35 +6,38 @@ const WhyFinora = () => {
     {
       title: "Claritate & Structură",
       description: "Trasee în 3 niveluri: Începător, Intermediar, Avansat — alegi ce ți se potrivește și urmezi un plan clar, pas cu pas.",
-      className: "col-span-2 row-span-2",
-      icon: <Target className="w-10 h-10 text-[hsl(var(--aqua))]" />,
+      className: "col-span-2 row-span-2 bento-aqua",
+      icon: <Target className="w-10 h-10 text-white" />,
     },
     {
       title: "Tool-uri practice",
       description: "Template-uri Excel, calculatoare și fișe de lucru gata de folosit imediat.",
-      icon: <Calculator className="w-8 h-8 text-[hsl(var(--aqua))]" />,
+      className: "bento-mint",
+      icon: <Calculator className="w-8 h-8 text-white" />,
     },
     {
       title: "Educație aplicabilă",
       description: "Cursuri video clare și directe, fără fluff teoretic.",
-      icon: <BookOpen className="w-8 h-8 text-[hsl(var(--aqua))]" />,
+      className: "bento-aqua-light",
+      icon: <BookOpen className="w-8 h-8 text-foreground" />,
     },
     {
       title: "Comunitate activă",
       description: "Q&A live, suport din partea comunității și responsabilizare reciprocă.",
-      className: "row-span-2",
-      icon: <Users className="w-8 h-8 text-[hsl(var(--aqua))]" />,
+      className: "row-span-2 bento-mint-light",
+      icon: <Users className="w-8 h-8 text-foreground" />,
     },
     {
       title: "Progres măsurabil",
       description: "Obiective clare, trackere și pași pe care îi vezi cum se îndeplinesc în timp real.",
-      className: "col-span-2",
-      icon: <TrendingUp className="w-8 h-8 text-[hsl(var(--aqua))]" />,
+      className: "col-span-2 bento-gradient",
+      icon: <TrendingUp className="w-8 h-8 text-white" />,
     },
     {
       title: "Aplicabil instant",
       description: "Folosești ce înveți în aceeași zi — fără timp pierdut.",
-      icon: <FileText className="w-8 h-8 text-[hsl(var(--aqua))]" />,
+      className: "bento-aqua",
+      icon: <FileText className="w-8 h-8 text-white" />,
     },
   ];
 
