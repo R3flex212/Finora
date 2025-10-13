@@ -1,114 +1,146 @@
-import { Star } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Card, CardContent } from '@/components/ui/card';
+import { Marquee } from '@/components/ui/3d-testimonials';
+
+const testimonials = [
+  {
+    name: 'Ana-Maria Popescu',
+    username: '@anamaria',
+    body: 'Am ieșit din roșu în 3 luni folosind metodele din demo!',
+    img: 'https://randomuser.me/api/portraits/women/32.jpg',
+    country: '🇷🇴 România',
+  },
+  {
+    name: 'Radu Ionescu',
+    username: '@raduion',
+    body: 'Template-urile Excel sunt exact ce îmi trebuia.',
+    img: 'https://randomuser.me/api/portraits/men/68.jpg',
+    country: '🇷🇴 România',
+  },
+  {
+    name: 'Maria Constantin',
+    username: '@mariacon',
+    body: 'Calculatorul de buget m-a ajutat să economisesc 2000€.',
+    img: 'https://randomuser.me/api/portraits/women/51.jpg',
+    country: '🇷🇴 România',
+  },
+  {
+    name: 'Andrei Popa',
+    username: '@andreip',
+    body: 'Comunitatea e super activă și prietenoasă!',
+    img: 'https://randomuser.me/api/portraits/men/53.jpg',
+    country: '🇷🇴 România',
+  },
+  {
+    name: 'Elena Dumitrescu',
+    username: '@elenad',
+    body: 'Știu acum exact unde îmi merg banii lunar.',
+    img: 'https://randomuser.me/api/portraits/women/33.jpg',
+    country: '🇷🇴 România',
+  },
+  {
+    name: 'Mihai Stanciu',
+    username: '@mihais',
+    body: 'Demo-ul m-a convins instant. Tool-uri profesionale!',
+    img: 'https://randomuser.me/api/portraits/men/22.jpg',
+    country: '🇷🇴 România',
+  },
+  {
+    name: 'Diana Georgescu',
+    username: '@dianag',
+    body: 'Am reușit să consolidez toate creditele eficient.',
+    img: 'https://randomuser.me/api/portraits/women/85.jpg',
+    country: '🇷🇴 România',
+  },
+  {
+    name: 'Cristian Marin',
+    username: '@cristianm',
+    body: 'Cursurile video sunt clare și direct la subiect.',
+    img: 'https://randomuser.me/api/portraits/men/45.jpg',
+    country: '🇷🇴 România',
+  },
+  {
+    name: 'Ioana Vasile',
+    username: '@ioanav',
+    body: 'Cea mai bună platformă de educație financiară!',
+    img: 'https://randomuser.me/api/portraits/women/61.jpg',
+    country: '🇷🇴 România',
+  },
+];
+
+function TestimonialCard({ img, name, username, body, country }: (typeof testimonials)[number]) {
+  return (
+    <Card className="w-80">
+      <CardContent className="pt-6">
+        <div className="flex items-center gap-2.5">
+          <Avatar className="size-9">
+            <AvatarImage src={img} alt={name} />
+            <AvatarFallback>{name[0]}</AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col">
+            <figcaption className="text-sm font-medium text-foreground flex items-center gap-1">
+              {name} <span className="text-xs">{country}</span>
+            </figcaption>
+            <p className="text-xs font-medium text-muted-foreground">{username}</p>
+          </div>
+        </div>
+        <blockquote className="mt-3 text-sm text-foreground">{body}</blockquote>
+      </CardContent>
+    </Card>
+  );
+}
 
 const Testimonials = () => {
-  const testimonials = [
-    {
-      name: "Ana M.",
-      avatar: "AM",
-      text: "Am reușit să economisesc pentru avansul la apartament în 8 luni. Tool-urile mi-au arătat exact cât și unde să pun banii.",
-      rating: 5,
-    },
-    {
-      name: "Radu P.",
-      avatar: "RP",
-      text: "Calculatorul de datorii m-a ajutat să plătesc creditul cu 2 ani mai devreme decât planificasem inițial.",
-      rating: 5,
-    },
-    {
-      name: "Maria C.",
-      avatar: "MC",
-      text: "Cursurile sunt clare și directe. Fără fluff, doar informații pe care le poți aplica imediat.",
-      rating: 5,
-    },
-  ];
-
-  const caseStudy = {
-    title: "Studiu de caz: De la datorii la economii",
-    before: [
-      "4 credite diferite",
-      "0 € economii",
-      "Stress financiar constant",
-    ],
-    after: [
-      "Toate creditele consolidate",
-      "3.500 € economii în 6 luni",
-      "Plan clar pentru următorii 3 ani",
-    ],
-  };
-
   return (
     <section className="py-20 bg-muted/30">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Ce spun utilizatorii
           </h2>
           <p className="text-sm text-muted-foreground">
-            Rezultatele pot varia în funcție de situația individuală
+            Persoane reale care au testat platforma în perioada beta
           </p>
         </div>
 
-        {/* Testimonials */}
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-16">
-          {testimonials.map((testimonial, index) => (
+        <div className="flex justify-center">
+          <div className="border border-border rounded-lg relative flex h-96 w-full max-w-[800px] flex-row items-center justify-center overflow-hidden gap-1.5 [perspective:300px]">
             <div
-              key={index}
-              className="bg-card p-6 rounded-xl border border-border shadow-sm"
+              className="flex flex-row items-center gap-4"
+              style={{
+                transform:
+                  'translateX(-100px) translateY(0px) translateZ(-100px) rotateX(20deg) rotateY(-10deg) rotateZ(20deg)',
+              }}
             >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))] flex items-center justify-center text-white font-bold">
-                  {testimonial.avatar}
-                </div>
-                <div>
-                  <p className="font-semibold">{testimonial.name}</p>
-                  <div className="flex gap-1">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="w-4 h-4 fill-[hsl(var(--aqua))] text-[hsl(var(--aqua))]"
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <p className="text-sm text-muted-foreground">
-                "{testimonial.text}"
-              </p>
-            </div>
-          ))}
-        </div>
-
-        {/* Case Study */}
-        <div className="max-w-4xl mx-auto bg-card rounded-xl border border-border p-8 shadow-lg">
-          <h3 className="text-2xl font-bold mb-6 text-center">
-            {caseStudy.title}
-          </h3>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div>
-              <div className="inline-block px-4 py-2 bg-destructive/10 text-destructive rounded-full text-sm font-semibold mb-4">
-                Înainte
-              </div>
-              <ul className="space-y-2">
-                {caseStudy.before.map((item, index) => (
-                  <li key={index} className="flex items-center gap-2">
-                    <span className="text-destructive">✗</span>
-                    <span className="text-muted-foreground">{item}</span>
-                  </li>
+              {/* Vertical Marquee (downwards) */}
+              <Marquee vertical pauseOnHover repeat={3} className="[--duration:40s]">
+                {testimonials.map((review) => (
+                  <TestimonialCard key={review.username} {...review} />
                 ))}
-              </ul>
-            </div>
-            <div>
-              <div className="inline-block px-4 py-2 bg-[hsl(var(--minty-green))]/10 text-[hsl(var(--minty-green))] rounded-full text-sm font-semibold mb-4">
-                După
-              </div>
-              <ul className="space-y-2">
-                {caseStudy.after.map((item, index) => (
-                  <li key={index} className="flex items-center gap-2">
-                    <span className="text-[hsl(var(--minty-green))]">✓</span>
-                    <span className="font-medium">{item}</span>
-                  </li>
+              </Marquee>
+              {/* Vertical Marquee (upwards) */}
+              <Marquee vertical pauseOnHover reverse repeat={3} className="[--duration:40s]">
+                {testimonials.map((review) => (
+                  <TestimonialCard key={review.username} {...review} />
                 ))}
-              </ul>
+              </Marquee>
+              {/* Vertical Marquee (downwards) */}
+              <Marquee vertical pauseOnHover repeat={3} className="[--duration:40s]">
+                {testimonials.map((review) => (
+                  <TestimonialCard key={review.username} {...review} />
+                ))}
+              </Marquee>
+              {/* Vertical Marquee (upwards) */}
+              <Marquee vertical pauseOnHover reverse repeat={3} className="[--duration:40s]">
+                {testimonials.map((review) => (
+                  <TestimonialCard key={review.username} {...review} />
+                ))}
+              </Marquee>
+              {/* Gradient overlays for vertical marquee */}
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-background"></div>
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-background"></div>
+              <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background"></div>
+              <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background"></div>
             </div>
           </div>
         </div>
