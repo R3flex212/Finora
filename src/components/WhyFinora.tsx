@@ -1,6 +1,5 @@
 import { Target, FileText, Users, TrendingUp, BookOpen, Calculator } from "lucide-react";
 import { CyberneticBentoGrid } from "@/components/ui/cybernetic-bento-grid";
-import { AuroraBackground } from "@/components/ui/aurora-background";
 
 const WhyFinora = () => {
   const bentoItems = [
@@ -40,9 +39,8 @@ const WhyFinora = () => {
   ];
 
   return (
-    <section id="de-ce-finora" className="relative overflow-hidden bg-muted/30">
-      <AuroraBackground className="py-20" showRadialGradient={false}>
-        <div className="container mx-auto px-4 relative z-20">
+    <section id="de-ce-finora" className="py-20 bg-muted/30">
+      <div className="container mx-auto px-4">
         <CyberneticBentoGrid 
           title="De ce Finora?"
           items={bentoItems}
@@ -53,8 +51,7 @@ const WhyFinora = () => {
             <strong>Ce ne diferențiază:</strong> Finora îmbină educația structurată cu tool-uri practice și o comunitate activă — totul într-un singur loc.
           </p>
         </div>
-        </div>
-      </AuroraBackground>
+      </div>
     </section>
   );
 };
