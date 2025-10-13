@@ -49,13 +49,13 @@ const Hero = () => {
         </BentoGrid>
 
         <ContainerScale className="relative z-10 text-center">
-          <h1 className="max-w-3xl text-4xl md:text-6xl font-bold tracking-tight text-white">
+          <h1 className="max-w-3xl text-4xl md:text-6xl font-bold tracking-tight text-foreground drop-shadow-lg">
             Educație financiară pentru{" "}
             <span className="bg-gradient-to-r from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))] bg-clip-text text-transparent">
               libertate financiară
             </span>
           </h1>
-          <p className="my-6 max-w-2xl text-base md:text-lg text-white/80">
+          <p className="my-6 max-w-2xl text-base md:text-lg text-foreground/80 drop-shadow">
             Învață să gestionezi banii inteligent, să ieși din datorii și să construiești economii — chiar dacă pornești de la zero.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -70,13 +70,13 @@ const Hero = () => {
             <Button
               size="lg"
               variant="outline"
-              className="border-white/20 text-white hover:bg-white/10"
+              className="border-foreground/20 text-foreground hover:bg-foreground/10"
               onClick={() => scrollToSection("de-ce-finora")}
             >
               De ce Finora
             </Button>
           </div>
-          <p className="mt-4 text-sm text-white/60">
+          <p className="mt-4 text-sm text-muted-foreground">
             Fără card • 1 minut
           </p>
         </ContainerScale>
