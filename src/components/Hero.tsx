@@ -53,14 +53,14 @@ const Hero = () => {
           ))}
         </BentoGrid>
 
-        <ContainerScale className="relative z-10 text-center">
-          <h1 className="max-w-3xl text-4xl md:text-6xl font-bold tracking-tight text-foreground drop-shadow-lg">
+        <ContainerScale className="relative z-10 text-center px-4 sm:px-6 lg:px-8">
+          <h1 className="max-w-3xl mx-auto text-4xl md:text-6xl font-bold tracking-tight text-foreground drop-shadow-lg">
             Educație completă pentru{" "}
             <span className="bg-gradient-to-r from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))] bg-clip-text text-transparent">
               libertate financiară
             </span>
           </h1>
-          <p className="my-6 max-w-2xl text-base md:text-lg text-foreground/80 drop-shadow">
+          <p className="my-6 max-w-2xl mx-auto text-base md:text-lg text-foreground/80 drop-shadow">
             Învață să gestionezi banii inteligent, să ieși din datorii și să construiești economii — chiar dacă pornești
             de la zero.
           </p>
