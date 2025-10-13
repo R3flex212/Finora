@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { FloatingNav } from "@/components/ui/floating-navbar";
+import { NavBar } from "@/components/ui/tubelight-navbar";
 import { Home, Package, DollarSign, Info } from "lucide-react";
 
 const Navbar = () => {
@@ -15,22 +15,22 @@ const Navbar = () => {
     { 
       name: "Cursuri", 
       onClick: () => scrollToSection("cursuri"),
-      icon: <Home className="h-4 w-4" />
+      icon: Home
     },
     { 
       name: "Tool-uri", 
       onClick: () => scrollToSection("tool-uri"),
-      icon: <Package className="h-4 w-4" />
+      icon: Package
     },
     { 
       name: "Prețuri", 
       onClick: () => scrollToSection("preturi"),
-      icon: <DollarSign className="h-4 w-4" />
+      icon: DollarSign
     },
     { 
       name: "Despre", 
       onClick: () => scrollToSection("despre"),
-      icon: <Info className="h-4 w-4" />
+      icon: Info
     },
   ];
 
@@ -60,11 +60,13 @@ const Navbar = () => {
 
   return (
     <>
-      <FloatingNav 
-        navItems={navItems}
+      <NavBar 
+        items={navItems}
         logo={logo}
         rightButtons={rightButtons}
       />
+      {/* Spacer to prevent content from going under navbar */}
+      <div className="h-[68px]" />
     </>
   );
 };
