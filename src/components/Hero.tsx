@@ -1,7 +1,15 @@
-import { ArrowRight, Users, Globe, Star } from "lucide-react";
-import { Squares } from "@/components/ui/squares-background";
-import { LayoutTextFlip } from "@/components/ui/layout-text-flip";
-import { StarBorder } from "@/components/ui/star-border";
+import { ArrowRight } from "lucide-react";
+import { BentoCell, BentoGrid, ContainerScale, ContainerScroll } from "@/components/ui/hero-gallery-scroll-animation";
+import { Button } from "@/components/ui/button";
+
+const VISUAL_ELEMENTS = [
+  { type: "gradient", colors: "from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))]" },
+  { type: "solid", color: "bg-[hsl(var(--minty-green))]" },
+  { type: "gradient", colors: "from-[hsl(var(--deep-teal))] to-[hsl(var(--aqua))]" },
+  { type: "solid", color: "bg-[hsl(var(--aqua))]" },
+  { type: "gradient", colors: "from-[hsl(var(--minty-green))] to-[hsl(var(--deep-teal))]" },
+];
+
 const Hero = () => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -11,92 +19,70 @@ const Hero = () => {
       });
     }
   };
-  const stats = [{
-    icon: Users,
-    label: "Mii de cursanți",
-    value: "În creștere"
-  }, {
-    icon: Globe,
-    label: "Acoperire",
-    value: "Internațională"
-  }, {
-    icon: Star,
-    label: "Rating",
-    value: "Excelent"
-  }];
-  return <section className="relative min-h-screen flex items-center gradient-hero overflow-hidden">
-      {/* Animated Squares Background */}
-      <div className="absolute inset-0 opacity-30">
-        <Squares direction="diagonal" speed={0.1} squareSize={40} borderColor="rgba(83, 223, 221, 0.3)" hoverFillColor="rgba(83, 223, 221, 0.15)" />
-      </div>
 
-      <div className="container mx-auto px-4 py-20 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Content */}
-          <div className="space-y-8 text-center lg:text-left">
-            <h1 className="flex flex-wrap items-center justify-center lg:justify-start gap-2 leading-tight">
-              <LayoutTextFlip text="Educație financiară pentru" words={["Libertate financiară", "Independență financiară", "Bogăție durabilă", "Succes financiar"]} duration={3000} />
-            </h1>
-
-            <p className="text-lg md:text-xl text-white/80 max-w-2xl">
-              Învață să gestionezi banii inteligent, să ieși din datorii și să construiești economii — chiar dacă pornești de la zero.
-            </p>
-
-            <div className="space-y-3 text-white/90 max-w-2xl">
-              <div className="flex items-center gap-3">
-                <div className="w-5 h-5 rounded-full bg-[hsl(var(--minty-green))] flex items-center justify-center flex-shrink-0">
-                  <span className="text-black text-xs">✓</span>
+  return (
+    <section className="relative">
+      <ContainerScroll className="h-[350vh] bg-gradient-to-br from-[hsl(var(--deep-teal))] to-[hsl(var(--background))]">
+        <BentoGrid className="sticky left-0 top-0 z-0 h-screen w-full p-4">
+          {VISUAL_ELEMENTS.map((element, index) => (
+            <BentoCell
+              key={index}
+              className="overflow-hidden rounded-xl shadow-2xl"
+            >
+              <div 
+                className={`size-full flex items-center justify-center ${
+                  element.type === "gradient" 
+                    ? `bg-gradient-to-br ${element.colors}` 
+                    : element.color
+                }`}
+              >
+                <div className="text-center p-8 text-white/20 font-bold text-4xl">
+                  {index === 0 && "Cursuri"}
+                  {index === 1 && "Tool-uri"}
+                  {index === 2 && "Comunitate"}
+                  {index === 3 && "Progres"}
+                  {index === 4 && "Succes"}
                 </div>
-                <span className="text-sm">Cursuri pas cu pas, de la începător la avansat</span>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="w-5 h-5 rounded-full bg-[hsl(var(--minty-green))] flex items-center justify-center flex-shrink-0">
-                  <span className="text-black text-xs">✓</span>
-                </div>
-                <span className="text-sm">Calculatoare și template-uri gata de folosit</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-5 h-5 rounded-full bg-[hsl(var(--minty-green))] flex items-center justify-center flex-shrink-0">
-                  <span className="text-black text-xs">✓</span>
-                </div>
-                <span className="text-sm">Comunitate activă și Q&A cu experți</span>
-              </div>
-            </div>
+            </BentoCell>
+          ))}
+        </BentoGrid>
 
-            <div className="space-y-3">
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <StarBorder as="button" className="shadow-glow" color="hsl(var(--aqua))" speed="6s" onClick={() => scrollToSection("lead-magnet")}>
-                  <span className="text-lg font-semibold">
-                    Începe acum
-                    <ArrowRight className="ml-2 inline" size={20} />
-                  </span>
-                </StarBorder>
-                <StarBorder as="button" className="bg-white/5" color="hsl(var(--minty-green))" speed="8s" onClick={() => scrollToSection("de-ce-finora")}>
-                  <span className="text-lg">De ce Finora</span>
-                </StarBorder>
-              </div>
-              
-            </div>
-
-            {/* Stats Mini Bar */}
-            <div className="grid grid-cols-3 gap-4 pt-8">
-              {stats.map((stat, index) => <div key={index} className="text-center">
-                  <stat.icon className="w-8 h-8 mx-auto mb-2 text-[hsl(var(--aqua))]" />
-                  <p className="text-sm font-semibold text-white">{stat.value}</p>
-                  <p className="text-xs text-white/70">{stat.label}</p>
-                </div>)}
-            </div>
+        <ContainerScale className="relative z-10 text-center">
+          <h1 className="max-w-3xl text-4xl md:text-6xl font-bold tracking-tight text-white">
+            Educație financiară pentru{" "}
+            <span className="bg-gradient-to-r from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))] bg-clip-text text-transparent">
+              libertate financiară
+            </span>
+          </h1>
+          <p className="my-6 max-w-2xl text-base md:text-lg text-white/80">
+            Învață să gestionezi banii inteligent, să ieși din datorii și să construiești economii — chiar dacă pornești de la zero.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Button 
+              size="lg"
+              className="bg-[hsl(var(--aqua))] text-black hover:bg-[hsl(var(--aqua))]/90 font-semibold px-8 shadow-glow"
+              onClick={() => scrollToSection("lead-magnet")}
+            >
+              Începe acum
+              <ArrowRight className="ml-2" size={20} />
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-white/20 text-white hover:bg-white/10"
+              onClick={() => scrollToSection("de-ce-finora")}
+            >
+              De ce Finora
+            </Button>
           </div>
-
-          {/* Right Content - 3D Spline */}
-          <div className="relative w-full max-w-md mx-auto h-[500px]">
-            <iframe src="https://my.spline.design/globaltransactions-djf0FeA8QXVr5uzPp4hZELje/" frameBorder="0" width="100%" height="100%" />
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom Fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
-    </section>;
+          <p className="mt-4 text-sm text-white/60">
+            Fără card • 1 minut
+          </p>
+        </ContainerScale>
+      </ContainerScroll>
+    </section>
+  );
 };
+
 export default Hero;
