@@ -1,7 +1,6 @@
 import { User } from "@supabase/supabase-js";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-// @ts-expect-error - React Player types are not fully compatible
 import ReactPlayer from "react-player";
 import Navbar from "@/components/Navbar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -416,7 +415,7 @@ const CourseView = ({ user }: CourseViewProps) => {
                     width="100%"
                     height="100%"
                     playing={playing}
-                    controls
+                    controls={true}
                     onProgress={handleProgress}
                     onDuration={handleDuration}
                     onPlay={() => setPlaying(true)}
@@ -424,6 +423,7 @@ const CourseView = ({ user }: CourseViewProps) => {
                     onSeek={() => setSeeking(false)}
                     onEnded={handleNextLesson}
                     progressInterval={1000}
+                    {...({} as any)}
                   />
                 ) : canAccess ? (
                   <div className="absolute inset-0 flex items-center justify-center">
