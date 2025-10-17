@@ -9,6 +9,7 @@ interface NavItem {
   name: string
   onClick: () => void
   icon: LucideIcon
+  isActive?: boolean
 }
 
 interface NavBarProps {
@@ -65,7 +66,7 @@ export function NavBar({ items, className, logo, rightButtons }: NavBarProps) {
             <div className="hidden lg:flex items-center gap-2">
               {items.map((item) => {
                 const Icon = item.icon
-                const isActive = activeTab === item.name
+                const isActive = item.isActive !== undefined ? item.isActive : activeTab === item.name
 
                 return (
                   <button
@@ -124,7 +125,7 @@ export function NavBar({ items, className, logo, rightButtons }: NavBarProps) {
               <div className="flex flex-col p-2 gap-1">
                 {items.map((item) => {
                   const Icon = item.icon
-                  const isActive = activeTab === item.name
+                  const isActive = item.isActive !== undefined ? item.isActive : activeTab === item.name
 
                   return (
                     <button

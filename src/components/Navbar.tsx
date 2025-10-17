@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { NavBar } from "@/components/ui/tubelight-navbar";
-import { Home, Package, DollarSign, Info, User, LogOut, Settings } from "lucide-react";
+import { Home, Package, DollarSign, Info, User, LogOut, Settings, BookOpen } from "lucide-react";
 import { User as SupabaseUser } from "@supabase/supabase-js";
 
 const Navbar = () => {
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
 
   useEffect(() => {
     // Check current session
@@ -58,6 +60,21 @@ const Navbar = () => {
     }
   };
 
+  const handleNavigation = (sectionId: string, path?: string) => {
+    if (isHomePage) {
+      // Pe homepage, scroll direct la secțiune
+      scrollToSection(sectionId);
+    } else {
+      // Pe alte pagini, navigăm la homepage sau la pagina specificată, apoi scroll
+      if (path) {
+        navigate(path);
+      } else {
+        navigate("/");
+        setTimeout(() => scrollToSection(sectionId), 100);
+      }
+    }
+  };
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/");
@@ -66,30 +83,43 @@ const Navbar = () => {
   const navItems = [
     { 
       name: "Cursuri", 
-      onClick: () => scrollToSection("cursuri"),
-      icon: Home
+      onClick: () => handleNavigation("cursuri", isHomePage ? undefined : "/courses"),
+      icon: Home,
+      isActive: location.pathname === "/courses" || (isHomePage && location.hash === "#cursuri")
     },
     { 
       name: "Tool-uri", 
-      onClick: () => scrollToSection("tool-uri"),
-      icon: Package
+      onClick: () => handleNavigation("tool-uri"),
+      icon: Package,
+      isActive: isHomePage && location.hash === "#tool-uri"
     },
     { 
       name: "Prețuri", 
-      onClick: () => scrollToSection("preturi"),
-      icon: DollarSign
+      onClick: () => handleNavigation("preturi"),
+      icon: DollarSign,
+      isActive: isHomePage && location.hash === "#preturi"
     },
     { 
       name: "Despre", 
-      onClick: () => scrollToSection("despre"),
-      icon: Info
+      onClick: () => handleNavigation("despre"),
+      icon: Info,
+      isActive: isHomePage && location.hash === "#despre"
     },
+    ...(user ? [{
+      name: "Lista Cursuri",
+      onClick: () => navigate("/courses"),
+      icon: BookOpen,
+      isActive: location.pathname === "/courses"
+    }] : [])
   ];
 
   const logo = (
-    <span className="text-lg font-bold bg-gradient-to-r from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))] bg-clip-text text-transparent whitespace-nowrap">
+    <button 
+      onClick={() => navigate("/")}
+      className="text-lg font-bold bg-gradient-to-r from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))] bg-clip-text text-transparent whitespace-nowrap hover:opacity-80 transition-opacity cursor-pointer"
+    >
       Finora
-    </span>
+    </button>
   );
 
   const rightButtons = user ? (
