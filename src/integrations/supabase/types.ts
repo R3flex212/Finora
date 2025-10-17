@@ -134,6 +134,7 @@ export type Database = {
           created_at: string
           duration_minutes: number | null
           id: string
+          is_free_preview: boolean
           position: number
           title: string
           updated_at: string
@@ -145,6 +146,7 @@ export type Database = {
           created_at?: string
           duration_minutes?: number | null
           id?: string
+          is_free_preview?: boolean
           position: number
           title: string
           updated_at?: string
@@ -156,6 +158,7 @@ export type Database = {
           created_at?: string
           duration_minutes?: number | null
           id?: string
+          is_free_preview?: boolean
           position?: number
           title?: string
           updated_at?: string
@@ -203,8 +206,11 @@ export type Database = {
           completed: boolean
           completed_at: string | null
           created_at: string
+          duration_seconds: number | null
           id: string
+          last_position_seconds: number
           lesson_id: string
+          seconds_watched: number
           updated_at: string
           user_id: string
         }
@@ -212,8 +218,11 @@ export type Database = {
           completed?: boolean
           completed_at?: string | null
           created_at?: string
+          duration_seconds?: number | null
           id?: string
+          last_position_seconds?: number
           lesson_id: string
+          seconds_watched?: number
           updated_at?: string
           user_id: string
         }
@@ -221,8 +230,11 @@ export type Database = {
           completed?: boolean
           completed_at?: string | null
           created_at?: string
+          duration_seconds?: number | null
           id?: string
+          last_position_seconds?: number
           lesson_id?: string
+          seconds_watched?: number
           updated_at?: string
           user_id?: string
         }
