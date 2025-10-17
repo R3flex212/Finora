@@ -2,6 +2,7 @@ import { User } from "@supabase/supabase-js";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ReactPlayer from "react-player";
+import YouTube from "react-youtube";
 import Navbar from "@/components/Navbar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -71,6 +72,7 @@ const CourseView = ({ user }: CourseViewProps) => {
   const [seeking, setSeeking] = useState(false);
 
   const playerRef = useRef<any>(null);
+  const ytPlayerRef = useRef<any>(null);
   const progressSaveTimerRef = useRef<NodeJS.Timeout | null>(null);
   const lastSavedProgressRef = useRef(0);
 
@@ -320,7 +322,21 @@ const CourseView = ({ user }: CourseViewProps) => {
   const canAccessLesson = (lesson: Lesson) => {
     return lesson.is_free_preview || isEnrolled;
   };
-
+  
+  const isYouTubeUrl = (url: string) => /youtu\.be|youtube\.com/.test(url);
+  const getYouTubeId = (url: string) => {
+    try {
+      const u = new URL(url);
+      if (u.hostname.includes("youtu.be")) return u.pathname.slice(1);
+      const v = u.searchParams.get("v");
+      if (v) return v;
+      const match = url.match(/embed\/([a-zA-Z0-9_-]{11})/);
+      return match ? match[1] : "";
+    } catch {
+      const match = url.match(/(?:v=|be\/|embed\/)([a-zA-Z0-9_-]{11})/);
+      return match ? match[1] : "";
+    }
+  };
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
@@ -409,24 +425,39 @@ const CourseView = ({ user }: CourseViewProps) => {
                 ) : null}
 
                 {currentLesson.video_url && canAccess ? (
-                  <ReactPlayer
-                    {...({
-                      ref: playerRef,
-                      url: currentLesson.video_url,
-                      width: "100%",
-                      height: "100%",
-                      playing: playing,
-                      controls: true,
-                      onProgress: handleProgress,
-                      onDuration: handleDuration,
-                      onPlay: () => setPlaying(true),
-                      onPause: () => setPlaying(false),
-                      onSeek: () => setSeeking(false),
-                      onEnded: handleNextLesson,
-                      progressInterval: 1000,
-                      style: { position: 'absolute', top: 0, left: 0 }
-                    } as any)}
-                  />
+                  isYouTubeUrl(currentLesson.video_url) ? (
+                    <div className="absolute inset-0">
+                      <YouTube
+                        videoId={getYouTubeId(currentLesson.video_url)}
+                        opts={{ width: "100%", height: "100%", playerVars: { rel: 0, modestbranding: 1, playsinline: 1 } }}
+                        onStateChange={(e: any) => {
+                          // 0 = ended, 1 = playing, 2 = paused
+                          if (e.data === 0) handleNextLesson();
+                          if (e.data === 1) setPlaying(true);
+                          if (e.data === 2) setPlaying(false);
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    <ReactPlayer
+                      {...({
+                        ref: playerRef,
+                        url: currentLesson.video_url,
+                        width: "100%",
+                        height: "100%",
+                        playing: playing,
+                        controls: true,
+                        onProgress: handleProgress,
+                        onDuration: handleDuration,
+                        onPlay: () => setPlaying(true),
+                        onPause: () => setPlaying(false),
+                        onSeek: () => setSeeking(false),
+                        onEnded: handleNextLesson,
+                        progressInterval: 1000,
+                        style: { position: 'absolute', top: 0, left: 0 }
+                      } as any)}
+                    />
+                  )
                 ) : canAccess ? (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="text-center text-white">
