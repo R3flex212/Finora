@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Courses from "./pages/Courses";
+import CourseView from "./pages/CourseView";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import AuthGuard from "./components/AuthGuard";
@@ -26,6 +27,14 @@ const App = () => (
             element={
               <AuthGuard>
                 {(user, session) => <Courses user={user} />}
+              </AuthGuard>
+            } 
+          />
+          <Route 
+            path="/course/:slug" 
+            element={
+              <AuthGuard>
+                {(user, session) => <CourseView user={user} />}
               </AuthGuard>
             } 
           />
