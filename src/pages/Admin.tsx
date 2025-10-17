@@ -68,6 +68,38 @@ const Admin = ({ user }: AdminProps) => {
     checkAdminStatus();
   }, [user.id]);
 
+  // Realtime subscriptions
+  useEffect(() => {
+    if (!isAdmin) return;
+
+    const coursesChannel = supabase
+      .channel('admin-courses-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'courses' }, () => {
+        loadAllData();
+      })
+      .subscribe();
+
+    const chaptersChannel = supabase
+      .channel('admin-chapters-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'chapters' }, () => {
+        loadAllData();
+      })
+      .subscribe();
+
+    const lessonsChannel = supabase
+      .channel('admin-lessons-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'lessons' }, () => {
+        loadAllData();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(coursesChannel);
+      supabase.removeChannel(chaptersChannel);
+      supabase.removeChannel(lessonsChannel);
+    };
+  }, [isAdmin]);
+
   const checkAdminStatus = async () => {
     try {
       const { data, error } = await supabase

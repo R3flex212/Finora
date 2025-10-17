@@ -410,20 +410,22 @@ const CourseView = ({ user }: CourseViewProps) => {
 
                 {currentLesson.video_url && canAccess ? (
                   <ReactPlayer
-                    ref={playerRef}
-                    url={currentLesson.video_url}
-                    width="100%"
-                    height="100%"
-                    playing={playing}
-                    controls={true}
-                    onProgress={handleProgress}
-                    onDuration={handleDuration}
-                    onPlay={() => setPlaying(true)}
-                    onPause={() => setPlaying(false)}
-                    onSeek={() => setSeeking(false)}
-                    onEnded={handleNextLesson}
-                    progressInterval={1000}
-                    {...({} as any)}
+                    {...({
+                      ref: playerRef,
+                      url: currentLesson.video_url,
+                      width: "100%",
+                      height: "100%",
+                      playing: playing,
+                      controls: true,
+                      onProgress: handleProgress,
+                      onDuration: handleDuration,
+                      onPlay: () => setPlaying(true),
+                      onPause: () => setPlaying(false),
+                      onSeek: () => setSeeking(false),
+                      onEnded: handleNextLesson,
+                      progressInterval: 1000,
+                      style: { position: 'absolute', top: 0, left: 0 }
+                    } as any)}
                   />
                 ) : canAccess ? (
                   <div className="absolute inset-0 flex items-center justify-center">
