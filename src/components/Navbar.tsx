@@ -3,28 +3,53 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { NavBar } from "@/components/ui/tubelight-navbar";
-import { Home, Package, DollarSign, Info, User, LogOut } from "lucide-react";
+import { Home, Package, DollarSign, Info, User, LogOut, Settings } from "lucide-react";
 import { User as SupabaseUser } from "@supabase/supabase-js";
 
 const Navbar = () => {
   const [user, setUser] = useState<SupabaseUser | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     // Check current session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
+      if (session?.user) {
+        checkAdminStatus(session.user.id);
+      }
     });
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setUser(session?.user ?? null);
+        if (session?.user) {
+          checkAdminStatus(session.user.id);
+        } else {
+          setIsAdmin(false);
+        }
       }
     );
 
     return () => subscription.unsubscribe();
   }, []);
+
+  const checkAdminStatus = async (userId: string) => {
+    try {
+      const { data } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", userId)
+        .eq("role", "admin")
+        .maybeSingle();
+      
+      setIsAdmin(!!data);
+    } catch (error) {
+      console.error("Error checking admin status:", error);
+      setIsAdmin(false);
+    }
+  };
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -69,6 +94,16 @@ const Navbar = () => {
 
   const rightButtons = user ? (
     <>
+      {isAdmin && (
+        <Button
+          variant="ghost"
+          onClick={() => navigate("/admin")}
+          className="text-foreground hover:bg-[hsl(var(--minty-green))]/10 px-5 py-2.5 text-sm rounded-full font-medium w-full md:w-auto justify-center"
+        >
+          <Settings className="w-4 h-4 mr-2" />
+          Admin
+        </Button>
+      )}
       <Button
         variant="ghost"
         onClick={() => navigate("/profile")}

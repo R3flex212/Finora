@@ -8,6 +8,7 @@ import Auth from "./pages/Auth";
 import Courses from "./pages/Courses";
 import CourseView from "./pages/CourseView";
 import Profile from "./pages/Profile";
+import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 import AuthGuard from "./components/AuthGuard";
 
@@ -43,6 +44,14 @@ const App = () => (
             element={
               <AuthGuard>
                 {(user, session) => <Profile user={user} />}
+              </AuthGuard>
+            } 
+          />
+          <Route 
+            path="/admin" 
+            element={
+              <AuthGuard>
+                {(user, session) => <Admin user={user} />}
               </AuthGuard>
             } 
           />
