@@ -588,8 +588,13 @@ function CourseSidebar({
   };
 
   return (
-    <Sidebar className="border-r" collapsible="icon">
-      <SidebarContent>
+    <Sidebar className="border-r border-[hsl(var(--aqua))]/20 bg-card" collapsible="icon">
+      <SidebarContent className="bg-card">
+        <div className="p-4 border-b border-[hsl(var(--aqua))]/20">
+          <h3 className="text-sm font-semibold bg-gradient-to-r from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))] bg-clip-text text-transparent">
+            Conținut Curs
+          </h3>
+        </div>
         {chapters.map((chapter) => {
           const chapterLessons = lessons.filter(l => l.chapter_id === chapter.id);
           const isChapterOpen = chapterLessons.some(l => l.id === currentLessonId);
@@ -598,9 +603,9 @@ function CourseSidebar({
             <Collapsible key={chapter.id} defaultOpen={isChapterOpen}>
               <SidebarGroup>
                 <SidebarGroupLabel asChild>
-                  <CollapsibleTrigger className="flex items-center justify-between w-full hover:bg-muted px-2 py-2 rounded-md group">
-                    <span className="font-semibold text-sm">{chapter.title}</span>
-                    <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                  <CollapsibleTrigger className="flex items-center justify-between w-full hover:bg-[hsl(var(--aqua))]/10 px-4 py-3 rounded-lg group transition-colors">
+                    <span className="font-semibold text-sm text-foreground">{chapter.title}</span>
+                    <ChevronDown className="h-4 w-4 text-[hsl(var(--aqua))] transition-transform duration-200 group-data-[state=open]:rotate-180" />
                   </CollapsibleTrigger>
                 </SidebarGroupLabel>
                 <CollapsibleContent>
@@ -617,17 +622,26 @@ function CourseSidebar({
                               onClick={() => !isLocked && onLessonClick(lesson.id)}
                               isActive={isActive}
                               disabled={isLocked}
-                              className="w-full justify-start"
+                              className={cn(
+                                "w-full justify-start hover:bg-[hsl(var(--aqua))]/10 transition-all duration-200 rounded-lg mx-2 my-1",
+                                isActive && "bg-gradient-to-r from-[hsl(var(--aqua))]/20 to-[hsl(var(--minty-green))]/20 border-l-4 border-[hsl(var(--aqua))] shadow-sm"
+                              )}
                             >
-                              <div className="flex items-center gap-2 w-full">
+                              <div className="flex items-center gap-3 w-full py-1">
                                 {isLocked ? (
                                   <Lock className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                                 ) : isCompleted ? (
-                                  <CheckCircle2 className="h-4 w-4 text-primary flex-shrink-0" />
+                                  <CheckCircle2 className="h-4 w-4 text-[hsl(var(--minty-green))] flex-shrink-0" />
                                 ) : (
-                                  <Play className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                                  <Play className="h-4 w-4 text-[hsl(var(--aqua))] flex-shrink-0" />
                                 )}
-                                <span className="truncate text-sm">{lesson.title}</span>
+                                <span className={cn(
+                                  "truncate text-sm",
+                                  isActive && "font-semibold text-[hsl(var(--aqua))]",
+                                  isCompleted && "text-muted-foreground"
+                                )}>
+                                  {lesson.title}
+                                </span>
                               </div>
                             </SidebarMenuButton>
                           </SidebarMenuItem>

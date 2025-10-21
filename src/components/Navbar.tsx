@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { NavBar } from "@/components/ui/tubelight-navbar";
-import { Home, Package, DollarSign, Info, User, LogOut, Settings, BookOpen } from "lucide-react";
+import { Home, DollarSign, Info, User, LogOut, Settings, BookOpen } from "lucide-react";
 import { User as SupabaseUser } from "@supabase/supabase-js";
 
 const Navbar = () => {
@@ -86,12 +86,6 @@ const Navbar = () => {
       onClick: () => handleNavigation("cursuri", isHomePage ? undefined : "/courses"),
       icon: Home,
       isActive: location.pathname === "/courses" || (isHomePage && location.hash === "#cursuri")
-    },
-    { 
-      name: "Tool-uri", 
-      onClick: () => handleNavigation("tool-uri"),
-      icon: Package,
-      isActive: isHomePage && location.hash === "#tool-uri"
     },
     { 
       name: "Prețuri", 
