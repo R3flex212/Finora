@@ -150,16 +150,8 @@ const Courses = ({ user }: CoursesProps) => {
     return progress.find((p) => p.course_id === courseId);
   };
 
-  const filteredCourses = courses.filter((course) => {
-    if (filter === "enrolled") {
-      return isEnrolled(course.id);
-    }
-    if (filter === "completed") {
-      const courseProgress = getCourseProgress(course.id);
-      return courseProgress && courseProgress.progress_percent === 100;
-    }
-    return true;
-  });
+  // Only show courses user is NOT enrolled in
+  const availableCourses = courses.filter(course => !isEnrolled(course.id));
 
   if (loading) {
     return (
@@ -199,135 +191,67 @@ const Courses = ({ user }: CoursesProps) => {
         <div className="max-w-6xl mx-auto">
           <div className="mb-12 text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))] bg-clip-text text-transparent">
-              Cursurile Tale Finora
+              Cursuri Disponibile
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Bine ai venit, <span className="font-semibold text-foreground">{user.email}</span>!
-              Descoperă cursurile noastre și începe călătoria spre libertate financiară.
+              Descoperă cursuri noi și înscrie-te pentru a începe să înveți
             </p>
           </div>
 
-          {/* Filters */}
-          <div className="flex justify-center gap-4 mb-8">
-            <Button
-              variant={filter === "all" ? "default" : "outline"}
-              onClick={() => setFilter("all")}
-            >
-              Toate
-            </Button>
-            <Button
-              variant={filter === "enrolled" ? "default" : "outline"}
-              onClick={() => setFilter("enrolled")}
-            >
-              Înscris
-            </Button>
-            <Button
-              variant={filter === "completed" ? "default" : "outline"}
-              onClick={() => setFilter("completed")}
-            >
-              Finalizate
-            </Button>
-          </div>
-
-          {filteredCourses.length === 0 ? (
+          {availableCourses.length === 0 ? (
             <Card className="p-12 text-center">
               <div className="flex flex-col items-center gap-4">
                 <BookOpen className="w-16 h-16 text-muted-foreground" />
                 <h3 className="text-2xl font-semibold">
-                  {filter === "enrolled" && "Nu ești înscris la niciun curs încă"}
-                  {filter === "completed" && "Nu ai finalizat niciun curs încă"}
-                  {filter === "all" && "Nu există cursuri disponibile"}
+                  Toate cursurile sunt în biblioteca ta!
                 </h3>
                 <p className="text-muted-foreground">
-                  {filter === "enrolled" && "Explorează cursurile disponibile și începe să înveți!"}
-                  {filter === "completed" && "Continuă să înveți pentru a finaliza cursurile!"}
-                  {filter === "all" && "Cursurile vor apărea aici în curând."}
+                  Verifică profilul tău pentru a vedea cursurile tale.
                 </p>
-                {filter !== "all" && (
-                  <Button onClick={() => setFilter("all")}>
-                    Vezi toate cursurile
-                  </Button>
-                )}
+                <Button onClick={() => navigate("/profile")}>
+                  Vezi Profilul Meu
+                </Button>
               </div>
             </Card>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {filteredCourses.map((course) => {
-                const enrolled = isEnrolled(course.id);
-                const courseProgress = getCourseProgress(course.id);
-                const hasProgress = courseProgress && courseProgress.total_lessons > 0;
-
-                return (
-                  <Card
-                    key={course.id}
-                    className="group hover:shadow-glow transition-all duration-300 border-[hsl(var(--aqua))]/20 hover:border-[hsl(var(--aqua))]/50"
-                  >
-                    <CardHeader>
-                      <div className="flex items-start justify-between mb-4">
-                        <Badge variant="secondary" className="text-xs">
-                          {course.level}
-                        </Badge>
-                        {enrolled && courseProgress?.progress_percent === 100 && (
-                          <Badge className="bg-[hsl(var(--minty-green))] text-white">
-                            <CheckCircle2 className="w-3 h-3 mr-1" />
-                            Completat
-                          </Badge>
-                        )}
-                      </div>
-                      <CardTitle className="text-2xl group-hover:text-[hsl(var(--aqua))] transition-colors">
-                        {course.title}
-                      </CardTitle>
-                      <CardDescription className="text-base mt-2">
-                        {course.short_description || course.description}
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      {enrolled && hasProgress && (
-                        <div className="space-y-2">
-                          <div className="flex justify-between text-sm">
-                            <span className="text-muted-foreground">Progres</span>
-                            <span className="font-semibold text-[hsl(var(--aqua))]">
-                              {courseProgress.progress_percent}%
-                            </span>
-                          </div>
-                          <Progress value={courseProgress.progress_percent} />
-                          <p className="text-xs text-muted-foreground">
-                            {courseProgress.completed_lessons} din {courseProgress.total_lessons} lecții completate
-                          </p>
-                        </div>
+              {availableCourses.map((course) => (
+                <Card
+                  key={course.id}
+                  className="group hover:shadow-glow transition-all duration-300 border-[hsl(var(--aqua))]/20 hover:border-[hsl(var(--aqua))]/50"
+                >
+                  <CardHeader>
+                    <div className="flex items-start justify-between mb-4">
+                      <Badge variant="secondary" className="text-xs">
+                        {course.level}
+                      </Badge>
+                    </div>
+                    <CardTitle className="text-2xl group-hover:text-[hsl(var(--aqua))] transition-colors">
+                      {course.title}
+                    </CardTitle>
+                    <CardDescription className="text-base mt-2">
+                      {course.short_description || course.description}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      {course.duration && (
+                        <span className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <Clock className="w-4 h-4" />
+                          {course.duration}
+                        </span>
                       )}
-
-                      <div className="flex items-center justify-between">
-                        {course.duration && (
-                          <span className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <Clock className="w-4 h-4" />
-                            {course.duration}
-                          </span>
-                        )}
-                        <Button
-                          onClick={() => {
-                            if (enrolled) {
-                              navigate(`/course/${course.slug}`);
-                            } else {
-                              handleEnroll(course.id);
-                            }
-                          }}
-                          disabled={enrollingCourseId === course.id}
-                          className="ml-auto"
-                        >
-                          {enrollingCourseId === course.id ? (
-                            "Se înrolează..."
-                          ) : enrolled ? (
-                            "Continuă →"
-                          ) : (
-                            "Înscrie-te (gratuit)"
-                          )}
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                );
-              })}
+                      <Button
+                        onClick={() => handleEnroll(course.id)}
+                        disabled={enrollingCourseId === course.id}
+                        className="ml-auto"
+                      >
+                        {enrollingCourseId === course.id ? "Se înrolează..." : "Înscrie-te (gratuit)"}
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           )}
 

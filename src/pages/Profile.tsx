@@ -6,7 +6,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Mail, Calendar, Award, LogOut } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+import { Mail, Calendar, Award, LogOut, BookOpen, Target, Play } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
@@ -20,25 +21,44 @@ interface Profile {
   created_at: string;
 }
 
+interface EnrolledCourse {
+  course_id: string;
+  course_title: string;
+  course_slug: string;
+  total_lessons: number;
+  completed_lessons: number;
+  progress_percent: number;
+}
+
 const Profile = ({ user }: ProfileProps) => {
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [enrolledCourses, setEnrolledCourses] = useState<EnrolledCourse[]>([]);
   const navigate = useNavigate();
   const { toast } = useToast();
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      const { data, error } = await supabase
+    const fetchProfileAndCourses = async () => {
+      // Fetch profile
+      const { data: profileData } = await supabase
         .from("profiles")
         .select("*")
         .eq("id", user.id)
         .maybeSingle();
 
-      if (data) {
-        setProfile(data);
+      if (profileData) {
+        setProfile(profileData);
       }
+
+      // Fetch enrolled courses with progress
+      const { data: coursesData } = await supabase
+        .from("course_progress_by_user")
+        .select("*")
+        .eq("user_id", user.id);
+
+      setEnrolledCourses(coursesData || []);
     };
 
-    fetchProfile();
+    fetchProfileAndCourses();
   }, [user.id]);
 
   const handleLogout = async () => {
@@ -128,32 +148,78 @@ const Profile = ({ user }: ProfileProps) => {
                 </div>
               </div>
 
-              <div className="p-6 rounded-lg bg-gradient-to-r from-[hsl(var(--aqua))]/10 to-[hsl(var(--minty-green))]/10 border border-[hsl(var(--aqua))]/20">
-                <div className="flex items-start gap-4">
-                  <div className="p-3 rounded-full bg-[hsl(var(--aqua))]/20">
-                    <Award className="w-6 h-6 text-[hsl(var(--aqua))]" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold mb-2 text-foreground">
-                      Progresul Tău
-                    </h3>
-                    <p className="text-sm text-muted-foreground mb-4">
-                      Începe primul tău curs pentru a debloca badge-uri și a-ți urmări progresul.
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      <Badge variant="secondary" className="text-xs">
-                        🎯 Începător
-                      </Badge>
-                      <Badge variant="outline" className="text-xs opacity-50">
-                        🏆 Investitor Activ
-                      </Badge>
-                      <Badge variant="outline" className="text-xs opacity-50">
-                        💎 Expert Finora
-                      </Badge>
+              {/* Enrolled Courses */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <BookOpen className="h-5 w-5" />
+                    Cursurile Mele
+                  </CardTitle>
+                  <CardDescription>
+                    Continuă învățarea de unde ai rămas
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {enrolledCourses.length === 0 ? (
+                    <div className="text-center py-8">
+                      <p className="text-muted-foreground mb-4">Nu ești înscris la niciun curs încă</p>
+                      <Button onClick={() => navigate('/courses')}>
+                        Explorează Cursuri
+                      </Button>
                     </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {enrolledCourses.map((course) => (
+                        <Card key={course.course_id} className="hover:shadow-lg transition-shadow">
+                          <CardContent className="pt-6">
+                            <div className="space-y-4">
+                              <div className="flex justify-between items-start">
+                                <div className="flex-1">
+                                  <h3 className="font-semibold text-lg mb-2">{course.course_title}</h3>
+                                  <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
+                                    <span>{course.completed_lessons} / {course.total_lessons} lecții</span>
+                                    <span>{Math.round(course.progress_percent)}% completat</span>
+                                  </div>
+                                  <Progress value={course.progress_percent} className="h-2" />
+                                </div>
+                              </div>
+                              <Button 
+                                onClick={() => navigate(`/course/${course.course_slug}`)}
+                                className="w-full"
+                              >
+                                <Play className="h-4 w-4 mr-2" />
+                                {course.progress_percent > 0 ? 'Continuă' : 'Începe Cursul'}
+                              </Button>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Statistics */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Target className="h-5 w-5" />
+                    Statistici
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <BookOpen className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm text-muted-foreground">Cursuri active:</span>
+                    <Badge variant="secondary">{enrolledCourses.filter(c => c.progress_percent < 100).length}</Badge>
                   </div>
-                </div>
-              </div>
+                  <div className="flex items-center gap-2">
+                    <Award className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm text-muted-foreground">Cursuri finalizate:</span>
+                    <Badge variant="secondary">{enrolledCourses.filter(c => c.progress_percent === 100).length}</Badge>
+                  </div>
+                </CardContent>
+              </Card>
 
               <div className="pt-4 border-t">
                 <Button

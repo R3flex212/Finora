@@ -3,16 +3,28 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ReactPlayer from "react-player";
 import YouTube from "react-youtube";
-import Navbar from "@/components/Navbar";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, Circle, Lock, ChevronRight, Play } from "lucide-react";
+import { CheckCircle2, Lock, ChevronRight, Play, ArrowLeft, ChevronDown } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import { 
+  Sidebar, 
+  SidebarContent, 
+  SidebarGroup, 
+  SidebarGroupContent, 
+  SidebarGroupLabel, 
+  SidebarMenu, 
+  SidebarMenuButton, 
+  SidebarMenuItem, 
+  SidebarProvider, 
+  SidebarTrigger
+} from "@/components/ui/sidebar";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 interface CourseViewProps {
   user: User;
@@ -178,7 +190,7 @@ const CourseView = ({ user }: CourseViewProps) => {
         description: "Nu am putut încărca cursul. Te rugăm să încerci din nou.",
         variant: "destructive",
       });
-      navigate("/cursuri");
+      navigate("/courses");
     } finally {
       setLoading(false);
     }
@@ -337,42 +349,43 @@ const CourseView = ({ user }: CourseViewProps) => {
       return match ? match[1] : "";
     }
   };
+
   if (loading) {
     return (
-      <div className="min-h-screen bg-background">
-        <Navbar />
-        <main className="container mx-auto px-4 py-8">
-          <Skeleton className="h-12 w-96 mb-8" />
-          <div className="grid lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2">
+      <SidebarProvider>
+        <div className="min-h-screen w-full flex">
+          <Sidebar className="border-r">
+            <SidebarContent>
+              <Skeleton className="h-full" />
+            </SidebarContent>
+          </Sidebar>
+          <div className="flex-1">
+            <header className="h-14 border-b flex items-center px-4">
+              <Skeleton className="h-8 w-32" />
+            </header>
+            <div className="p-8">
               <Skeleton className="aspect-video w-full mb-4" />
               <Skeleton className="h-8 w-3/4 mb-2" />
               <Skeleton className="h-20 w-full" />
             </div>
-            <div>
-              <Skeleton className="h-96 w-full" />
-            </div>
           </div>
-        </main>
-      </div>
+        </div>
+      </SidebarProvider>
     );
   }
 
   if (!course || !currentLesson) {
     return (
-      <div className="min-h-screen bg-background">
-        <Navbar />
-        <main className="container mx-auto px-4 py-8">
-          <Card className="p-12 text-center">
-            <h2 className="text-2xl font-bold mb-4">Cursul nu a fost găsit</h2>
-            <p className="text-muted-foreground mb-6">
-              Cursul pe care încerci să-l accesezi nu există sau nu este disponibil.
-            </p>
-            <Button onClick={() => navigate("/cursuri")}>
-              Înapoi la cursuri
-            </Button>
-          </Card>
-        </main>
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <Card className="p-12 text-center max-w-md">
+          <h2 className="text-2xl font-bold mb-4">Cursul nu a fost găsit</h2>
+          <p className="text-muted-foreground mb-6">
+            Cursul pe care încerci să-l accesezi nu există sau nu este disponibil.
+          </p>
+          <Button onClick={() => navigate("/courses")}>
+            Înapoi la cursuri
+          </Button>
+        </Card>
       </div>
     );
   }
@@ -384,233 +397,252 @@ const CourseView = ({ user }: CourseViewProps) => {
   const canAccess = canAccessLesson(currentLesson);
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-
-      <main className="container mx-auto px-4 py-8">
-        <div className="mb-6">
-          <Button
-            variant="ghost"
-            onClick={() => navigate("/cursuri")}
-            className="mb-4"
-          >
-            ← Înapoi la cursuri
-          </Button>
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">{course.title}</h1>
-          <Badge variant="secondary">{course.level}</Badge>
-        </div>
-
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Video Player Column */}
-          <div className="lg:col-span-2">
-            <Card className="overflow-hidden">
-              <div className="relative aspect-video bg-black">
-                {!canAccess ? (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/80 z-10 p-8 text-center">
-                    <Lock className="w-16 h-16 text-white mb-4" />
-                    <h3 className="text-2xl font-bold text-white mb-2">
-                      Înrolează-te pentru a continua
-                    </h3>
-                    <p className="text-white/80 mb-6">
-                      Această lecție necesită înrolare la curs
-                    </p>
-                    <Button
-                      size="lg"
-                      onClick={handleEnroll}
-                      disabled={enrolling}
-                    >
-                      {enrolling ? "Se înrolează..." : "Înscrie-te gratuit"}
-                    </Button>
-                  </div>
-                ) : null}
-
-                {currentLesson.video_url && canAccess ? (
-                  isYouTubeUrl(currentLesson.video_url) ? (
-                    <div className="absolute inset-0">
-                      <YouTube
-                        videoId={getYouTubeId(currentLesson.video_url)}
-                        opts={{ width: "100%", height: "100%", playerVars: { rel: 0, modestbranding: 1, playsinline: 1 } }}
-                        onStateChange={(e: any) => {
-                          // 0 = ended, 1 = playing, 2 = paused
-                          if (e.data === 0) handleNextLesson();
-                          if (e.data === 1) setPlaying(true);
-                          if (e.data === 2) setPlaying(false);
-                        }}
-                      />
-                    </div>
-                  ) : (
-                    <ReactPlayer
-                      {...({
-                        ref: playerRef,
-                        url: currentLesson.video_url,
-                        width: "100%",
-                        height: "100%",
-                        playing: playing,
-                        controls: true,
-                        onProgress: handleProgress,
-                        onDuration: handleDuration,
-                        onPlay: () => setPlaying(true),
-                        onPause: () => setPlaying(false),
-                        onSeek: () => setSeeking(false),
-                        onEnded: handleNextLesson,
-                        progressInterval: 1000,
-                        style: { position: 'absolute', top: 0, left: 0 }
-                      } as any)}
-                    />
-                  )
-                ) : canAccess ? (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center text-white">
-                      <Play className="w-16 h-16 mx-auto mb-4 opacity-50" />
-                      <p className="text-lg">Niciun video disponibil</p>
-                    </div>
-                  </div>
-                ) : null}
+    <SidebarProvider>
+      <div className="min-h-screen w-full flex">
+        <CourseSidebar 
+          chapters={chapters}
+          lessons={lessons}
+          currentLessonId={currentLesson?.id}
+          progress={progress}
+          isEnrolled={isEnrolled}
+          onLessonClick={(lessonId) => {
+            const lesson = lessons.find(l => l.id === lessonId);
+            if (lesson) {
+              setCurrentLesson(lesson);
+              setPlayed(0);
+              setPlaying(true);
+            }
+          }}
+        />
+        
+        <div className="flex-1 flex flex-col">
+          <header className="h-14 border-b flex items-center px-4 gap-2 bg-card sticky top-0 z-10">
+            <SidebarTrigger />
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate("/courses")}
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Înapoi
+            </Button>
+            <div className="flex-1 flex items-center justify-between">
+              <div>
+                <h1 className="font-semibold text-lg">{course.title}</h1>
               </div>
+              <Badge variant="secondary">{course.level}</Badge>
+            </div>
+          </header>
+          
+          <div className="flex-1 overflow-auto">
+            <div className="container mx-auto max-w-6xl py-8 px-4">
+              <div className="space-y-6">
+                {/* Video Player */}
+                <Card className="overflow-hidden">
+                  <div className="relative aspect-video bg-black">
+                    {!canAccess ? (
+                      <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/80 z-10 p-8 text-center">
+                        <Lock className="w-16 h-16 text-white mb-4" />
+                        <h3 className="text-2xl font-bold text-white mb-2">
+                          Înrolează-te pentru a continua
+                        </h3>
+                        <p className="text-white/80 mb-6">
+                          Această lecție necesită înrolare la curs
+                        </p>
+                        <Button
+                          size="lg"
+                          onClick={handleEnroll}
+                          disabled={enrolling}
+                        >
+                          {enrolling ? "Se înrolează..." : "Înscrie-te gratuit"}
+                        </Button>
+                      </div>
+                    ) : null}
 
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex-1">
-                    <p className="text-sm text-muted-foreground mb-1">
-                      {currentChapter?.title}
-                    </p>
-                    <h2 className="text-2xl font-bold">{currentLesson.title}</h2>
-                  </div>
-                  {lessonProgress?.completed && (
-                    <Badge className="bg-[hsl(var(--minty-green))] text-white">
-                      <CheckCircle2 className="w-3 h-3 mr-1" />
-                      Completat
-                    </Badge>
-                  )}
-                </div>
-
-                {lessonProgress && canAccess && (
-                  <div className="mb-4">
-                    <div className="flex justify-between text-sm mb-2">
-                      <span className="text-muted-foreground">Progres</span>
-                      <span className="font-semibold">
-                        {Math.round(played * 100)}%
-                      </span>
-                    </div>
-                    <Progress value={played * 100} />
-                  </div>
-                )}
-
-                {currentLesson.content && (
-                  <p className="text-muted-foreground mb-6">
-                    {currentLesson.content}
-                  </p>
-                )}
-
-                {canAccess && (
-                  <div className="flex gap-4">
-                    <Button
-                      onClick={handleMarkComplete}
-                      disabled={lessonProgress?.completed}
-                    >
-                      <CheckCircle2 className="w-4 h-4 mr-2" />
-                      Marchează complet
-                    </Button>
-                    <Button variant="outline" onClick={handleNextLesson}>
-                      Următorul
-                      <ChevronRight className="w-4 h-4 ml-2" />
-                    </Button>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Chapters Sidebar */}
-          <div>
-            <Card>
-              <CardHeader>
-                <CardTitle>Conținut curs</CardTitle>
-              </CardHeader>
-              <CardContent className="p-0">
-                <div className="max-h-[600px] overflow-y-auto">
-                  {chapters.map((chapter) => {
-                    const chapterLessons = lessons.filter(
-                      (l) => l.chapter_id === chapter.id
-                    );
-
-                    return (
-                      <div key={chapter.id} className="border-b last:border-b-0">
-                        <div className="p-4 bg-muted/50">
-                          <h3 className="font-semibold text-sm">
-                            {chapter.title}
-                          </h3>
+                    {currentLesson.video_url && canAccess ? (
+                      isYouTubeUrl(currentLesson.video_url) ? (
+                        <div className="absolute inset-0">
+                          <YouTube
+                            videoId={getYouTubeId(currentLesson.video_url)}
+                            opts={{ width: "100%", height: "100%", playerVars: { rel: 0, modestbranding: 1, playsinline: 1 } }}
+                            onStateChange={(e: any) => {
+                              if (e.data === 0) handleNextLesson();
+                              if (e.data === 1) setPlaying(true);
+                              if (e.data === 2) setPlaying(false);
+                            }}
+                          />
                         </div>
-                        <div>
-                          {chapterLessons.map((lesson) => {
-                            const lProgress = getLessonProgress(lesson.id);
-                            const isActive = currentLesson.id === lesson.id;
-                            const canAccessThis = canAccessLesson(lesson);
-
-                            return (
-                              <button
-                                key={lesson.id}
-                                onClick={() => {
-                                  if (canAccessThis) {
-                                    setCurrentLesson(lesson);
-                                    setPlayed(0);
-                                    setPlaying(true);
-                                  }
-                                }}
-                                disabled={!canAccessThis}
-                                className={cn(
-                                  "w-full p-4 text-left flex items-start gap-3 hover:bg-muted/50 transition-colors",
-                                  isActive && "bg-[hsl(var(--aqua))]/10 border-l-4 border-[hsl(var(--aqua))]",
-                                  !canAccessThis && "opacity-50 cursor-not-allowed"
-                                )}
-                              >
-                                <div className="mt-0.5">
-                                  {!canAccessThis ? (
-                                    <Lock className="w-4 h-4 text-muted-foreground" />
-                                  ) : lProgress?.completed ? (
-                                    <CheckCircle2 className="w-4 h-4 text-[hsl(var(--minty-green))]" />
-                                  ) : (
-                                    <Circle className="w-4 h-4 text-muted-foreground" />
-                                  )}
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                  <p
-                                    className={cn(
-                                      "text-sm font-medium",
-                                      isActive && "text-[hsl(var(--aqua))]"
-                                    )}
-                                  >
-                                    {lesson.title}
-                                  </p>
-                                  {lesson.duration_minutes && (
-                                    <p className="text-xs text-muted-foreground mt-1">
-                                      {lesson.duration_minutes} min
-                                    </p>
-                                  )}
-                                  {lesson.is_free_preview && (
-                                    <Badge
-                                      variant="secondary"
-                                      className="mt-1 text-xs"
-                                    >
-                                      Preview gratuit
-                                    </Badge>
-                                  )}
-                                </div>
-                              </button>
-                            );
-                          })}
+                      ) : (
+                        <ReactPlayer
+                          {...({
+                            ref: playerRef,
+                            url: currentLesson.video_url,
+                            width: "100%",
+                            height: "100%",
+                            playing: playing,
+                            controls: true,
+                            onProgress: handleProgress,
+                            onDuration: handleDuration,
+                            onPlay: () => setPlaying(true),
+                            onPause: () => setPlaying(false),
+                            onSeek: () => setSeeking(false),
+                            onEnded: handleNextLesson,
+                            progressInterval: 1000,
+                            style: { position: 'absolute', top: 0, left: 0 }
+                          } as any)}
+                        />
+                      )
+                    ) : canAccess ? (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="text-center text-white">
+                          <Play className="w-16 h-16 mx-auto mb-4 opacity-50" />
+                          <p className="text-lg">Niciun video disponibil</p>
                         </div>
                       </div>
-                    );
-                  })}
-                </div>
-              </CardContent>
-            </Card>
+                    ) : null}
+                  </div>
+
+                  <CardContent className="p-6">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex-1">
+                        <p className="text-sm text-muted-foreground mb-1">
+                          {currentChapter?.title}
+                        </p>
+                        <h2 className="text-2xl font-bold">{currentLesson.title}</h2>
+                      </div>
+                      {lessonProgress?.completed && (
+                        <Badge className="bg-[hsl(var(--minty-green))] text-white">
+                          <CheckCircle2 className="w-3 h-3 mr-1" />
+                          Completat
+                        </Badge>
+                      )}
+                    </div>
+
+                    {lessonProgress && canAccess && (
+                      <div className="mb-4">
+                        <div className="flex justify-between text-sm mb-2">
+                          <span className="text-muted-foreground">Progres</span>
+                          <span className="font-semibold">
+                            {Math.round(played * 100)}%
+                          </span>
+                        </div>
+                        <Progress value={played * 100} />
+                      </div>
+                    )}
+
+                    {currentLesson.content && (
+                      <p className="text-muted-foreground mb-6">
+                        {currentLesson.content}
+                      </p>
+                    )}
+
+                    {canAccess && (
+                      <div className="flex gap-4">
+                        <Button
+                          onClick={handleMarkComplete}
+                          disabled={lessonProgress?.completed}
+                        >
+                          <CheckCircle2 className="w-4 h-4 mr-2" />
+                          Marchează complet
+                        </Button>
+                        <Button variant="outline" onClick={handleNextLesson}>
+                          Următorul
+                          <ChevronRight className="w-4 h-4 ml-2" />
+                        </Button>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </SidebarProvider>
   );
 };
+
+// Course Sidebar Component
+function CourseSidebar({ 
+  chapters, 
+  lessons, 
+  currentLessonId, 
+  progress, 
+  isEnrolled,
+  onLessonClick 
+}: {
+  chapters: Chapter[];
+  lessons: Lesson[];
+  progress: LessonProgress[];
+  currentLessonId?: string;
+  isEnrolled: boolean;
+  onLessonClick: (lessonId: string) => void;
+}) {
+  const getLessonProgress = (lessonId: string) => {
+    return progress.find(p => p.lesson_id === lessonId);
+  };
+
+  const isLessonCompleted = (lessonId: string) => {
+    const prog = getLessonProgress(lessonId);
+    return prog?.completed || false;
+  };
+
+  return (
+    <Sidebar className="border-r" collapsible="icon">
+      <SidebarContent>
+        {chapters.map((chapter) => {
+          const chapterLessons = lessons.filter(l => l.chapter_id === chapter.id);
+          const isChapterOpen = chapterLessons.some(l => l.id === currentLessonId);
+          
+          return (
+            <Collapsible key={chapter.id} defaultOpen={isChapterOpen}>
+              <SidebarGroup>
+                <SidebarGroupLabel asChild>
+                  <CollapsibleTrigger className="flex items-center justify-between w-full hover:bg-muted px-2 py-2 rounded-md group">
+                    <span className="font-semibold text-sm">{chapter.title}</span>
+                    <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                  </CollapsibleTrigger>
+                </SidebarGroupLabel>
+                <CollapsibleContent>
+                  <SidebarGroupContent>
+                    <SidebarMenu>
+                      {chapterLessons.map((lesson) => {
+                        const isCompleted = isLessonCompleted(lesson.id);
+                        const isActive = lesson.id === currentLessonId;
+                        const isLocked = !lesson.is_free_preview && !isEnrolled;
+
+                        return (
+                          <SidebarMenuItem key={lesson.id}>
+                            <SidebarMenuButton
+                              onClick={() => !isLocked && onLessonClick(lesson.id)}
+                              isActive={isActive}
+                              disabled={isLocked}
+                              className="w-full justify-start"
+                            >
+                              <div className="flex items-center gap-2 w-full">
+                                {isLocked ? (
+                                  <Lock className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                                ) : isCompleted ? (
+                                  <CheckCircle2 className="h-4 w-4 text-primary flex-shrink-0" />
+                                ) : (
+                                  <Play className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                                )}
+                                <span className="truncate text-sm">{lesson.title}</span>
+                              </div>
+                            </SidebarMenuButton>
+                          </SidebarMenuItem>
+                        );
+                      })}
+                    </SidebarMenu>
+                  </SidebarGroupContent>
+                </CollapsibleContent>
+              </SidebarGroup>
+            </Collapsible>
+          );
+        })}
+      </SidebarContent>
+    </Sidebar>
+  );
+}
 
 export default CourseView;
