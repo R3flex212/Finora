@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { NavBar } from "@/components/ui/tubelight-navbar";
 import { Home, DollarSign, Info, User, LogOut, Settings, BookOpen } from "lucide-react";
 import { User as SupabaseUser } from "@supabase/supabase-js";
+import finoraLogo from "@/assets/finora-logo.png";
 
 const Navbar = () => {
   const [user, setUser] = useState<SupabaseUser | null>(null);
@@ -110,9 +111,9 @@ const Navbar = () => {
   const logo = (
     <button 
       onClick={() => navigate("/")}
-      className="text-lg font-bold bg-gradient-to-r from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))] bg-clip-text text-transparent whitespace-nowrap hover:opacity-80 transition-opacity cursor-pointer"
+      className="hover:opacity-80 transition-opacity cursor-pointer flex items-center"
     >
-      Finora
+      <img src={finoraLogo} alt="Finora" className="h-10 w-10" />
     </button>
   );
 
