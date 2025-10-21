@@ -591,7 +591,7 @@ function CourseSidebar({
     <Sidebar className="border-r border-[hsl(var(--aqua))]/20 bg-card" collapsible="icon">
       <SidebarContent className="bg-card">
         <div className="p-4 border-b border-[hsl(var(--aqua))]/20">
-          <h3 className="text-sm font-semibold bg-gradient-to-r from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))] bg-clip-text text-transparent">
+          <h3 className="text-sm font-semibold text-white">
             Conținut Curs
           </h3>
         </div>
@@ -604,7 +604,7 @@ function CourseSidebar({
               <SidebarGroup>
                 <SidebarGroupLabel asChild>
                   <CollapsibleTrigger className="flex items-center justify-between w-full hover:bg-[hsl(var(--aqua))]/10 px-4 py-3 rounded-lg group transition-colors">
-                    <span className="font-semibold text-sm text-foreground">{chapter.title}</span>
+                    <span className="font-semibold text-sm text-white">{chapter.title}</span>
                     <ChevronDown className="h-4 w-4 text-[hsl(var(--aqua))] transition-transform duration-200 group-data-[state=open]:rotate-180" />
                   </CollapsibleTrigger>
                 </SidebarGroupLabel>
@@ -636,9 +636,9 @@ function CourseSidebar({
                                   <Play className="h-4 w-4 text-[hsl(var(--aqua))] flex-shrink-0" />
                                 )}
                                 <span className={cn(
-                                  "truncate text-sm",
+                                  "truncate text-sm text-white",
                                   isActive && "font-semibold text-[hsl(var(--aqua))]",
-                                  isCompleted && "text-muted-foreground"
+                                  isCompleted && "text-white/60"
                                 )}>
                                   {lesson.title}
                                 </span>
