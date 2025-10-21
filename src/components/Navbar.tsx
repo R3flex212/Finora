@@ -113,7 +113,7 @@ const Navbar = () => {
       onClick={() => navigate("/")}
       className="hover:opacity-80 transition-opacity cursor-pointer flex items-center"
     >
-      <img src={finoraLogo} alt="Finora" className="h-10 w-10" />
+      <img src={finoraLogo} alt="Finora" className="h-16 w-16" />
     </button>
   );
 
