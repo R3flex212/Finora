@@ -1,4 +1,16 @@
-import { Facebook, Twitter, Instagram, Linkedin, Mail } from "lucide-react";
+"use client";
+import React from "react";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Facebook,
+  Instagram,
+  Twitter,
+  Linkedin,
+} from "lucide-react";
+import { FooterBackgroundGradient } from "@/components/ui/hover-footer";
+import { TextHoverEffect } from "@/components/ui/hover-footer";
 
 const Footer = () => {
   const navigation = {
@@ -22,55 +34,58 @@ const Footer = () => {
     }
   };
 
+  const contactInfo = [
+    {
+      icon: <Mail size={18} className="text-[#3ca2fa]" />,
+      text: "contact@finora.ro",
+      href: "mailto:contact@finora.ro",
+    },
+    {
+      icon: <Phone size={18} className="text-[#3ca2fa]" />,
+      text: "+40 123 456 789",
+      href: "tel:+40123456789",
+    },
+    {
+      icon: <MapPin size={18} className="text-[#3ca2fa]" />,
+      text: "București, România",
+    },
+  ];
+
+  const socialLinks = [
+    { icon: <Facebook size={20} />, label: "Facebook", href: "#" },
+    { icon: <Instagram size={20} />, label: "Instagram", href: "#" },
+    { icon: <Twitter size={20} />, label: "Twitter", href: "#" },
+    { icon: <Linkedin size={20} />, label: "LinkedIn", href: "#" },
+  ];
+
   return (
-    <footer className="bg-card border-t border-border">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid md:grid-cols-4 gap-8 mb-8">
-          {/* Brand */}
-          <div className="md:col-span-2">
-            <span className="text-2xl font-bold bg-gradient-to-r from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))] bg-clip-text text-transparent">
-              Finora
-            </span>
-            <p className="text-sm text-muted-foreground mt-4 max-w-md">
+    <footer className="bg-[#0F0F11]/10 relative h-fit rounded-3xl overflow-hidden m-8">
+      <div className="max-w-7xl mx-auto p-14 z-40 relative">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-8 lg:gap-16 pb-12">
+          {/* Brand section */}
+          <div className="flex flex-col space-y-4">
+            <div className="flex items-center space-x-2">
+              <span className="text-[#3ca2fa] text-3xl font-extrabold">
+                &hearts;
+              </span>
+              <span className="text-white text-3xl font-bold">Finora</span>
+            </div>
+            <p className="text-sm leading-relaxed">
               Educație financiară de top, accesibilă tuturor. De la zero la libertate financiară.
             </p>
-            <div className="flex gap-4 mt-6">
-              <a
-                href="#"
-                className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-gradient-to-r hover:from-[hsl(var(--aqua))] hover:to-[hsl(var(--minty-green))] hover:text-white transition-all"
-              >
-                <Facebook size={18} />
-              </a>
-              <a
-                href="#"
-                className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-gradient-to-r hover:from-[hsl(var(--aqua))] hover:to-[hsl(var(--minty-green))] hover:text-white transition-all"
-              >
-                <Twitter size={18} />
-              </a>
-              <a
-                href="#"
-                className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-gradient-to-r hover:from-[hsl(var(--aqua))] hover:to-[hsl(var(--minty-green))] hover:text-white transition-all"
-              >
-                <Instagram size={18} />
-              </a>
-              <a
-                href="#"
-                className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-gradient-to-r hover:from-[hsl(var(--aqua))] hover:to-[hsl(var(--minty-green))] hover:text-white transition-all"
-              >
-                <Linkedin size={18} />
-              </a>
-            </div>
           </div>
 
           {/* Navigation */}
           <div>
-            <h4 className="font-semibold mb-4">Navigare</h4>
-            <ul className="space-y-2">
+            <h4 className="text-white text-lg font-semibold mb-6">
+              Navigare
+            </h4>
+            <ul className="space-y-3">
               {navigation.main.map((item) => (
-                <li key={item.id}>
+                <li key={item.id} className="relative">
                   <button
                     onClick={() => scrollToSection(item.id)}
-                    className="text-sm text-muted-foreground hover:text-[hsl(var(--aqua))] transition-colors"
+                    className="hover:text-[#3ca2fa] transition-colors"
                   >
                     {item.name}
                   </button>
@@ -79,39 +94,83 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact */}
+          {/* Legal */}
           <div>
-            <h4 className="font-semibold mb-4">Contact</h4>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Mail size={16} />
-              <a
-                href="mailto:contact@finora.ro"
-                className="hover:text-[hsl(var(--aqua))] transition-colors"
-              >
-                contact@finora.ro
-              </a>
-            </div>
+            <h4 className="text-white text-lg font-semibold mb-6">
+              Legal
+            </h4>
+            <ul className="space-y-3">
+              {navigation.legal.map((item) => (
+                <li key={item.name} className="relative">
+                  <a
+                    href={item.href}
+                    className="hover:text-[#3ca2fa] transition-colors"
+                  >
+                    {item.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact section */}
+          <div>
+            <h4 className="text-white text-lg font-semibold mb-6">
+              Contact
+            </h4>
+            <ul className="space-y-4">
+              {contactInfo.map((item, i) => (
+                <li key={i} className="flex items-center space-x-3">
+                  {item.icon}
+                  {item.href ? (
+                    <a
+                      href={item.href}
+                      className="hover:text-[#3ca2fa] transition-colors"
+                    >
+                      {item.text}
+                    </a>
+                  ) : (
+                    <span className="hover:text-[#3ca2fa] transition-colors">
+                      {item.text}
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Finora. Toate drepturile rezervate.
-          </p>
-          <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-            {navigation.legal.map((item) => (
+        <hr className="border-t border-gray-700 my-8" />
+
+        {/* Footer bottom */}
+        <div className="flex flex-col md:flex-row justify-between items-center text-sm space-y-4 md:space-y-0">
+          {/* Social icons */}
+          <div className="flex space-x-6 text-gray-400">
+            {socialLinks.map(({ icon, label, href }) => (
               <a
-                key={item.name}
-                href={item.href}
-                className="hover:text-[hsl(var(--aqua))] transition-colors"
+                key={label}
+                href={href}
+                aria-label={label}
+                className="hover:text-[#3ca2fa] transition-colors"
               >
-                {item.name}
+                {icon}
               </a>
             ))}
           </div>
+
+          {/* Copyright */}
+          <p className="text-center md:text-left">
+            &copy; {new Date().getFullYear()} Finora. Toate drepturile rezervate.
+          </p>
         </div>
       </div>
+
+      {/* Text hover effect */}
+      <div className="lg:flex hidden h-[30rem] -mt-52 -mb-36">
+        <TextHoverEffect text="FINORA" className="z-50" />
+      </div>
+
+      <FooterBackgroundGradient />
     </footer>
   );
 };
