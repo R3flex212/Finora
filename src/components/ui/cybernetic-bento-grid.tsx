@@ -50,13 +50,13 @@ export const CyberneticBentoGrid = ({ title = "Core Features", items }: Cybernet
   return (
     <div className="w-full">
       <div className="w-full max-w-6xl mx-auto z-10">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{title}</h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-white">{title}</h2>
         <div className="bento-grid">
           {items.map((item, index) => (
             <BentoItem key={index} className={item.className || ''}>
               {item.icon && <div className="mb-4">{item.icon}</div>}
-              <h3 className="text-xl font-bold">{item.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{item.description}</p>
+              <h3 className="text-xl font-bold text-white">{item.title}</h3>
+              <p className="mt-2 text-sm text-white/80">{item.description}</p>
             </BentoItem>
           ))}
         </div>
