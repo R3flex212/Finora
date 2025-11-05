@@ -461,10 +461,16 @@ const CourseView = ({ user }: CourseViewProps) => {
 
                     {currentLesson.video_url && canAccess ? (
                       isYouTubeUrl(currentLesson.video_url) ? (
-                        <div className="absolute inset-0">
+                        <div className="absolute inset-0 w-full h-full">
                           <YouTube
                             videoId={getYouTubeId(currentLesson.video_url)}
-                            opts={{ width: "100%", height: "100%", playerVars: { rel: 0, modestbranding: 1, playsinline: 1 } }}
+                            opts={{ 
+                              width: "100%", 
+                              height: "100%", 
+                              playerVars: { rel: 0, modestbranding: 1, playsinline: 1 } 
+                            }}
+                            className="w-full h-full"
+                            iframeClassName="w-full h-full"
                             onStateChange={(e: any) => {
                               if (e.data === 0) handleNextLesson();
                               if (e.data === 1) setPlaying(true);
@@ -473,24 +479,26 @@ const CourseView = ({ user }: CourseViewProps) => {
                           />
                         </div>
                       ) : (
-                        <ReactPlayer
-                          {...({
-                            ref: playerRef,
-                            url: currentLesson.video_url,
-                            width: "100%",
-                            height: "100%",
-                            playing: playing,
-                            controls: true,
-                            onProgress: handleProgress,
-                            onDuration: handleDuration,
-                            onPlay: () => setPlaying(true),
-                            onPause: () => setPlaying(false),
-                            onSeek: () => setSeeking(false),
-                            onEnded: handleNextLesson,
-                            progressInterval: 1000,
-                            style: { position: 'absolute', top: 0, left: 0 }
-                          } as any)}
-                        />
+                        <div className="absolute inset-0 w-full h-full">
+                          <ReactPlayer
+                            {...({
+                              ref: playerRef,
+                              url: currentLesson.video_url,
+                              width: "100%",
+                              height: "100%",
+                              playing: playing,
+                              controls: true,
+                              onProgress: handleProgress,
+                              onDuration: handleDuration,
+                              onPlay: () => setPlaying(true),
+                              onPause: () => setPlaying(false),
+                              onSeek: () => setSeeking(false),
+                              onEnded: handleNextLesson,
+                              progressInterval: 1000,
+                              style: { position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }
+                            } as any)}
+                          />
+                        </div>
                       )
                     ) : canAccess ? (
                       <div className="absolute inset-0 flex items-center justify-center">
