@@ -61,6 +61,8 @@ const Admin = ({ user }: AdminProps) => {
   const [loading, setLoading] = useState(true);
   const [selectedCourse, setSelectedCourse] = useState<string>("");
   const [selectedChapter, setSelectedChapter] = useState<string>("");
+  const [uploadingVideo, setUploadingVideo] = useState(false);
+  const [videoFile, setVideoFile] = useState<File | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -275,6 +277,39 @@ const Admin = ({ user }: AdminProps) => {
     }
   };
 
+  const handleVideoUpload = async (file: File): Promise<string | null> => {
+    try {
+      setUploadingVideo(true);
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
+      const filePath = `${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('course-videos')
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('course-videos')
+        .getPublicUrl(filePath);
+
+      return publicUrl;
+    } catch (error: any) {
+      toast({
+        title: "Eroare",
+        description: error.message || "Nu am putut încărca videoul.",
+        variant: "destructive",
+      });
+      return null;
+    } finally {
+      setUploadingVideo(false);
+    }
+  };
+
   const handleCreateLesson = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -288,11 +323,24 @@ const Admin = ({ user }: AdminProps) => {
       const chapterLessons = lessons.filter((l) => l.chapter_id === selectedChapter);
       const maxPosition = chapterLessons.length > 0 ? Math.max(...chapterLessons.map((l) => l.position)) : 0;
 
+      let videoUrl = formData.get("video_url") as string;
+
+      // If a video file was uploaded, upload it and get the URL
+      if (videoFile) {
+        const uploadedUrl = await handleVideoUpload(videoFile);
+        if (uploadedUrl) {
+          videoUrl = uploadedUrl;
+        } else {
+          toast({ title: "Eroare", description: "Nu am putut încărca videoul.", variant: "destructive" });
+          return;
+        }
+      }
+
       const { error } = await supabase.from("lessons").insert({
         chapter_id: selectedChapter,
         title: formData.get("title") as string,
         content: formData.get("content") as string,
-        video_url: formData.get("video_url") as string,
+        video_url: videoUrl || null,
         duration_minutes: parseInt(formData.get("duration_minutes") as string) || null,
         position: maxPosition + 1,
         is_free_preview: formData.get("is_free_preview") === "on",
@@ -303,6 +351,7 @@ const Admin = ({ user }: AdminProps) => {
       toast({ title: "Succes!", description: "Lecția a fost creată." });
       await loadAllData();
       (e.target as HTMLFormElement).reset();
+      setVideoFile(null);
     } catch (error: any) {
       toast({
         title: "Eroare",
@@ -633,9 +682,41 @@ const Admin = ({ user }: AdminProps) => {
                       <Label htmlFor="lesson-title">Titlu Lecție *</Label>
                       <Input id="lesson-title" name="title" required placeholder="Ex: Ce este capitalul de piață?" />
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="lesson-video">URL Video</Label>
-                      <Input id="lesson-video" name="video_url" type="url" placeholder="https://youtube.com/watch?v=..." />
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="lesson-video-file">Încarcă Video</Label>
+                        <Input 
+                          id="lesson-video-file" 
+                          type="file" 
+                          accept="video/*"
+                          onChange={(e) => setVideoFile(e.target.files?.[0] || null)}
+                          className="cursor-pointer"
+                        />
+                        <p className="text-xs text-muted-foreground">
+                          Încarcă un fișier video direct în storage
+                        </p>
+                      </div>
+                      <div className="relative">
+                        <div className="absolute inset-0 flex items-center">
+                          <span className="w-full border-t" />
+                        </div>
+                        <div className="relative flex justify-center text-xs uppercase">
+                          <span className="bg-background px-2 text-muted-foreground">sau</span>
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="lesson-video">URL Video (YouTube, Vimeo, etc.)</Label>
+                        <Input 
+                          id="lesson-video" 
+                          name="video_url" 
+                          type="url" 
+                          placeholder="https://youtube.com/watch?v=..." 
+                          disabled={!!videoFile}
+                        />
+                        <p className="text-xs text-muted-foreground">
+                          Sau adaugă un link către un video extern
+                        </p>
+                      </div>
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="lesson-content">Conținut Text</Label>
@@ -651,9 +732,18 @@ const Admin = ({ user }: AdminProps) => {
                         <Label htmlFor="is_free_preview">Preview Gratuit</Label>
                       </div>
                     </div>
-                    <Button type="submit" className="w-full" disabled={!selectedChapter}>
-                      <Plus className="w-4 h-4 mr-2" />
-                      Creare Lecție
+                    <Button type="submit" className="w-full" disabled={!selectedChapter || uploadingVideo}>
+                      {uploadingVideo ? (
+                        <>
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          Se încarcă videoul...
+                        </>
+                      ) : (
+                        <>
+                          <Plus className="w-4 h-4 mr-2" />
+                          Creare Lecție
+                        </>
+                      )}
                     </Button>
                   </form>
                 </CardContent>
