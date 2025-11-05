@@ -8,7 +8,9 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, Lock, ChevronRight, Play, ArrowLeft, ChevronDown } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
+import { CheckCircle2, Lock, ChevronRight, Play, ArrowLeft, ChevronDown, BookOpen, FileText } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -82,6 +84,10 @@ const CourseView = ({ user }: CourseViewProps) => {
   const [played, setPlayed] = useState(0);
   const [duration, setDuration] = useState(0);
   const [seeking, setSeeking] = useState(false);
+  
+  const [notes, setNotes] = useState("");
+  const [savingNotes, setSavingNotes] = useState(false);
+  const [notesLoaded, setNotesLoaded] = useState(false);
 
   const playerRef = useRef<any>(null);
   const ytPlayerRef = useRef<any>(null);
@@ -116,8 +122,63 @@ const CourseView = ({ user }: CourseViewProps) => {
           playerRef.current.seekTo(resumePosition, "seconds");
         }
       }
+      // Load notes for the lesson
+      loadNotes();
     }
   }, [currentLesson?.id]);
+
+  const loadNotes = async () => {
+    if (!currentLesson || !user.id) return;
+    
+    setNotesLoaded(false);
+    try {
+      const { data, error } = await supabase
+        .from("lesson_notes")
+        .select("content")
+        .eq("user_id", user.id)
+        .eq("lesson_id", currentLesson.id)
+        .maybeSingle();
+      
+      if (error) throw error;
+      setNotes(data?.content || "");
+    } catch (error) {
+      console.error("Error loading notes:", error);
+      setNotes("");
+    } finally {
+      setNotesLoaded(true);
+    }
+  };
+
+  const handleSaveNotes = async () => {
+    if (!currentLesson || !user.id) return;
+    
+    setSavingNotes(true);
+    try {
+      const { error } = await supabase
+        .from("lesson_notes")
+        .upsert({
+          user_id: user.id,
+          lesson_id: currentLesson.id,
+          content: notes,
+        });
+      
+      if (error) throw error;
+      
+      toast({
+        title: "Notițe salvate!",
+        description: "Notițele tale au fost salvate cu succes.",
+      });
+    } catch (error) {
+      console.error("Error saving notes:", error);
+      toast({
+        title: "Eroare",
+        description: "Nu am putut salva notițele. Te rugăm să încerci din nou.",
+        variant: "destructive",
+      });
+    } finally {
+      setSavingNotes(false);
+    }
+  };
 
   const loadCourseData = async () => {
     try {
@@ -561,6 +622,63 @@ const CourseView = ({ user }: CourseViewProps) => {
                     )}
                   </CardContent>
                 </Card>
+
+                {/* Lesson Content and Notes Tabs */}
+                {canAccess && (
+                  <Card>
+                    <Tabs defaultValue="content" className="w-full">
+                      <div className="border-b px-6 pt-4">
+                        <TabsList className="grid w-full max-w-md grid-cols-2">
+                          <TabsTrigger value="content" className="gap-2">
+                            <BookOpen className="h-4 w-4" />
+                            Conținut
+                          </TabsTrigger>
+                          <TabsTrigger value="notes" className="gap-2">
+                            <FileText className="h-4 w-4" />
+                            Notițe
+                          </TabsTrigger>
+                        </TabsList>
+                      </div>
+                      
+                      <TabsContent value="content" className="p-6">
+                        {currentLesson.content ? (
+                          <div className="prose prose-invert max-w-none">
+                            <p className="text-muted-foreground whitespace-pre-wrap">
+                              {currentLesson.content}
+                            </p>
+                          </div>
+                        ) : (
+                          <p className="text-muted-foreground text-center py-8">
+                            Nu există conținut disponibil pentru această lecție.
+                          </p>
+                        )}
+                      </TabsContent>
+                      
+                      <TabsContent value="notes" className="p-6 space-y-4">
+                        <div>
+                          <p className="text-sm text-muted-foreground mb-2">
+                            Ia notițe pe parcursul lecției. Acestea vor fi salvate automat.
+                          </p>
+                          <Textarea
+                            placeholder="Scrie notițele tale aici..."
+                            className="min-h-[300px] resize-none"
+                            value={notes}
+                            onChange={(e) => setNotes(e.target.value)}
+                            disabled={!notesLoaded}
+                          />
+                        </div>
+                        <div className="flex justify-end">
+                          <Button 
+                            onClick={handleSaveNotes}
+                            disabled={savingNotes || !notesLoaded}
+                          >
+                            {savingNotes ? "Se salvează..." : "Salvează notițele"}
+                          </Button>
+                        </div>
+                      </TabsContent>
+                    </Tabs>
+                  </Card>
+                )}
               </div>
             </div>
           </div>
