@@ -71,7 +71,6 @@ const CourseView = ({ user }: CourseViewProps) => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { setOpen } = useSidebar();
 
   const [course, setCourse] = useState<Course | null>(null);
   const [chapters, setChapters] = useState<Chapter[]>([]);
@@ -461,25 +460,101 @@ const CourseView = ({ user }: CourseViewProps) => {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen w-full flex">
-        <CourseSidebar 
-          chapters={chapters}
-          lessons={lessons}
-          currentLessonId={currentLesson?.id}
-          progress={progress}
-          isEnrolled={isEnrolled}
-          onLessonClick={(lessonId) => {
-            const lesson = lessons.find(l => l.id === lessonId);
-            if (lesson) {
-              setCurrentLesson(lesson);
-              setPlayed(0);
-              setPlaying(true);
-              setOpen(true);
-            }
-          }}
-        />
-        
-        <div className="flex-1 flex flex-col">
+      <CourseViewContent
+        course={course}
+        chapters={chapters}
+        lessons={lessons}
+        currentLesson={currentLesson}
+        progress={progress}
+        isEnrolled={isEnrolled}
+        lessonProgress={lessonProgress}
+        canAccess={canAccess}
+        currentChapter={currentChapter}
+        playing={playing}
+        played={played}
+        duration={duration}
+        playerRef={playerRef}
+        ytPlayerRef={ytPlayerRef}
+        notes={notes}
+        notesLoaded={notesLoaded}
+        savingNotes={savingNotes}
+        enrolling={enrolling}
+        setCurrentLesson={setCurrentLesson}
+        setPlayed={setPlayed}
+        setPlaying={setPlaying}
+        setSeeking={setSeeking}
+        setNotes={setNotes}
+        handleEnroll={handleEnroll}
+        handleProgress={handleProgress}
+        handleDuration={handleDuration}
+        handleMarkComplete={handleMarkComplete}
+        handleNextLesson={handleNextLesson}
+        handleSaveNotes={handleSaveNotes}
+        isYouTubeUrl={isYouTubeUrl}
+        getYouTubeId={getYouTubeId}
+        navigate={navigate}
+      />
+    </SidebarProvider>
+  );
+};
+
+// Course View Content Component (inside SidebarProvider)
+function CourseViewContent({
+  course,
+  chapters,
+  lessons,
+  currentLesson,
+  progress,
+  isEnrolled,
+  lessonProgress,
+  canAccess,
+  currentChapter,
+  playing,
+  played,
+  duration,
+  playerRef,
+  ytPlayerRef,
+  notes,
+  notesLoaded,
+  savingNotes,
+  enrolling,
+  setCurrentLesson,
+  setPlayed,
+  setPlaying,
+  setSeeking,
+  setNotes,
+  handleEnroll,
+  handleProgress,
+  handleDuration,
+  handleMarkComplete,
+  handleNextLesson,
+  handleSaveNotes,
+  isYouTubeUrl,
+  getYouTubeId,
+  navigate,
+}: any) {
+  const { setOpen } = useSidebar();
+
+  return (
+    <div className="min-h-screen w-full flex">
+      <CourseSidebar 
+        chapters={chapters}
+        lessons={lessons}
+        currentLessonId={currentLesson?.id}
+        progress={progress}
+        isEnrolled={isEnrolled}
+        onLessonClick={(lessonId) => {
+          const lesson = lessons.find((l: any) => l.id === lessonId);
+          if (lesson) {
+            setCurrentLesson(lesson);
+            setPlayed(0);
+            setPlaying(true);
+            setOpen(true);
+          }
+        }}
+      />
+      
+      <div className="flex-1 flex flex-col">
           <header className="h-14 border-b flex items-center px-4 gap-2 bg-card sticky top-0 z-10">
             <SidebarTrigger />
             <Button
@@ -687,9 +762,8 @@ const CourseView = ({ user }: CourseViewProps) => {
           </div>
         </div>
       </div>
-    </SidebarProvider>
-  );
-};
+    );
+  }
 
 // Course Sidebar Component
 function CourseSidebar({ 
