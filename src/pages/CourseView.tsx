@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { CheckCircle2, Lock, ChevronRight, Play, ArrowLeft, ChevronDown, BookOpen, FileText } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -781,6 +780,83 @@ function NotesPanel({
   handleSaveNotes: () => void;
   onClose?: () => void;
 }) {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const insertFormatting = (before: string, after: string = '') => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const selectedText = notes.substring(start, end);
+    const beforeText = notes.substring(0, start);
+    const afterText = notes.substring(end);
+
+    const newText = `${beforeText}${before}${selectedText}${after}${afterText}`;
+    setNotes(newText);
+
+    // Restore focus and selection
+    setTimeout(() => {
+      textarea.focus();
+      const newCursorPos = start + before.length + selectedText.length + after.length;
+      textarea.setSelectionRange(newCursorPos, newCursorPos);
+    }, 0);
+  };
+
+  const handleBold = () => insertFormatting('**', '**');
+  const handleItalic = () => insertFormatting('*', '*');
+  const handleUnderline = () => insertFormatting('<u>', '</u>');
+  const handleBulletPoint = () => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+
+    const start = textarea.selectionStart;
+    const beforeText = notes.substring(0, start);
+    const afterText = notes.substring(start);
+    
+    // Check if we're at the start of a line
+    const lastNewline = beforeText.lastIndexOf('\n');
+    const lineStart = lastNewline === -1 ? 0 : lastNewline + 1;
+    const currentLine = beforeText.substring(lineStart);
+    
+    // If line is empty or only whitespace, add bullet
+    if (currentLine.trim() === '') {
+      const newText = `${beforeText}- ${afterText}`;
+      setNotes(newText);
+      setTimeout(() => {
+        textarea.focus();
+        textarea.setSelectionRange(start + 2, start + 2);
+      }, 0);
+    } else {
+      // Add bullet on new line
+      const newText = `${beforeText}\n- ${afterText}`;
+      setNotes(newText);
+      setTimeout(() => {
+        textarea.focus();
+        textarea.setSelectionRange(start + 3, start + 3);
+      }, 0);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    // Keyboard shortcuts
+    if (e.ctrlKey || e.metaKey) {
+      if (e.key === 'b') {
+        e.preventDefault();
+        handleBold();
+      } else if (e.key === 'i') {
+        e.preventDefault();
+        handleItalic();
+      } else if (e.key === 'u') {
+        e.preventDefault();
+        handleUnderline();
+      } else if (e.key === 's') {
+        e.preventDefault();
+        handleSaveNotes();
+      }
+    }
+  };
+
   return (
     <div className="flex flex-col h-full">
       <div className="p-4 border-b flex items-center justify-between bg-card sticky top-0 z-10">
@@ -794,28 +870,83 @@ function NotesPanel({
           </Button>
         )}
       </div>
+
+      {/* Formatting Toolbar */}
+      <div className="p-3 border-b bg-card/50 backdrop-blur-sm">
+        <div className="flex flex-wrap gap-1">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleBold}
+            disabled={!notesLoaded}
+            className="h-8 w-8 p-0"
+            title="Bold (Ctrl+B)"
+          >
+            <span className="font-bold text-base">B</span>
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleItalic}
+            disabled={!notesLoaded}
+            className="h-8 w-8 p-0"
+            title="Italic (Ctrl+I)"
+          >
+            <span className="italic text-base">I</span>
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleUnderline}
+            disabled={!notesLoaded}
+            className="h-8 w-8 p-0"
+            title="Underline (Ctrl+U)"
+          >
+            <span className="underline text-base">U</span>
+          </Button>
+          <div className="w-px h-8 bg-border mx-1" />
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleBulletPoint}
+            disabled={!notesLoaded}
+            className="h-8 px-2"
+            title="Bullet List"
+          >
+            <span className="text-base">•</span>
+            <span className="ml-1 text-xs">List</span>
+          </Button>
+        </div>
+        <p className="text-xs text-muted-foreground mt-2">
+          Folosește **text** pentru bold, *text* pentru italic, - pentru bullet points
+        </p>
+      </div>
       
       <div className="flex-1 p-4 overflow-auto">
-        <p className="text-sm text-muted-foreground mb-3">
-          Ia notițe pe parcursul lecției. Acestea vor fi salvate pentru fiecare lecție.
-        </p>
         <Textarea
-          placeholder="Scrie notițele tale aici..."
-          className="min-h-[400px] lg:min-h-[calc(100vh-280px)] resize-none"
+          ref={textareaRef}
+          placeholder="Scrie notițele tale aici...&#10;&#10;Exemple:&#10;**bold text**&#10;*italic text*&#10;<u>underlined text</u>&#10;- bullet point"
+          className="min-h-[400px] lg:min-h-[calc(100vh-380px)] resize-none font-mono text-sm"
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
+          onKeyDown={handleKeyDown}
           disabled={!notesLoaded}
         />
       </div>
       
-      <div className="p-4 border-t bg-card">
-        <Button 
-          onClick={handleSaveNotes}
-          disabled={savingNotes || !notesLoaded}
-          className="w-full"
-        >
-          {savingNotes ? "Se salvează..." : "Salvează notițele"}
-        </Button>
+      <div className="p-4 border-t bg-card space-y-2">
+        <div className="flex gap-2">
+          <Button 
+            onClick={handleSaveNotes}
+            disabled={savingNotes || !notesLoaded}
+            className="flex-1"
+          >
+            {savingNotes ? "Se salvează..." : "Salvează notițele"}
+          </Button>
+        </div>
+        <p className="text-xs text-muted-foreground text-center">
+          Shortcut: Ctrl+S pentru salvare
+        </p>
       </div>
     </div>
   );
