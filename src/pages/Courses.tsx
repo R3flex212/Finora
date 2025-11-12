@@ -2,20 +2,18 @@ import { User } from "@supabase/supabase-js";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
-import { BookOpen, CheckCircle2, Clock } from "lucide-react";
+import { BookOpen, Clock, Play } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 
 interface CoursesProps {
   user: User;
 }
 
-type FilterType = "all" | "enrolled" | "completed";
+type CategoryType = "all" | "finanțe-personale" | "investiții" | "crypto" | "trading" | "planificare-financiară";
 
 interface Course {
   id: string;
@@ -26,6 +24,9 @@ interface Course {
   level: string;
   duration: string | null;
   published: boolean;
+  category?: string;
+  lesson_count?: number;
+  is_popular?: boolean;
 }
 
 interface Enrollment {
@@ -39,13 +40,22 @@ interface CourseProgress {
   progress_percent: number;
 }
 
+const categories = [
+  { id: "all" as CategoryType, label: "Toate Cursurile" },
+  { id: "finanțe-personale" as CategoryType, label: "Finanțe Personale" },
+  { id: "investiții" as CategoryType, label: "Investiții" },
+  { id: "crypto" as CategoryType, label: "Crypto & Blockchain" },
+  { id: "trading" as CategoryType, label: "Trading" },
+  { id: "planificare-financiară" as CategoryType, label: "Planificare Financiară" },
+];
+
 const Courses = ({ user }: CoursesProps) => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
   const [progress, setProgress] = useState<CourseProgress[]>([]);
   const [loading, setLoading] = useState(true);
-  const [enrollingCourseId, setEnrollingCourseId] = useState<string | null>(null);
-  const [filter, setFilter] = useState<FilterType>("all");
+  const [hoveredCourse, setHoveredCourse] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<CategoryType>("all");
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -57,14 +67,33 @@ const Courses = ({ user }: CoursesProps) => {
     try {
       setLoading(true);
 
-      // Load published courses
+      // Load published courses with lesson count
       const { data: coursesData, error: coursesError } = await supabase
         .from("courses")
-        .select("*")
+        .select(`
+          *,
+          chapters (
+            id,
+            lessons:lessons(count)
+          )
+        `)
         .eq("published", true)
         .order("created_at", { ascending: false });
 
       if (coursesError) throw coursesError;
+
+      // Transform data to include lesson count
+      const coursesWithLessonCount = coursesData?.map(course => {
+        const totalLessons = course.chapters?.reduce((sum: number, chapter: any) => {
+          return sum + (chapter.lessons?.[0]?.count || 0);
+        }, 0) || 0;
+        
+        return {
+          ...course,
+          lesson_count: totalLessons,
+          is_popular: course.level === "Avansat" || course.level === "Intermediar", // Mark advanced/intermediate as popular
+        };
+      }) || [];
 
       // Load user enrollments
       const { data: enrollmentsData, error: enrollmentsError } = await supabase
@@ -82,7 +111,7 @@ const Courses = ({ user }: CoursesProps) => {
 
       if (progressError) throw progressError;
 
-      setCourses(coursesData || []);
+      setCourses(coursesWithLessonCount);
       setEnrollments(enrollmentsData || []);
       setProgress(progressData || []);
     } catch (error) {
@@ -97,48 +126,39 @@ const Courses = ({ user }: CoursesProps) => {
     }
   };
 
-  const handleEnroll = async (courseId: string) => {
-    try {
-      setEnrollingCourseId(courseId);
+  const handleCourseClick = async (courseId: string) => {
+    const course = courses.find((c) => c.id === courseId);
+    if (!course) return;
 
+    // Check if already enrolled
+    if (isEnrolled(courseId)) {
+      navigate(`/course/${course.slug}`);
+      return;
+    }
+
+    // Enroll user
+    try {
       const { error } = await supabase
         .from("enrollments")
         .insert({ user_id: user.id, course_id: courseId });
 
-      if (error) {
-        // If already enrolled (unique constraint violation), just continue
-        if (error.code === "23505") {
-          const course = courses.find((c) => c.id === courseId);
-          if (course) {
-            navigate(`/course/${course.slug}`);
-          }
-          return;
-        }
+      if (error && error.code !== "23505") {
         throw error;
       }
 
       toast({
         title: "Înrolare reușită!",
-        description: "Te-ai înscris la curs cu succes. Mult succes!",
+        description: "Te-ai înscris la curs cu succes.",
       });
 
-      // Reload data to update enrollments
-      await loadData();
-
-      // Navigate to course page
-      const course = courses.find((c) => c.id === courseId);
-      if (course) {
-        navigate(`/course/${course.slug}`);
-      }
+      navigate(`/course/${course.slug}`);
     } catch (error) {
       console.error("Error enrolling:", error);
       toast({
         title: "Eroare",
-        description: "Nu am putut finaliza înrolarea. Te rugăm să încerci din nou.",
+        description: "Nu am putut finaliza înrolarea.",
         variant: "destructive",
       });
-    } finally {
-      setEnrollingCourseId(null);
     }
   };
 
@@ -150,35 +170,31 @@ const Courses = ({ user }: CoursesProps) => {
     return progress.find((p) => p.course_id === courseId);
   };
 
-  // Only show courses user is NOT enrolled in
-  const availableCourses = courses.filter(course => !isEnrolled(course.id));
+  // Filter courses by category
+  const filteredCourses = selectedCategory === "all" 
+    ? courses 
+    : courses.filter(course => course.category === selectedCategory);
 
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
-        <main className="container mx-auto px-4 py-12">
-          <div className="max-w-6xl mx-auto">
-            <div className="mb-12 text-center">
-              <Skeleton className="h-12 w-96 mx-auto mb-4" />
-              <Skeleton className="h-6 w-[600px] mx-auto" />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[1, 2, 3, 4].map((i) => (
-                <Card key={i}>
-                  <CardHeader>
-                    <Skeleton className="h-8 w-3/4 mb-2" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-full mt-2" />
-                  </CardHeader>
-                  <CardContent>
-                    <Skeleton className="h-10 w-full" />
-                  </CardContent>
-                </Card>
+        <div className="flex">
+          <aside className="w-64 min-h-screen bg-card border-r border-border p-6">
+            <Skeleton className="h-8 w-32 mb-6" />
+            {[1, 2, 3, 4, 5].map((i) => (
+              <Skeleton key={i} className="h-10 w-full mb-2" />
+            ))}
+          </aside>
+          <main className="flex-1 p-8">
+            <Skeleton className="h-12 w-48 mb-8" />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <Skeleton key={i} className="h-80 w-full rounded-2xl" />
               ))}
             </div>
-          </div>
-        </main>
+          </main>
+        </div>
       </div>
     );
   }
@@ -187,85 +203,142 @@ const Courses = ({ user }: CoursesProps) => {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      <main className="container mx-auto px-4 py-12">
-        <div className="max-w-6xl mx-auto">
-          <div className="mb-12 text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))] bg-clip-text text-transparent">
-              Cursuri Disponibile
-            </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Descoperă cursuri noi și înscrie-te pentru a începe să înveți
+      <div className="flex">
+        {/* Sidebar */}
+        <aside className="hidden lg:block w-64 min-h-screen bg-card border-r border-border">
+          <div className="p-6 space-y-2">
+            {categories.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => setSelectedCategory(category.id)}
+                className={cn(
+                  "w-full text-left px-4 py-3 rounded-lg transition-all font-medium",
+                  selectedCategory === category.id
+                    ? "bg-gradient-to-r from-[hsl(var(--aqua))]/10 to-[hsl(var(--minty-green))]/10 text-foreground"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                )}
+              >
+                {category.label}
+              </button>
+            ))}
+          </div>
+        </aside>
+
+        {/* Main Content */}
+        <main className="flex-1 p-4 md:p-8">
+          <div className="mb-8">
+            <h1 className="text-3xl md:text-4xl font-bold mb-2">Cursuri</h1>
+            <p className="text-muted-foreground">
+              Descoperă și învață cu cele mai bune cursuri de educație financiară
             </p>
           </div>
 
-          {availableCourses.length === 0 ? (
-            <Card className="p-12 text-center">
-              <div className="flex flex-col items-center gap-4">
-                <BookOpen className="w-16 h-16 text-muted-foreground" />
-                <h3 className="text-2xl font-semibold">
-                  Toate cursurile sunt în biblioteca ta!
-                </h3>
-                <p className="text-muted-foreground">
-                  Verifică profilul tău pentru a vedea cursurile tale.
-                </p>
-                <Button onClick={() => navigate("/profile")}>
-                  Vezi Profilul Meu
-                </Button>
-              </div>
-            </Card>
+          {/* Mobile Category Filter */}
+          <div className="lg:hidden mb-6 flex gap-2 overflow-x-auto pb-2">
+            {categories.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => setSelectedCategory(category.id)}
+                className={cn(
+                  "px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-all",
+                  selectedCategory === category.id
+                    ? "bg-gradient-to-r from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))] text-white"
+                    : "bg-muted text-muted-foreground hover:bg-muted/80"
+                )}
+              >
+                {category.label}
+              </button>
+            ))}
+          </div>
+
+          {filteredCourses.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-20 text-center">
+              <BookOpen className="w-16 h-16 text-muted-foreground mb-4" />
+              <h3 className="text-xl font-semibold mb-2">
+                Niciun curs disponibil
+              </h3>
+              <p className="text-muted-foreground">
+                Încearcă să selectezi altă categorie
+              </p>
+            </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {availableCourses.map((course) => (
-                <Card
-                  key={course.id}
-                  className="group hover:shadow-glow transition-all duration-300 border-[hsl(var(--aqua))]/20 hover:border-[hsl(var(--aqua))]/50"
-                >
-                  <CardHeader>
-                    <div className="flex items-start justify-between mb-4">
-                      <Badge variant="secondary" className="text-xs">
-                        {course.level}
-                      </Badge>
-                    </div>
-                    <CardTitle className="text-2xl group-hover:text-[hsl(var(--aqua))] transition-colors">
-                      {course.title}
-                    </CardTitle>
-                    <CardDescription className="text-base mt-2">
-                      {course.short_description || course.description}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      {course.duration && (
-                        <span className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <Clock className="w-4 h-4" />
-                          {course.duration}
-                        </span>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredCourses.map((course) => {
+                const courseProgress = getCourseProgress(course.id);
+                const enrolled = isEnrolled(course.id);
+                
+                return (
+                  <div
+                    key={course.id}
+                    className="group cursor-pointer"
+                    onMouseEnter={() => setHoveredCourse(course.id)}
+                    onMouseLeave={() => setHoveredCourse(null)}
+                    onClick={() => handleCourseClick(course.id)}
+                  >
+                    {/* Course Image Card */}
+                    <div className="relative rounded-2xl overflow-hidden aspect-[16/10] mb-3 bg-gradient-to-br from-[hsl(var(--aqua))]/20 to-[hsl(var(--minty-green))]/20">
+                      {/* Placeholder gradient background */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-[hsl(var(--aqua))]/30 to-[hsl(var(--minty-green))]/30 group-hover:scale-105 transition-transform duration-300" />
+                      
+                      {/* Popular Badge */}
+                      {course.is_popular && (
+                        <Badge className="absolute top-3 left-3 bg-white text-foreground hover:bg-white">
+                          Popular
+                        </Badge>
                       )}
-                      <Button
-                        onClick={() => handleEnroll(course.id)}
-                        disabled={enrollingCourseId === course.id}
-                        className="ml-auto"
-                      >
-                        {enrollingCourseId === course.id ? "Se înrolează..." : "Înscrie-te (gratuit)"}
-                      </Button>
+
+                      {/* Play Icon Overlay */}
+                      {hoveredCourse === course.id && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/20 transition-all">
+                          <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center">
+                            <Play className="w-8 h-8 text-foreground fill-foreground ml-1" />
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Course Stats */}
+                      <div className="absolute bottom-3 right-3 bg-black/70 backdrop-blur-sm text-white px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-2">
+                        {course.lesson_count && (
+                          <>
+                            <span>{course.lesson_count} lecții</span>
+                            <span>•</span>
+                          </>
+                        )}
+                        <span className="flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          {course.duration || "2h"}
+                        </span>
+                      </div>
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
+
+                    {/* Course Info */}
+                    <div>
+                      <h3 className="font-bold text-lg mb-1 group-hover:text-[hsl(var(--aqua))] transition-colors line-clamp-2">
+                        {course.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground line-clamp-1">
+                        {course.short_description || course.description}
+                      </p>
+                      
+                      {enrolled && courseProgress && (
+                        <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
+                          <div className="flex-1 h-1 bg-muted rounded-full overflow-hidden">
+                            <div 
+                              className="h-full bg-gradient-to-r from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))]"
+                              style={{ width: `${courseProgress.progress_percent}%` }}
+                            />
+                          </div>
+                          <span>{Math.round(courseProgress.progress_percent)}%</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           )}
-
-          <div className="mt-12 p-8 rounded-lg bg-gradient-to-r from-[hsl(var(--aqua))]/10 to-[hsl(var(--minty-green))]/10 border border-[hsl(var(--aqua))]/20">
-            <h2 className="text-2xl font-bold mb-3 text-foreground">Gata să începi?</h2>
-            <p className="text-muted-foreground mb-4">
-              Toate cursurile includ lecții video interactive, exerciții practice și acces la comunitatea noastră de investitori.
-            </p>
-            <p className="text-sm text-muted-foreground">
-              💡 <strong>Pro Tip:</strong> Începe cu Analiza Fundamentală dacă ești nou în lumea investițiilor!
-            </p>
-          </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 };
