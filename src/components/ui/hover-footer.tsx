@@ -52,11 +52,11 @@ export const TextHoverEffect = ({
         >
           {hovered && (
             <>
-              <stop offset="0%" stopColor="#3ca2fa" />
-              <stop offset="25%" stopColor="#06b6d4" />
-              <stop offset="50%" stopColor="#80eeb4" />
-              <stop offset="75%" stopColor="#4ade80" />
-              <stop offset="100%" stopColor="#3ca2fa" />
+              <stop offset="0%" stopColor="hsl(var(--aqua))" />
+              <stop offset="25%" stopColor="hsl(var(--aqua))" />
+              <stop offset="50%" stopColor="hsl(var(--minty-green))" />
+              <stop offset="75%" stopColor="hsl(var(--minty-green))" />
+              <stop offset="100%" stopColor="hsl(var(--aqua))" />
             </>
           )}
         </linearGradient>
@@ -87,7 +87,7 @@ export const TextHoverEffect = ({
         y="50%"
         textAnchor="middle"
         dominantBaseline="middle"
-        strokeWidth="0.3"
+        strokeWidth="0.6"
         className="fill-transparent stroke-neutral-200 font-[helvetica] text-7xl font-bold dark:stroke-neutral-800"
         style={{ opacity: hovered ? 0.7 : 0 }}
       >
@@ -98,9 +98,9 @@ export const TextHoverEffect = ({
         y="50%"
         textAnchor="middle"
         dominantBaseline="middle"
-        strokeWidth="0.3"
-        className="fill-transparent stroke-[#3ca2fa] font-[helvetica] text-7xl font-bold 
-        dark:stroke-[#3ca2fa99]"
+        strokeWidth="0.6"
+        className="fill-transparent stroke-[hsl(var(--aqua))] font-[helvetica] text-7xl font-bold 
+        dark:stroke-[hsl(var(--aqua)/0.6)]"
         initial={{ strokeDashoffset: 1000, strokeDasharray: 1000 }}
         animate={{
           strokeDashoffset: 0,
@@ -119,7 +119,7 @@ export const TextHoverEffect = ({
         textAnchor="middle"
         dominantBaseline="middle"
         stroke="url(#textGradient)"
-        strokeWidth="0.3"
+        strokeWidth="0.6"
         mask="url(#textMask)"
         className="fill-transparent font-[helvetica] text-7xl font-bold"
       >
@@ -135,7 +135,7 @@ export const FooterBackgroundGradient = () => {
       className="absolute inset-0 z-0"
       style={{
         background:
-          "radial-gradient(125% 125% at 50% 10%, #0F0F1166 50%, #3ca2fa33 100%)",
+          "radial-gradient(125% 125% at 50% 10%, #0F0F1166 50%, hsl(var(--aqua) / 0.2) 100%)",
       }}
     />
   );
