@@ -534,9 +534,11 @@ function CourseViewContent({
   navigate,
 }: any) {
   const { setOpen } = useSidebar();
+  const [notesPanelOpen, setNotesPanelOpen] = useState(true);
 
   return (
     <div className="min-h-screen w-full flex">
+      {/* Sidebar - Left */}
       <CourseSidebar 
         chapters={chapters}
         lessons={lessons}
@@ -554,216 +556,270 @@ function CourseViewContent({
         }}
       />
       
-      <div className="flex-1 flex flex-col">
-          <header className="h-14 border-b flex items-center px-4 gap-2 bg-card sticky top-0 z-10">
-            <SidebarTrigger />
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => navigate("/courses")}
-            >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Înapoi
-            </Button>
-            <div className="flex-1 flex items-center justify-between">
-              <div>
-                <h1 className="font-semibold text-lg">{course.title}</h1>
-              </div>
-              <Badge variant="secondary">{course.level}</Badge>
+      {/* Main Content Area - Center */}
+      <div className="flex-1 flex flex-col min-w-0">
+        <header className="h-14 border-b flex items-center px-4 gap-2 bg-card sticky top-0 z-10">
+          <SidebarTrigger />
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate("/courses")}
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Înapoi
+          </Button>
+          <div className="flex-1 flex items-center justify-between">
+            <div>
+              <h1 className="font-semibold text-lg truncate">{course.title}</h1>
             </div>
-          </header>
-          
-          <div className="flex-1 overflow-auto">
-            <div className="container mx-auto max-w-6xl py-8 px-4">
-              <div className="space-y-6">
-                {/* Video Player */}
-                <Card className="overflow-hidden">
-                  <div className="relative aspect-video bg-black">
-                    {!canAccess ? (
-                      <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/80 z-10 p-8 text-center">
-                        <Lock className="w-16 h-16 text-white mb-4" />
-                        <h3 className="text-2xl font-bold text-white mb-2">
-                          Înrolează-te pentru a continua
-                        </h3>
-                        <p className="text-white/80 mb-6">
-                          Această lecție necesită înrolare la curs
-                        </p>
-                        <Button
-                          size="lg"
-                          onClick={handleEnroll}
-                          disabled={enrolling}
-                        >
-                          {enrolling ? "Se înrolează..." : "Înscrie-te gratuit"}
-                        </Button>
-                      </div>
-                    ) : null}
-
-                    {currentLesson.video_url && canAccess ? (
-                      isYouTubeUrl(currentLesson.video_url) ? (
-                        <div className="absolute inset-0 w-full h-full">
-                          <YouTube
-                            videoId={getYouTubeId(currentLesson.video_url)}
-                            opts={{ 
-                              width: "100%", 
-                              height: "100%", 
-                              playerVars: { rel: 0, modestbranding: 1, playsinline: 1 } 
-                            }}
-                            className="w-full h-full"
-                            iframeClassName="w-full h-full"
-                            onStateChange={(e: any) => {
-                              if (e.data === 0) handleNextLesson();
-                              if (e.data === 1) setPlaying(true);
-                              if (e.data === 2) setPlaying(false);
-                            }}
-                          />
-                        </div>
-                      ) : (
-                        <div className="absolute inset-0 w-full h-full">
-                          <ReactPlayer
-                            {...({
-                              ref: playerRef,
-                              url: currentLesson.video_url,
-                              width: "100%",
-                              height: "100%",
-                              playing: playing,
-                              controls: true,
-                              onProgress: handleProgress,
-                              onDuration: handleDuration,
-                              onPlay: () => setPlaying(true),
-                              onPause: () => setPlaying(false),
-                              onSeek: () => setSeeking(false),
-                              onEnded: handleNextLesson,
-                              progressInterval: 1000,
-                              style: { position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }
-                            } as any)}
-                          />
-                        </div>
-                      )
-                    ) : canAccess ? (
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="text-center text-white">
-                          <Play className="w-16 h-16 mx-auto mb-4 opacity-50" />
-                          <p className="text-lg">Niciun video disponibil</p>
-                        </div>
-                      </div>
-                    ) : null}
-                  </div>
-
-                  <CardContent className="p-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex-1">
-                        <p className="text-sm text-muted-foreground mb-1">
-                          {currentChapter?.title}
-                        </p>
-                        <h2 className="text-2xl font-bold">{currentLesson.title}</h2>
-                      </div>
-                      {lessonProgress?.completed && (
-                        <Badge className="bg-[hsl(var(--minty-green))] text-white">
-                          <CheckCircle2 className="w-3 h-3 mr-1" />
-                          Completat
-                        </Badge>
-                      )}
-                    </div>
-
-                    {lessonProgress && canAccess && (
-                      <div className="mb-4">
-                        <div className="flex justify-between text-sm mb-2">
-                          <span className="text-muted-foreground">Progres</span>
-                          <span className="font-semibold">
-                            {Math.round(played * 100)}%
-                          </span>
-                        </div>
-                        <Progress value={played * 100} />
-                      </div>
-                    )}
-
-                    {currentLesson.content && (
-                      <p className="text-muted-foreground mb-6">
-                        {currentLesson.content}
-                      </p>
-                    )}
-
-                    {canAccess && (
-                      <div className="flex gap-4">
-                        <Button
-                          onClick={handleMarkComplete}
-                          disabled={lessonProgress?.completed}
-                        >
-                          <CheckCircle2 className="w-4 h-4 mr-2" />
-                          Marchează complet
-                        </Button>
-                        <Button variant="outline" onClick={handleNextLesson}>
-                          Următorul
-                          <ChevronRight className="w-4 h-4 ml-2" />
-                        </Button>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-
-                {/* Lesson Content and Notes Tabs */}
-                {canAccess && (
-                  <Card>
-                    <Tabs defaultValue="content" className="w-full">
-                      <div className="border-b px-6 pt-4">
-                        <TabsList className="grid w-full max-w-md grid-cols-2">
-                          <TabsTrigger value="content" className="gap-2">
-                            <BookOpen className="h-4 w-4" />
-                            Conținut
-                          </TabsTrigger>
-                          <TabsTrigger value="notes" className="gap-2">
-                            <FileText className="h-4 w-4" />
-                            Notițe
-                          </TabsTrigger>
-                        </TabsList>
-                      </div>
-                      
-                      <TabsContent value="content" className="p-6">
-                        {currentLesson.content ? (
-                          <div className="prose prose-invert max-w-none">
-                            <p className="text-muted-foreground whitespace-pre-wrap">
-                              {currentLesson.content}
-                            </p>
-                          </div>
-                        ) : (
-                          <p className="text-muted-foreground text-center py-8">
-                            Nu există conținut disponibil pentru această lecție.
-                          </p>
-                        )}
-                      </TabsContent>
-                      
-                      <TabsContent value="notes" className="p-6 space-y-4">
-                        <div>
-                          <p className="text-sm text-muted-foreground mb-2">
-                            Ia notițe pe parcursul lecției. Acestea vor fi salvate automat.
-                          </p>
-                          <Textarea
-                            placeholder="Scrie notițele tale aici..."
-                            className="min-h-[300px] resize-none"
-                            value={notes}
-                            onChange={(e) => setNotes(e.target.value)}
-                            disabled={!notesLoaded}
-                          />
-                        </div>
-                        <div className="flex justify-end">
-                          <Button 
-                            onClick={handleSaveNotes}
-                            disabled={savingNotes || !notesLoaded}
-                          >
-                            {savingNotes ? "Se salvează..." : "Salvează notițele"}
-                          </Button>
-                        </div>
-                      </TabsContent>
-                    </Tabs>
-                  </Card>
-                )}
-              </div>
+            <div className="flex items-center gap-2">
+              <Badge variant="secondary">{course.level}</Badge>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setNotesPanelOpen(!notesPanelOpen)}
+                className="lg:hidden"
+              >
+                <FileText className="h-4 w-4" />
+              </Button>
             </div>
           </div>
+        </header>
+        
+        <div className="flex-1 flex overflow-hidden">
+          {/* Video and Content Section */}
+          <div className="flex-1 overflow-auto">
+            <div className="container mx-auto max-w-5xl py-6 px-4 space-y-6">
+              {/* Video Player */}
+              <Card className="overflow-hidden">
+                <div className="relative aspect-video bg-black">
+                  {!canAccess ? (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/80 z-10 p-8 text-center">
+                      <Lock className="w-16 h-16 text-white mb-4" />
+                      <h3 className="text-2xl font-bold text-white mb-2">
+                        Înrolează-te pentru a continua
+                      </h3>
+                      <p className="text-white/80 mb-6">
+                        Această lecție necesită înrolare la curs
+                      </p>
+                      <Button
+                        size="lg"
+                        onClick={handleEnroll}
+                        disabled={enrolling}
+                      >
+                        {enrolling ? "Se înrolează..." : "Înscrie-te gratuit"}
+                      </Button>
+                    </div>
+                  ) : null}
+
+                  {currentLesson.video_url && canAccess ? (
+                    isYouTubeUrl(currentLesson.video_url) ? (
+                      <div className="absolute inset-0 w-full h-full">
+                        <YouTube
+                          videoId={getYouTubeId(currentLesson.video_url)}
+                          opts={{ 
+                            width: "100%", 
+                            height: "100%", 
+                            playerVars: { rel: 0, modestbranding: 1, playsinline: 1 } 
+                          }}
+                          className="w-full h-full"
+                          iframeClassName="w-full h-full"
+                          onStateChange={(e: any) => {
+                            if (e.data === 0) handleNextLesson();
+                            if (e.data === 1) setPlaying(true);
+                            if (e.data === 2) setPlaying(false);
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      <div className="absolute inset-0 w-full h-full">
+                        <ReactPlayer
+                          {...({
+                            ref: playerRef,
+                            url: currentLesson.video_url,
+                            width: "100%",
+                            height: "100%",
+                            playing: playing,
+                            controls: true,
+                            onProgress: handleProgress,
+                            onDuration: handleDuration,
+                            onPlay: () => setPlaying(true),
+                            onPause: () => setPlaying(false),
+                            onSeek: () => setSeeking(false),
+                            onEnded: handleNextLesson,
+                            progressInterval: 1000,
+                            style: { position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }
+                          } as any)}
+                        />
+                      </div>
+                    )
+                  ) : canAccess ? (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-center text-white">
+                        <Play className="w-16 h-16 mx-auto mb-4 opacity-50" />
+                        <p className="text-lg">Niciun video disponibil</p>
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+
+                <CardContent className="p-6">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex-1">
+                      <p className="text-sm text-muted-foreground mb-1">
+                        {currentChapter?.title}
+                      </p>
+                      <h2 className="text-2xl font-bold">{currentLesson.title}</h2>
+                    </div>
+                    {lessonProgress?.completed && (
+                      <Badge className="bg-[hsl(var(--minty-green))] text-white">
+                        <CheckCircle2 className="w-3 h-3 mr-1" />
+                        Completat
+                      </Badge>
+                    )}
+                  </div>
+
+                  {lessonProgress && canAccess && (
+                    <div className="mb-4">
+                      <div className="flex justify-between text-sm mb-2">
+                        <span className="text-muted-foreground">Progres</span>
+                        <span className="font-semibold">
+                          {Math.round(played * 100)}%
+                        </span>
+                      </div>
+                      <Progress value={played * 100} />
+                    </div>
+                  )}
+
+                  {canAccess && (
+                    <div className="flex gap-4">
+                      <Button
+                        onClick={handleMarkComplete}
+                        disabled={lessonProgress?.completed}
+                      >
+                        <CheckCircle2 className="w-4 h-4 mr-2" />
+                        Marchează complet
+                      </Button>
+                      <Button variant="outline" onClick={handleNextLesson}>
+                        Următorul
+                        <ChevronRight className="w-4 h-4 ml-2" />
+                      </Button>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Lesson Content */}
+              {canAccess && currentLesson.content && (
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-2 mb-4">
+                      <BookOpen className="h-5 w-5 text-[hsl(var(--aqua))]" />
+                      <h3 className="text-lg font-semibold">Conținutul lecției</h3>
+                    </div>
+                    <div className="prose prose-invert max-w-none">
+                      <p className="text-muted-foreground whitespace-pre-wrap">
+                        {currentLesson.content}
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Notes panel for mobile - appears below video */}
+              {canAccess && notesPanelOpen && (
+                <div className="lg:hidden">
+                  <NotesPanel
+                    notes={notes}
+                    notesLoaded={notesLoaded}
+                    savingNotes={savingNotes}
+                    setNotes={setNotes}
+                    handleSaveNotes={handleSaveNotes}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Notes Panel - Right Side (Desktop only) */}
+          {canAccess && (
+            <div className={cn(
+              "hidden lg:flex lg:flex-col border-l bg-card/50 backdrop-blur-sm transition-all duration-300",
+              notesPanelOpen ? "lg:w-[380px] xl:w-[420px]" : "lg:w-0"
+            )}>
+              {notesPanelOpen && (
+                <NotesPanel
+                  notes={notes}
+                  notesLoaded={notesLoaded}
+                  savingNotes={savingNotes}
+                  setNotes={setNotes}
+                  handleSaveNotes={handleSaveNotes}
+                  onClose={() => setNotesPanelOpen(false)}
+                />
+              )}
+            </div>
+          )}
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+}
+
+// Notes Panel Component
+function NotesPanel({
+  notes,
+  notesLoaded,
+  savingNotes,
+  setNotes,
+  handleSaveNotes,
+  onClose,
+}: {
+  notes: string;
+  notesLoaded: boolean;
+  savingNotes: boolean;
+  setNotes: (notes: string) => void;
+  handleSaveNotes: () => void;
+  onClose?: () => void;
+}) {
+  return (
+    <div className="flex flex-col h-full">
+      <div className="p-4 border-b flex items-center justify-between bg-card sticky top-0 z-10">
+        <div className="flex items-center gap-2">
+          <FileText className="h-5 w-5 text-[hsl(var(--aqua))]" />
+          <h3 className="font-semibold">Notițele tale</h3>
+        </div>
+        {onClose && (
+          <Button variant="ghost" size="sm" onClick={onClose}>
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        )}
+      </div>
+      
+      <div className="flex-1 p-4 overflow-auto">
+        <p className="text-sm text-muted-foreground mb-3">
+          Ia notițe pe parcursul lecției. Acestea vor fi salvate pentru fiecare lecție.
+        </p>
+        <Textarea
+          placeholder="Scrie notițele tale aici..."
+          className="min-h-[400px] lg:min-h-[calc(100vh-280px)] resize-none"
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          disabled={!notesLoaded}
+        />
+      </div>
+      
+      <div className="p-4 border-t bg-card">
+        <Button 
+          onClick={handleSaveNotes}
+          disabled={savingNotes || !notesLoaded}
+          className="w-full"
+        >
+          {savingNotes ? "Se salvează..." : "Salvează notițele"}
+        </Button>
+      </div>
+    </div>
+  );
+}
 
 // Course Sidebar Component
 function CourseSidebar({ 
