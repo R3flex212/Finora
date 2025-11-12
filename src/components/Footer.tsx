@@ -140,8 +140,8 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Footer bottom */}
-        <div className="flex flex-col md:flex-row justify-between items-center text-sm space-y-4 md:space-y-0 pt-12">
+        {/* Footer bottom - Social icons and Copyright */}
+        <div className="flex flex-col md:flex-row justify-between items-center text-sm space-y-4 md:space-y-0 pt-12 pb-8">
           {/* Social icons */}
           <div className="flex space-x-6 text-gray-400">
             {socialLinks.map(({ icon, label, href }) => (
