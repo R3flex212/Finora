@@ -24,7 +24,8 @@ import {
   SidebarMenuButton, 
   SidebarMenuItem, 
   SidebarProvider, 
-  SidebarTrigger
+  SidebarTrigger,
+  useSidebar
 } from "@/components/ui/sidebar";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
@@ -704,6 +705,8 @@ function CourseSidebar({
   isEnrolled: boolean;
   onLessonClick: (lessonId: string) => void;
 }) {
+  const { open } = useSidebar();
+  
   const getLessonProgress = (lessonId: string) => {
     return progress.find(p => p.lesson_id === lessonId);
   };
@@ -714,13 +717,15 @@ function CourseSidebar({
   };
 
   return (
-    <Sidebar className="border-r border-[hsl(var(--aqua))]/20 bg-card" collapsible="icon">
+    <Sidebar className={cn("border-r border-[hsl(var(--aqua))]/20 bg-card", open ? "w-64" : "w-14")} collapsible="icon">
       <SidebarContent className="bg-card">
-        <div className="p-4 border-b border-[hsl(var(--aqua))]/20">
-          <h3 className="text-sm font-semibold text-white">
-            Conținut Curs
-          </h3>
-        </div>
+        {open && (
+          <div className="p-4 border-b border-[hsl(var(--aqua))]/20">
+            <h3 className="text-sm font-semibold text-white">
+              Conținut Curs
+            </h3>
+          </div>
+        )}
         {chapters.map((chapter) => {
           const chapterLessons = lessons.filter(l => l.chapter_id === chapter.id);
           const isChapterOpen = chapterLessons.some(l => l.id === currentLessonId);
@@ -728,12 +733,18 @@ function CourseSidebar({
           return (
             <Collapsible key={chapter.id} defaultOpen={isChapterOpen}>
               <SidebarGroup>
-                <SidebarGroupLabel asChild>
-                  <CollapsibleTrigger className="flex items-center justify-between w-full hover:bg-[hsl(var(--aqua))]/10 px-4 py-3 rounded-lg group transition-colors">
-                    <span className="font-semibold text-sm text-white">{chapter.title}</span>
-                    <ChevronDown className="h-4 w-4 text-[hsl(var(--aqua))] transition-transform duration-200 group-data-[state=open]:rotate-180" />
-                  </CollapsibleTrigger>
-                </SidebarGroupLabel>
+                {open ? (
+                  <SidebarGroupLabel asChild>
+                    <CollapsibleTrigger className="flex items-center justify-between w-full hover:bg-[hsl(var(--aqua))]/10 px-4 py-3 rounded-lg group transition-colors">
+                      <span className="font-semibold text-sm text-white">{chapter.title}</span>
+                      <ChevronDown className="h-4 w-4 text-[hsl(var(--aqua))] transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                    </CollapsibleTrigger>
+                  </SidebarGroupLabel>
+                ) : (
+                  <div className="flex items-center justify-center py-2">
+                    <BookOpen className="h-4 w-4 text-[hsl(var(--aqua))]" />
+                  </div>
+                )}
                 <CollapsibleContent>
                   <SidebarGroupContent>
                     <SidebarMenu>
@@ -761,13 +772,15 @@ function CourseSidebar({
                                 ) : (
                                   <Play className="h-4 w-4 text-[hsl(var(--aqua))] flex-shrink-0" />
                                 )}
-                                <span className={cn(
-                                  "truncate text-sm text-white",
-                                  isActive && "font-semibold text-[hsl(var(--aqua))]",
-                                  isCompleted && "text-white/60"
-                                )}>
-                                  {lesson.title}
-                                </span>
+                                {open && (
+                                  <span className={cn(
+                                    "truncate text-sm text-white",
+                                    isActive && "font-semibold text-[hsl(var(--aqua))]",
+                                    isCompleted && "text-white/60"
+                                  )}>
+                                    {lesson.title}
+                                  </span>
+                                )}
                               </div>
                             </SidebarMenuButton>
                           </SidebarMenuItem>
