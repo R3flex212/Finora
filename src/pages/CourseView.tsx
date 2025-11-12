@@ -9,7 +9,7 @@ import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
-import { CheckCircle2, Lock, ChevronRight, Play, ArrowLeft, ChevronDown, BookOpen, FileText } from "lucide-react";
+import { CheckCircle2, Lock, ChevronRight, Play, ArrowLeft, ChevronDown, BookOpen, FileText, Download } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -739,6 +739,8 @@ function CourseViewContent({
                     savingNotes={savingNotes}
                     setNotes={setNotes}
                     handleSaveNotes={handleSaveNotes}
+                    lessonTitle={currentLesson.title}
+                    courseTitle={course.title}
                   />
                 </div>
               )}
@@ -759,6 +761,8 @@ function CourseViewContent({
                   setNotes={setNotes}
                   handleSaveNotes={handleSaveNotes}
                   onClose={() => setNotesPanelOpen(false)}
+                  lessonTitle={currentLesson.title}
+                  courseTitle={course.title}
                 />
               )}
             </div>
@@ -777,6 +781,8 @@ function NotesPanel({
   setNotes,
   handleSaveNotes,
   onClose,
+  lessonTitle,
+  courseTitle,
 }: {
   notes: string;
   notesLoaded: boolean;
@@ -784,6 +790,8 @@ function NotesPanel({
   setNotes: (notes: string) => void;
   handleSaveNotes: () => void;
   onClose?: () => void;
+  lessonTitle?: string;
+  courseTitle?: string;
 }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -843,6 +851,21 @@ function NotesPanel({
     }
   };
 
+  const handleDownload = () => {
+    const fileName = `${courseTitle || 'Curs'} - ${lessonTitle || 'Lectie'} - Notite.md`;
+    const fileContent = `# ${courseTitle}\n## ${lessonTitle}\n\n${notes}`;
+    
+    const blob = new Blob([fileContent], { type: 'text/markdown;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     // Keyboard shortcuts
     if (e.ctrlKey || e.metaKey) {
@@ -869,11 +892,22 @@ function NotesPanel({
           <FileText className="h-5 w-5 text-[hsl(var(--aqua))]" />
           <h3 className="font-semibold">Notițele tale</h3>
         </div>
-        {onClose && (
-          <Button variant="ghost" size="sm" onClick={onClose}>
-            <ChevronRight className="h-4 w-4" />
+        <div className="flex items-center gap-1">
+          <Button 
+            variant="ghost" 
+            size="sm"
+            onClick={handleDownload}
+            disabled={!notes.trim()}
+            title="Descarcă notițele"
+          >
+            <Download className="h-4 w-4" />
           </Button>
-        )}
+          {onClose && (
+            <Button variant="ghost" size="sm" onClick={onClose}>
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          )}
+        </div>
       </div>
 
       {/* Formatting Toolbar */}
