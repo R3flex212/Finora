@@ -156,11 +156,16 @@ const CourseView = ({ user }: CourseViewProps) => {
     try {
       const { error } = await supabase
         .from("lesson_notes")
-        .upsert({
-          user_id: user.id,
-          lesson_id: currentLesson.id,
-          content: notes,
-        });
+        .upsert(
+          {
+            user_id: user.id,
+            lesson_id: currentLesson.id,
+            content: notes,
+          },
+          {
+            onConflict: 'user_id,lesson_id'
+          }
+        );
       
       if (error) throw error;
       
