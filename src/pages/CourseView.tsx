@@ -71,6 +71,7 @@ const CourseView = ({ user }: CourseViewProps) => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { setOpen } = useSidebar();
 
   const [course, setCourse] = useState<Course | null>(null);
   const [chapters, setChapters] = useState<Chapter[]>([]);
@@ -473,6 +474,7 @@ const CourseView = ({ user }: CourseViewProps) => {
               setCurrentLesson(lesson);
               setPlayed(0);
               setPlaying(true);
+              setOpen(true);
             }
           }}
         />
