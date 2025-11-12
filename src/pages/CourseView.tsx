@@ -671,12 +671,12 @@ function CourseViewContent({
                       </p>
                       <h2 className="text-2xl font-bold">{currentLesson.title}</h2>
                     </div>
-                    {lessonProgress?.completed && (
-                      <Badge className="bg-[hsl(var(--minty-green))] text-white">
-                        <CheckCircle2 className="w-3 h-3 mr-1" />
-                        Completat
-                      </Badge>
-                    )}
+                      {lessonProgress?.completed && (
+                        <Badge variant="secondary" className="font-semibold">
+                          <CheckCircle2 className="w-3 h-3 mr-1" />
+                          Completat
+                        </Badge>
+                      )}
                   </div>
 
                   {lessonProgress && canAccess && (

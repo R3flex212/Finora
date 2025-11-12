@@ -54,7 +54,7 @@ const Hero = () => {
             de la zero.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button size="lg" className="bg-[hsl(var(--aqua))] text-black hover:bg-[hsl(var(--aqua))]/90 font-semibold px-8 shadow-glow" onClick={() => scrollToSection("lead-magnet")}>
+            <Button size="lg" className="font-semibold px-8 shadow-glow" onClick={() => scrollToSection("lead-magnet")}>
               Începe acum
               <ArrowRight className="ml-2" size={20} />
             </Button>
