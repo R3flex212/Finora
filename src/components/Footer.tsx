@@ -164,7 +164,7 @@ const Footer = () => {
       </div>
 
       {/* Text hover effect */}
-      <div className="lg:flex hidden h-[30rem] -mt-52 -mb-36">
+      <div className="lg:flex hidden h-[30rem] -mt-32 -mb-36">
         <TextHoverEffect text="FINORA" className="z-50" />
       </div>
 
