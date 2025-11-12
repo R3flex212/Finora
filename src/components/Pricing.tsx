@@ -9,8 +9,8 @@ const Pricing = () => {
   const plans = [
     {
       name: "Start",
-      monthlyPrice: 8,
-      annualPrice: 77, // ~2 months free
+      monthlyPrice: 10,
+      annualPrice: 100,
       description: "Pentru începători",
       features: [
         "Newsletter & ghid gratuit",
@@ -25,8 +25,8 @@ const Pricing = () => {
     },
     {
       name: "Smart",
-      monthlyPrice: 12,
-      annualPrice: 115, // ~2 months free
+      monthlyPrice: 15,
+      annualPrice: 160,
       description: "Cel mai popular",
       features: [
         "Tot din Start",
@@ -41,8 +41,8 @@ const Pricing = () => {
     },
     {
       name: "Freedom",
-      monthlyPrice: 16,
-      annualPrice: 154, // ~2 months free
+      monthlyPrice: 30,
+      annualPrice: 340,
       description: "Pentru cei avansați",
       features: [
         "Tot din Smart",
