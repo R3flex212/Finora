@@ -282,7 +282,7 @@ const Courses = ({ user }: CoursesProps) => {
                       
                       {/* Popular Badge */}
                       {course.is_popular && (
-                        <Badge className="absolute top-3 left-3 bg-white text-foreground hover:bg-white">
+                        <Badge className="absolute top-3 left-3 bg-white dark:bg-gray-900 text-gray-900 dark:text-white hover:bg-white dark:hover:bg-gray-900 border border-gray-200 dark:border-gray-700">
                           Popular
                         </Badge>
                       )}
@@ -290,14 +290,14 @@ const Courses = ({ user }: CoursesProps) => {
                       {/* Play Icon Overlay */}
                       {hoveredCourse === course.id && (
                         <div className="absolute inset-0 flex items-center justify-center bg-black/20 transition-all">
-                          <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center">
-                            <Play className="w-8 h-8 text-foreground fill-foreground ml-1" />
+                          <div className="w-16 h-16 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center shadow-lg">
+                            <Play className="w-8 h-8 text-gray-900 dark:text-white fill-gray-900 dark:fill-white ml-1" />
                           </div>
                         </div>
                       )}
 
                       {/* Course Stats */}
-                      <div className="absolute bottom-3 right-3 bg-black/70 backdrop-blur-sm text-white px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-2">
+                      <div className="absolute bottom-3 right-3 bg-gray-900/90 dark:bg-white/90 backdrop-blur-sm text-white dark:text-gray-900 px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-2">
                         {course.lesson_count && (
                           <>
                             <span>{course.lesson_count} lecții</span>
