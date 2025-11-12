@@ -61,7 +61,7 @@ const Footer = () => {
   return (
     <footer className="bg-[#0F0F11]/10 relative h-fit overflow-hidden">
       <div className="max-w-7xl mx-auto p-14 z-40 relative">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-8 lg:gap-16 pb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 md:gap-8 lg:gap-16 pb-12">
           {/* Brand section */}
           <div className="flex flex-col space-y-4">
             <div className="flex items-center space-x-2">
@@ -138,28 +138,28 @@ const Footer = () => {
               ))}
             </ul>
           </div>
-        </div>
 
-        {/* Footer bottom - Social icons and Copyright */}
-        <div className="flex flex-col md:flex-row justify-between items-center text-sm space-y-4 md:space-y-0 pt-12 pb-8">
-          {/* Social icons */}
-          <div className="flex space-x-6 text-gray-400">
-            {socialLinks.map(({ icon, label, href }) => (
-              <a
-                key={label}
-                href={href}
-                aria-label={label}
-                className="hover:text-[#3ca2fa] transition-colors"
-              >
-                {icon}
-              </a>
-            ))}
+          {/* Social & Copyright section */}
+          <div>
+            <h4 className="text-white text-lg font-semibold mb-6">
+              Social
+            </h4>
+            <div className="flex space-x-4 text-gray-400 mb-6">
+              {socialLinks.map(({ icon, label, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  aria-label={label}
+                  className="hover:text-[#3ca2fa] transition-colors"
+                >
+                  {icon}
+                </a>
+              ))}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              &copy; {new Date().getFullYear()} Finora. Toate drepturile rezervate.
+            </p>
           </div>
-
-          {/* Copyright */}
-          <p className="text-center md:text-left">
-            &copy; {new Date().getFullYear()} Finora. Toate drepturile rezervate.
-          </p>
         </div>
       </div>
 
