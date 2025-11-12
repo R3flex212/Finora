@@ -248,45 +248,45 @@ All colors MUST be HSL.
 .bento-aqua {
   background: linear-gradient(135deg, hsl(var(--aqua) / 0.8), hsl(var(--aqua) / 0.6)) !important;
   border-color: hsl(var(--aqua) / 0.3);
-  color: #1a1a1a;
+  color: #ffffff;
 }
 
 .bento-aqua h3,
 .bento-aqua p {
-  color: #1a1a1a !important;
+  color: #ffffff !important;
 }
 
 .bento-mint {
   background: linear-gradient(135deg, hsl(var(--minty-green) / 0.8), hsl(var(--minty-green) / 0.6)) !important;
   border-color: hsl(var(--minty-green) / 0.3);
-  color: #1a1a1a;
+  color: #ffffff;
 }
 
 .bento-mint h3,
 .bento-mint p {
-  color: #1a1a1a !important;
+  color: #ffffff !important;
 }
 
 .bento-aqua-light {
   background: linear-gradient(135deg, hsl(var(--aqua) / 0.15), hsl(var(--aqua) / 0.08)) !important;
   border-color: hsl(var(--aqua) / 0.2);
-  color: #1a1a1a;
+  color: #ffffff;
 }
 
 .bento-aqua-light h3,
 .bento-aqua-light p {
-  color: #1a1a1a !important;
+  color: #ffffff !important;
 }
 
 .bento-mint-light {
   background: linear-gradient(135deg, hsl(var(--minty-green) / 0.15), hsl(var(--minty-green) / 0.08)) !important;
   border-color: hsl(var(--minty-green) / 0.2);
-  color: #1a1a1a;
+  color: #ffffff;
 }
 
 .bento-mint-light h3,
 .bento-mint-light p {
-  color: #1a1a1a !important;
+  color: #ffffff !important;
 }
 
 .bento-gradient {
@@ -294,10 +294,10 @@ All colors MUST be HSL.
     hsl(var(--aqua) / 0.7) 0%, 
     hsl(var(--minty-green) / 0.7) 100%) !important;
   border-color: hsl(var(--aqua) / 0.3);
-  color: #1a1a1a;
+  color: #ffffff;
 }
 
 .bento-gradient h3,
 .bento-gradient p {
-  color: #1a1a1a !important;
+  color: #ffffff !important;
 }
