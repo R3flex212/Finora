@@ -1,6 +1,5 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import SocialProof from "@/components/SocialProof";
 import WhyFinora from "@/components/WhyFinora";
 import HowItWorks from "@/components/HowItWorks";
 import LeadMagnet from "@/components/LeadMagnet";
@@ -15,7 +14,6 @@ const Index = () => {
     <div className="min-h-screen">
       <Navbar />
       <Hero />
-      <SocialProof />
       <WhyFinora />
       <HowItWorks />
       <LeadMagnet />
