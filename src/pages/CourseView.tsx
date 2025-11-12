@@ -373,11 +373,67 @@ const CourseView = ({ user }: CourseViewProps) => {
     setDuration(dur);
   };
 
-  const handleMarkComplete = () => {
-    if (duration > 0) {
-      saveProgress(duration, duration, true);
+  const handleMarkComplete = useCallback(async () => {
+    if (!currentLesson || !user.id) return;
+
+    try {
+      // Mark as complete regardless of video duration
+      const { error } = await supabase
+        .from("user_lesson_progress")
+        .upsert({
+          user_id: user.id,
+          lesson_id: currentLesson.id,
+          completed: true,
+          seconds_watched: duration > 0 ? Math.floor(duration) : 0,
+          last_position_seconds: duration > 0 ? Math.floor(duration) : 0,
+          duration_seconds: duration > 0 ? Math.floor(duration) : 0,
+          completed_at: new Date().toISOString(),
+        });
+
+      if (error) throw error;
+
+      // Update local progress state
+      setProgress((prev) => {
+        const existing = prev.find((p) => p.lesson_id === currentLesson.id);
+        if (existing) {
+          return prev.map((p) =>
+            p.lesson_id === currentLesson.id
+              ? {
+                  ...p,
+                  completed: true,
+                  seconds_watched: duration > 0 ? Math.floor(duration) : 0,
+                  last_position_seconds: duration > 0 ? Math.floor(duration) : 0,
+                  duration_seconds: duration > 0 ? Math.floor(duration) : 0,
+                }
+              : p
+          );
+        } else {
+          return [
+            ...prev,
+            {
+              lesson_id: currentLesson.id,
+              completed: true,
+              seconds_watched: duration > 0 ? Math.floor(duration) : 0,
+              last_position_seconds: duration > 0 ? Math.floor(duration) : 0,
+              duration_seconds: duration > 0 ? Math.floor(duration) : 0,
+            },
+          ];
+        }
+      });
+
+      toast({
+        title: "Lecție completată!",
+        description: "Progresul tău a fost salvat cu succes.",
+      });
+    } catch (error) {
+      console.error("Error marking complete:", error);
+      toast({
+        title: "Eroare",
+        description: "Nu am putut marca lecția ca fiind completă.",
+        variant: "destructive",
+      });
     }
-  };
+  }, [currentLesson, user.id, duration, toast]);
 
   const handleNextLesson = () => {
     if (!currentLesson) return;
