@@ -2,7 +2,6 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import WhyFinora from "@/components/WhyFinora";
 import HowItWorks from "@/components/HowItWorks";
-import LeadMagnet from "@/components/LeadMagnet";
 import Pricing from "@/components/Pricing";
 import Testimonials from "@/components/Testimonials";
 import FAQ from "@/components/FAQ";
@@ -16,7 +15,6 @@ const Index = () => {
       <Hero />
       <WhyFinora />
       <HowItWorks />
-      <LeadMagnet />
       <Pricing />
       <Testimonials />
       <FAQ />
