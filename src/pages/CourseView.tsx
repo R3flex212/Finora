@@ -774,9 +774,9 @@ function CourseSidebar({
                                 )}
                                 {open && (
                                   <span className={cn(
-                                    "truncate text-sm text-white",
-                                    isActive && "font-semibold text-[hsl(var(--aqua))]",
-                                    isCompleted && "text-white/60"
+                                    "truncate text-sm",
+                                    isActive ? "font-semibold text-white" : "text-white/80",
+                                    isCompleted && !isActive && "text-white/50"
                                   )}>
                                     {lesson.title}
                                   </span>
