@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import { BentoCell, BentoGrid, ContainerScale, ContainerScroll } from "@/components/ui/hero-gallery-scroll-animation";
 import { Button } from "@/components/ui/button";
 import cursuriImage from "@/assets/cursuri-hero.jpeg";
+import comunitateImage from "@/assets/comunitate-hero.svg";
 const VISUAL_ELEMENTS = [{
   type: "gradient",
   colors: "from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))]"
@@ -31,10 +32,9 @@ const Hero = () => {
       <ContainerScroll className="h-[350vh] bg-gradient-to-br from-[hsl(var(--deep-teal))] to-[hsl(var(--background))]">
         <BentoGrid className="sticky left-0 top-0 z-0 h-screen w-full p-4">
           {VISUAL_ELEMENTS.map((element, index) => <BentoCell key={index} className="overflow-hidden rounded-xl shadow-2xl">
-              <div className={`size-full flex items-center justify-center ${index === 0 ? 'bg-cover bg-center' : element.type === "gradient" ? `bg-gradient-to-br ${element.colors}` : element.color}`} style={index === 0 ? { backgroundImage: `url(${cursuriImage})` } : {}}>
+              <div className={`size-full flex items-center justify-center ${index === 0 || index === 2 ? 'bg-cover bg-center' : element.type === "gradient" ? `bg-gradient-to-br ${element.colors}` : element.color}`} style={index === 0 ? { backgroundImage: `url(${cursuriImage})` } : index === 2 ? { backgroundImage: `url(${comunitateImage})` } : {}}>
                 <div className="text-center p-8 text-white/20 font-bold text-4xl">
                   {index === 1 && "Tool-uri"}
-                  {index === 2 && "Comunitate"}
                   {index === 3 && "Progres"}
                   {index === 4 && "Succes"}
                 </div>
