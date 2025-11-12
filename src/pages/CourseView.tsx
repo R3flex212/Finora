@@ -1088,15 +1088,15 @@ function CourseSidebar({
                                 ) : (
                                   <Play className="h-4 w-4 text-[hsl(var(--aqua))] flex-shrink-0" />
                                 )}
-                                {open && (
-                                  <span className={cn(
-                                    "truncate text-sm",
-                                    isActive ? "font-semibold text-foreground" : "text-muted-foreground",
-                                    isCompleted && !isActive && "text-muted-foreground/50"
-                                  )}>
-                                    {lesson.title}
-                                  </span>
-                                )}
+                              {open && (
+                                <span className={cn(
+                                  "truncate text-sm",
+                                  isActive ? "font-bold text-gray-900 dark:text-white" : "text-muted-foreground",
+                                  isCompleted && !isActive && "text-muted-foreground/50"
+                                )}>
+                                  {lesson.title}
+                                </span>
+                              )}
                               </div>
                             </SidebarMenuButton>
                           </SidebarMenuItem>
