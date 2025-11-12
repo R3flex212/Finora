@@ -61,55 +61,6 @@ export const TextHoverEffect = ({
           )}
         </linearGradient>
 
-        <linearGradient
-          id="rgbGlow"
-          x1="0%"
-          y1="0%"
-          x2="100%"
-          y2="0%"
-        >
-          <stop offset="0%" stopColor="hsl(var(--aqua))">
-            <animate
-              attributeName="stop-color"
-              values="hsl(var(--aqua)); hsl(var(--minty-green)); hsl(var(--aqua))"
-              dur="3s"
-              repeatCount="indefinite"
-            />
-          </stop>
-          <stop offset="33%" stopColor="hsl(var(--minty-green))">
-            <animate
-              attributeName="stop-color"
-              values="hsl(var(--minty-green)); hsl(var(--aqua)); hsl(var(--minty-green))"
-              dur="3s"
-              repeatCount="indefinite"
-            />
-          </stop>
-          <stop offset="66%" stopColor="hsl(var(--aqua))">
-            <animate
-              attributeName="stop-color"
-              values="hsl(var(--aqua)); hsl(var(--minty-green)); hsl(var(--aqua))"
-              dur="3s"
-              repeatCount="indefinite"
-            />
-          </stop>
-          <stop offset="100%" stopColor="hsl(var(--minty-green))">
-            <animate
-              attributeName="stop-color"
-              values="hsl(var(--minty-green)); hsl(var(--aqua)); hsl(var(--minty-green))"
-              dur="3s"
-              repeatCount="indefinite"
-            />
-          </stop>
-          <animateTransform
-            attributeName="gradientTransform"
-            type="translate"
-            from="-1 0"
-            to="1 0"
-            dur="3s"
-            repeatCount="indefinite"
-          />
-        </linearGradient>
-
         <motion.radialGradient
           id="revealMask"
           gradientUnits="userSpaceOnUse"
@@ -148,8 +99,8 @@ export const TextHoverEffect = ({
         textAnchor="middle"
         dominantBaseline="middle"
         strokeWidth="0.6"
-        className="font-[helvetica] text-7xl font-bold"
-        fill="url(#rgbGlow)"
+        className="fill-transparent stroke-[hsl(var(--aqua))] font-[helvetica] text-7xl font-bold 
+        dark:stroke-[hsl(var(--aqua)/0.6)]"
         initial={{ strokeDashoffset: 1000, strokeDasharray: 1000 }}
         animate={{
           strokeDashoffset: 0,
