@@ -749,23 +749,37 @@ function CourseViewContent({
 
           {/* Notes Panel - Right Side (Desktop only) */}
           {canAccess && (
-            <div className={cn(
-              "hidden lg:flex lg:flex-col border-l bg-card/50 backdrop-blur-sm transition-all duration-300",
-              notesPanelOpen ? "lg:w-[380px] xl:w-[420px]" : "lg:w-0"
-            )}>
-              {notesPanelOpen && (
-                <NotesPanel
-                  notes={notes}
-                  notesLoaded={notesLoaded}
-                  savingNotes={savingNotes}
-                  setNotes={setNotes}
-                  handleSaveNotes={handleSaveNotes}
-                  onClose={() => setNotesPanelOpen(false)}
-                  lessonTitle={currentLesson.title}
-                  courseTitle={course.title}
-                />
+            <>
+              <div className={cn(
+                "hidden lg:flex lg:flex-col border-l bg-card/50 backdrop-blur-sm transition-all duration-300",
+                notesPanelOpen ? "lg:w-[380px] xl:w-[420px]" : "lg:w-0"
+              )}>
+                {notesPanelOpen && (
+                  <NotesPanel
+                    notes={notes}
+                    notesLoaded={notesLoaded}
+                    savingNotes={savingNotes}
+                    setNotes={setNotes}
+                    handleSaveNotes={handleSaveNotes}
+                    onClose={() => setNotesPanelOpen(false)}
+                    lessonTitle={currentLesson.title}
+                    courseTitle={course.title}
+                  />
+                )}
+              </div>
+              
+              {/* Floating Notes Toggle Button - Shows when panel is closed */}
+              {!notesPanelOpen && (
+                <Button
+                  onClick={() => setNotesPanelOpen(true)}
+                  className="hidden lg:flex fixed right-4 bottom-4 h-12 w-12 rounded-full shadow-lg z-20"
+                  size="icon"
+                  title="Deschide notițe"
+                >
+                  <FileText className="h-5 w-5" />
+                </Button>
               )}
-            </div>
+            </>
           )}
         </div>
       </div>
