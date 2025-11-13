@@ -4,7 +4,7 @@ import consultant2 from "@/assets/consultant-2.jpg";
 import consultant3 from "@/assets/consultant-3.jpg";
 import { BentoCell, BentoGrid, ContainerScale, ContainerScroll } from "@/components/ui/hero-gallery-scroll-animation";
 import { Button } from "@/components/ui/button";
-import cursuriImage from "@/assets/cursuri-hero.jpeg";
+import cursuriImage from "@/assets/cursuri-hero-new.svg";
 import comunitateImage from "@/assets/comunitate-hero.svg";
 import { useEffect, useState } from "react";
 const AnimatedCounter = ({
