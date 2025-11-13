@@ -5,6 +5,7 @@ import consultant3 from "@/assets/consultant-3.jpg";
 import { BentoCell, BentoGrid, ContainerScale, ContainerScroll } from "@/components/ui/hero-gallery-scroll-animation";
 import { Button } from "@/components/ui/button";
 import cursuriImage from "@/assets/cursuri-hero-new.svg";
+import cursuriBackground from "@/assets/cursuri-background.svg";
 import comunitateImage from "@/assets/comunitate-hero.svg";
 import { useEffect, useState } from "react";
 const AnimatedCounter = ({
@@ -62,11 +63,23 @@ const Hero = () => {
       <ContainerScroll className="h-[350vh] bg-gradient-to-br from-[hsl(var(--deep-teal))] to-[hsl(var(--background))]">
         <BentoGrid className="sticky left-0 top-0 z-0 h-screen w-full p-4">
           {VISUAL_ELEMENTS.map((element, index) => <BentoCell key={index} className="overflow-hidden rounded-xl shadow-2xl">
-              <div className={`size-full flex items-center justify-center ${index === 0 || index === 2 ? 'bg-cover bg-center' : index === 4 ? 'bg-[#00f2f2]' : element.type === "gradient" ? `bg-gradient-to-br ${element.colors}` : element.color}`} style={index === 0 ? {
-            backgroundImage: `url(${cursuriImage})`
-          } : index === 2 ? {
+              <div className={`size-full flex items-center justify-center relative ${index === 0 ? 'bg-gradient-to-br from-[#1a4d4d] to-[#0d2626]' : index === 2 ? 'bg-cover bg-center' : index === 4 ? 'bg-[#00f2f2]' : element.type === "gradient" ? `bg-gradient-to-br ${element.colors}` : element.color}`} style={index === 2 ? {
             backgroundImage: `url(${comunitateImage})`
           } : {}}>
+                {index === 0 && (
+                  <>
+                    <div className="absolute inset-0 bg-cover bg-center opacity-20" style={{backgroundImage: `url(${cursuriBackground})`}} />
+                    <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 p-6 w-full">
+                      <div className="text-left">
+                        <h2 className="text-5xl md:text-6xl font-bold text-white mb-2">Cursuri</h2>
+                        <p className="text-lg md:text-xl text-white/90">Practice și eficiente</p>
+                      </div>
+                      <div className="w-48 h-48 md:w-56 md:h-56 flex-shrink-0">
+                        <img src={cursuriImage} alt="Cursuri illustration" className="w-full h-full object-contain" />
+                      </div>
+                    </div>
+                  </>
+                )}
                 <div className="text-center p-8">
                   {index === 1 && <span className="text-white/20 font-bold text-4xl">Tool-uri</span>}
                     {index === 3 && <div className="flex flex-row gap-8 md:gap-16 items-start justify-center">
