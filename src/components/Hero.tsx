@@ -8,7 +8,9 @@ import cursuriImage from "@/assets/cursuri-hero-new.svg";
 import comunitateImage from "@/assets/comunitate-hero.svg";
 import taurSeifImage from "@/assets/taur-seif.svg";
 import bullHeroImage from "@/assets/bull-hero.jpeg";
+import businessHeroImage from "@/assets/business-hero.jpeg";
 import { useEffect, useState } from "react";
+
 const AnimatedCounter = ({
   end,
   duration = 2000,
@@ -35,22 +37,26 @@ const AnimatedCounter = ({
   }, [end, duration]);
   return <span>{count}{suffix}</span>;
 };
+
 const VISUAL_ELEMENTS = [{
-  type: "gradient",
-  colors: "from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))]"
+  type: "custom",
+  colors: "from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))]",
+  image: comunitateImage
 }, {
-  type: "solid",
-  color: "bg-[hsl(var(--minty-green))]"
+  type: "image",
+  image: businessHeroImage
 }, {
-  type: "gradient",
-  colors: "from-[hsl(var(--deep-teal))] to-[hsl(var(--aqua))]"
+  type: "custom-image",
+  colors: "from-[hsl(var(--deep-teal))] to-[hsl(var(--aqua))]",
+  image: cursuriImage
 }, {
   type: "solid",
   color: "bg-[hsl(var(--aqua))]"
 }, {
-  type: "gradient",
-  colors: "from-[hsl(var(--minty-green))] to-[hsl(var(--deep-teal))]"
+  type: "image",
+  image: bullHeroImage
 }];
+
 const Hero = () => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -60,16 +66,13 @@ const Hero = () => {
       });
     }
   };
+
   return <section className="relative">
       <ContainerScroll className="h-[350vh] bg-gradient-to-br from-[hsl(var(--deep-teal))] to-[hsl(var(--background))]">
         <BentoGrid className="sticky left-0 top-0 z-0 h-screen w-full p-4">
           {VISUAL_ELEMENTS.map((element, index) => <BentoCell key={index} className="overflow-hidden rounded-xl shadow-2xl">
-              <div className={`size-full ${index === 0 ? 'bg-cover bg-center' : index === 2 ? 'bg-cover bg-center' : index === 4 ? 'bg-cover bg-center' : element.type === "gradient" ? `bg-gradient-to-br ${element.colors}` : element.color}`} style={index === 0 ? {
-            backgroundImage: `url(${comunitateImage})`
-          } : index === 2 ? {
-            backgroundImage: `url(${cursuriImage})`
-          } : index === 4 ? {
-            backgroundImage: `url(${bullHeroImage})`
+              <div className={`size-full ${element.type === 'image' || element.type === 'custom' || element.type === 'custom-image' ? 'bg-cover bg-center' : element.type === "gradient" ? `bg-gradient-to-br ${element.colors}` : element.color}`} style={element.type === 'image' || element.type === 'custom' || element.type === 'custom-image' ? {
+            backgroundImage: `url(${element.image})`
           } : {}}>
                 {index === 0 ? <div className="size-full flex items-center justify-between p-8 md:p-12">
                     <div className="flex-1 pr-8">
@@ -87,18 +90,8 @@ const Hero = () => {
                     <div className="flex-shrink-0 h-full flex items-center">
                       <img src={taurSeifImage} alt="Comunitate Finora" className="h-full w-auto" />
                     </div>
-                  </div> : <div className="text-center p-8 flex flex-col items-center justify-center size-full gap-4">
-                    {index === 1 && <>
-                        <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
-                          Începe schimbarea de astăzi         
-                        </h3>
-                        
-                        <Button size="lg" className="font-semibold px-8" onClick={() => window.location.href = '/auth'}>
-                          Creează cont gratuit
-                          <ArrowRight className="ml-2" size={20} />
-                        </Button>
-                      </>}
-                    {index === 3 && <div className="flex flex-row gap-8 md:gap-16 items-start justify-center">
+                  </div> : index === 3 ? <div className="text-center p-8 flex flex-col items-center justify-center size-full gap-4">
+                    <div className="flex flex-row gap-8 md:gap-16 items-start justify-center">
                       <div className="flex flex-col items-center">
                         <div className="text-3xl md:text-4xl font-bold mb-1 text-slate-900">
                           <AnimatedCounter end={50} suffix="+" />
@@ -117,9 +110,8 @@ const Hero = () => {
                         </div>
                         <div className="text-sm md:text-base text-slate-900">Teste practice</div>
                       </div>
-                    </div>}
-                  {index === 4 && null}
-                  </div>}
+                    </div>
+                  </div> : null}
               </div>
             </BentoCell>)}
         </BentoGrid>
@@ -149,4 +141,5 @@ const Hero = () => {
       </ContainerScroll>
     </section>;
 };
+
 export default Hero;
