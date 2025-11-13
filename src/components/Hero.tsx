@@ -79,9 +79,7 @@ const Hero = () => {
                         <li className="text-base md:text-lg">Gestioneaza datoriile SMART</li>
                         <li className="text-base md:text-lg">Creaza si urmareste propriul portofoliu</li>
                       </ul>
-                      <p className="text-lg md:text-xl text-slate-800 leading-relaxed">
-                        Conectează-te cu alți consultanți financiari și învață împreună
-                      </p>
+                      
                     </div>
                     <div className="flex-shrink-0 h-full flex items-center">
                       <img src={taurSeifImage} alt="Comunitate Finora" className="h-full w-auto" />
