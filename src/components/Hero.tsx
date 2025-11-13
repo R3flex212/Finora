@@ -50,11 +50,11 @@ const VISUAL_ELEMENTS = [{
   colors: "from-[hsl(var(--deep-teal))] to-[hsl(var(--aqua))]",
   image: cursuriImage
 }, {
-  type: "solid",
-  color: "bg-[hsl(var(--aqua))]"
-}, {
   type: "image",
   image: bullHeroImage
+}, {
+  type: "solid",
+  color: "bg-[hsl(var(--aqua))]"
 }];
 
 const Hero = () => {
@@ -90,7 +90,7 @@ const Hero = () => {
                     <div className="flex-shrink-0 h-full flex items-center">
                       <img src={taurSeifImage} alt="Comunitate Finora" className="h-full w-auto" />
                     </div>
-                  </div> : index === 3 ? <div className="text-center p-8 flex flex-col items-center justify-center size-full gap-4">
+                  </div> : index === 4 ? <div className="text-center p-8 flex flex-col items-center justify-center size-full gap-4">
                     <div className="flex flex-row gap-8 md:gap-16 items-start justify-center">
                       <div className="flex flex-col items-center">
                         <div className="text-3xl md:text-4xl font-bold mb-1 text-slate-900">
