@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import cursuriImage from "@/assets/cursuri-hero-new.svg";
 import comunitateImage from "@/assets/comunitate-hero.svg";
 import taurSeifImage from "@/assets/taur-seif.svg";
+import bullHeroImage from "@/assets/bull-hero.jpeg";
 import { useEffect, useState } from "react";
 const AnimatedCounter = ({
   end,
@@ -63,10 +64,12 @@ const Hero = () => {
       <ContainerScroll className="h-[350vh] bg-gradient-to-br from-[hsl(var(--deep-teal))] to-[hsl(var(--background))]">
         <BentoGrid className="sticky left-0 top-0 z-0 h-screen w-full p-4">
           {VISUAL_ELEMENTS.map((element, index) => <BentoCell key={index} className="overflow-hidden rounded-xl shadow-2xl">
-              <div className={`size-full ${index === 0 ? 'bg-cover bg-center' : index === 2 ? 'bg-cover bg-center' : index === 4 ? 'bg-[#51c882]' : element.type === "gradient" ? `bg-gradient-to-br ${element.colors}` : element.color}`} style={index === 0 ? {
+              <div className={`size-full ${index === 0 ? 'bg-cover bg-center' : index === 2 ? 'bg-cover bg-center' : index === 4 ? 'bg-cover bg-center' : element.type === "gradient" ? `bg-gradient-to-br ${element.colors}` : element.color}`} style={index === 0 ? {
             backgroundImage: `url(${comunitateImage})`
           } : index === 2 ? {
             backgroundImage: `url(${cursuriImage})`
+          } : index === 4 ? {
+            backgroundImage: `url(${bullHeroImage})`
           } : {}}>
                 {index === 0 ? <div className="size-full flex items-center justify-between p-8 md:p-12">
                     <div className="flex-1 pr-8">
@@ -115,17 +118,7 @@ const Hero = () => {
                         <div className="text-sm md:text-base text-slate-900">Teste practice</div>
                       </div>
                     </div>}
-                  {index === 4 && <div className="flex flex-row items-center gap-4 md:gap-6 px-4 py-2">
-                    <div className="flex items-center -space-x-2">
-                      <img src={consultant1} alt="Consultant 1" className="w-12 h-12 md:w-14 md:h-14 rounded-full border-3 border-white object-cover" />
-                      <img src={consultant2} alt="Consultant 2" className="w-12 h-12 md:w-14 md:h-14 rounded-full border-3 border-white object-cover" />
-                      <img src={consultant3} alt="Consultant 3" className="w-12 h-12 md:w-14 md:h-14 rounded-full border-3 border-white object-cover" />
-                    </div>
-                    <div className="flex flex-col items-start gap-0.5">
-                      <div className="text-xl md:text-2xl font-bold text-slate-900 leading-tight">100+</div>
-                      <div className="text-sm md:text-base text-slate-800 leading-snug">Consultanți financiar<br />recomandă Finora</div>
-                    </div>
-                  </div>}
+                  {index === 4 && null}
                   </div>}
               </div>
             </BentoCell>)}
