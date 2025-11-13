@@ -6,6 +6,7 @@ import { BentoCell, BentoGrid, ContainerScale, ContainerScroll } from "@/compone
 import { Button } from "@/components/ui/button";
 import cursuriImage from "@/assets/cursuri-hero-new.svg";
 import comunitateImage from "@/assets/comunitate-hero.svg";
+import taurSeifImage from "@/assets/taur-seif.svg";
 import { useEffect, useState } from "react";
 const AnimatedCounter = ({
   end,
@@ -62,13 +63,28 @@ const Hero = () => {
       <ContainerScroll className="h-[350vh] bg-gradient-to-br from-[hsl(var(--deep-teal))] to-[hsl(var(--background))]">
         <BentoGrid className="sticky left-0 top-0 z-0 h-screen w-full p-4">
           {VISUAL_ELEMENTS.map((element, index) => <BentoCell key={index} className="overflow-hidden rounded-xl shadow-2xl">
-              <div className={`size-full flex items-center justify-center ${index === 0 || index === 2 ? 'bg-cover bg-center' : index === 4 ? 'bg-[#00f2f2]' : element.type === "gradient" ? `bg-gradient-to-br ${element.colors}` : element.color}`} style={index === 0 ? {
+              <div className={`size-full ${index === 0 ? 'bg-cover bg-center' : index === 2 ? 'bg-cover bg-center' : index === 4 ? 'bg-[#00f2f2]' : element.type === "gradient" ? `bg-gradient-to-br ${element.colors}` : element.color}`} style={index === 0 ? {
             backgroundImage: `url(${cursuriImage})`
           } : index === 2 ? {
             backgroundImage: `url(${comunitateImage})`
           } : {}}>
-                <div className="text-center p-8">
-                  {index === 1 && <span className="text-white/20 font-bold text-4xl">Tool-uri</span>}
+                {index === 0 ? (
+                  <div className="size-full flex items-center justify-between p-8 md:p-12">
+                    <div className="flex-1 pr-8">
+                      <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4 leading-tight">
+                        Alătură-te comunității Finora
+                      </h2>
+                      <p className="text-lg md:text-xl text-slate-800 leading-relaxed">
+                        Conectează-te cu alți consultanți financiari și învață împreună
+                      </p>
+                    </div>
+                    <div className="flex-shrink-0 w-64 md:w-80">
+                      <img src={taurSeifImage} alt="Comunitate Finora" className="w-full h-auto" />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center p-8 flex items-center justify-center size-full">
+                    {index === 1 && <span className="text-white/20 font-bold text-4xl">Tool-uri</span>}
                     {index === 3 && <div className="flex flex-row gap-8 md:gap-16 items-start justify-center">
                       <div className="flex flex-col items-center">
                         <div className="text-3xl md:text-4xl font-bold mb-1 text-slate-900">
@@ -100,7 +116,8 @@ const Hero = () => {
                       <div className="text-sm md:text-base text-slate-800 leading-snug">Consultanți financiar<br />recomandă Finora</div>
                     </div>
                   </div>}
-                </div>
+                  </div>
+                )}
               </div>
             </BentoCell>)}
         </BentoGrid>
