@@ -68,11 +68,10 @@ const Hero = () => {
           } : index === 2 ? {
             backgroundImage: `url(${cursuriImage})`
           } : {}}>
-                {index === 0 ? (
-                  <div className="size-full flex items-center justify-between p-8 md:p-12">
+                {index === 0 ? <div className="size-full flex items-center justify-between p-8 md:p-12">
                     <div className="flex-1 pr-8">
                       <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4 leading-tight">
-                        Alătură-te comunității Finora
+                        Tot ce trebuie să știi despre finanțe            
                       </h2>
                       <p className="text-lg md:text-xl text-slate-800 leading-relaxed">
                         Conectează-te cu alți consultanți financiari și învață împreună
@@ -81,9 +80,7 @@ const Hero = () => {
                     <div className="flex-shrink-0 h-full flex items-center">
                       <img src={taurSeifImage} alt="Comunitate Finora" className="h-full w-auto" />
                     </div>
-                  </div>
-                ) : (
-                  <div className="text-center p-8 flex items-center justify-center size-full">
+                  </div> : <div className="text-center p-8 flex items-center justify-center size-full">
                     {index === 1 && <span className="text-white/20 font-bold text-4xl">Tool-uri</span>}
                     {index === 3 && <div className="flex flex-row gap-8 md:gap-16 items-start justify-center">
                       <div className="flex flex-col items-center">
@@ -116,8 +113,7 @@ const Hero = () => {
                       <div className="text-sm md:text-base text-slate-800 leading-snug">Consultanți financiar<br />recomandă Finora</div>
                     </div>
                   </div>}
-                  </div>
-                )}
+                  </div>}
               </div>
             </BentoCell>)}
         </BentoGrid>
