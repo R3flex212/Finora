@@ -87,7 +87,7 @@ const Hero = () => {
                   </div> : <div className="text-center p-8 flex flex-col items-center justify-center size-full gap-4">
                     {index === 1 && <>
                         <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
-                          Tool-uri financiare inteligente
+                          Începe schimbarea de astăzi         
                         </h3>
                         
                         <Button size="lg" className="font-semibold px-8" onClick={() => window.location.href = '/auth'}>
