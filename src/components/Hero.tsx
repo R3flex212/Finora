@@ -4,30 +4,30 @@ import { Button } from "@/components/ui/button";
 import cursuriImage from "@/assets/cursuri-hero.jpeg";
 import comunitateImage from "@/assets/comunitate-hero.svg";
 import { useEffect, useState } from "react";
-
-const AnimatedCounter = ({ end, duration = 2000, suffix = "" }: { end: number; duration?: number; suffix?: string }) => {
+const AnimatedCounter = ({
+  end,
+  duration = 2000,
+  suffix = ""
+}: {
+  end: number;
+  duration?: number;
+  suffix?: string;
+}) => {
   const [count, setCount] = useState(0);
-  
   useEffect(() => {
     let startTime: number;
     let animationFrame: number;
-    
     const animate = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       const progress = Math.min((timestamp - startTime) / duration, 1);
-      
       setCount(Math.floor(progress * end));
-      
       if (progress < 1) {
         animationFrame = requestAnimationFrame(animate);
       }
     };
-    
     animationFrame = requestAnimationFrame(animate);
-    
     return () => cancelAnimationFrame(animationFrame);
   }, [end, duration]);
-  
   return <span>{count}{suffix}</span>;
 };
 const VISUAL_ELEMENTS = [{
@@ -59,14 +59,17 @@ const Hero = () => {
       <ContainerScroll className="h-[350vh] bg-gradient-to-br from-[hsl(var(--deep-teal))] to-[hsl(var(--background))]">
         <BentoGrid className="sticky left-0 top-0 z-0 h-screen w-full p-4">
           {VISUAL_ELEMENTS.map((element, index) => <BentoCell key={index} className="overflow-hidden rounded-xl shadow-2xl">
-              <div className={`size-full flex items-center justify-center ${index === 0 || index === 2 ? 'bg-cover bg-center' : element.type === "gradient" ? `bg-gradient-to-br ${element.colors}` : element.color}`} style={index === 0 ? { backgroundImage: `url(${cursuriImage})` } : index === 2 ? { backgroundImage: `url(${comunitateImage})` } : {}}>
+              <div className={`size-full flex items-center justify-center ${index === 0 || index === 2 ? 'bg-cover bg-center' : element.type === "gradient" ? `bg-gradient-to-br ${element.colors}` : element.color}`} style={index === 0 ? {
+            backgroundImage: `url(${cursuriImage})`
+          } : index === 2 ? {
+            backgroundImage: `url(${comunitateImage})`
+          } : {}}>
                 <div className="text-center p-8">
                   {index === 1 && <span className="text-white/20 font-bold text-4xl">Tool-uri</span>}
-                  {index === 3 && (
-                    <div className="flex flex-row gap-8 md:gap-16 items-start justify-center">
+                  {index === 3 && <div className="flex flex-row gap-8 md:gap-16 items-start justify-center">
                       <div className="flex flex-col items-center">
                         <div className="text-2xl md:text-3xl font-bold mb-1 text-[hsl(var(--deep-teal))]">
-                          <AnimatedCounter end={50} suffix="+" />
+                          <AnimatedCounter end={50} suffix="+" className="text-slate-950" />
                         </div>
                         <div className="text-xs md:text-sm text-foreground/70">Cursuri</div>
                       </div>
@@ -82,8 +85,7 @@ const Hero = () => {
                         </div>
                         <div className="text-xs md:text-sm text-foreground/70">Teste practice</div>
                       </div>
-                    </div>
-                  )}
+                    </div>}
                   {index === 4 && <span className="text-white/20 font-bold text-4xl">Succes</span>}
                 </div>
               </div>
