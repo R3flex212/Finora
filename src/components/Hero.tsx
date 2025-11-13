@@ -77,7 +77,7 @@ const Hero = () => {
                         <div className="text-2xl md:text-3xl font-bold mb-1 text-slate-900">
                           <AnimatedCounter end={15} suffix="+" />
                         </div>
-                        <div className="text-xs md:text-sm text-foreground/70">Tool-uri</div>
+                        <div className="text-xs md:text-sm text-slate-900">Tool-uri</div>
                       </div>
                       <div className="flex flex-col items-center">
                         <div className="text-2xl md:text-3xl font-bold mb-1 text-slate-900">
