@@ -69,19 +69,19 @@ const Hero = () => {
                   {index === 3 && <div className="flex flex-row gap-8 md:gap-16 items-start justify-center">
                       <div className="flex flex-col items-center">
                         <div className="text-2xl md:text-3xl font-bold mb-1 text-[hsl(var(--deep-teal))]">
-                          <AnimatedCounter end={50} suffix="+" className="text-slate-950" />
+                          <AnimatedCounter end={50} suffix="+" className="text-slate-900" />
                         </div>
-                        <div className="text-xs md:text-sm text-foreground/70">Cursuri</div>
+                        <div className="text-xs md:text-sm text-foreground/70 bg-[transparen] bg-transparent">Cursuri</div>
                       </div>
                       <div className="flex flex-col items-center">
                         <div className="text-2xl md:text-3xl font-bold mb-1 text-[hsl(var(--deep-teal))]">
-                          <AnimatedCounter end={15} suffix="+" />
+                          <AnimatedCounter end={15} suffix="+" className="text-slate-900" />
                         </div>
                         <div className="text-xs md:text-sm text-foreground/70">Tool-uri</div>
                       </div>
                       <div className="flex flex-col items-center">
                         <div className="text-2xl md:text-3xl font-bold mb-1 text-[hsl(var(--deep-teal))]">
-                          <AnimatedCounter end={20} suffix="+" />
+                          <AnimatedCounter end={20} suffix="+" className="text-slate-900" />
                         </div>
                         <div className="text-xs md:text-sm text-foreground/70">Teste practice</div>
                       </div>
