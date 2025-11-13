@@ -3,6 +3,33 @@ import { BentoCell, BentoGrid, ContainerScale, ContainerScroll } from "@/compone
 import { Button } from "@/components/ui/button";
 import cursuriImage from "@/assets/cursuri-hero.jpeg";
 import comunitateImage from "@/assets/comunitate-hero.svg";
+import { useEffect, useState } from "react";
+
+const AnimatedCounter = ({ end, duration = 2000, suffix = "" }: { end: number; duration?: number; suffix?: string }) => {
+  const [count, setCount] = useState(0);
+  
+  useEffect(() => {
+    let startTime: number;
+    let animationFrame: number;
+    
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      
+      setCount(Math.floor(progress * end));
+      
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate);
+      }
+    };
+    
+    animationFrame = requestAnimationFrame(animate);
+    
+    return () => cancelAnimationFrame(animationFrame);
+  }, [end, duration]);
+  
+  return <span>{count}{suffix}</span>;
+};
 const VISUAL_ELEMENTS = [{
   type: "gradient",
   colors: "from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))]"
@@ -33,10 +60,31 @@ const Hero = () => {
         <BentoGrid className="sticky left-0 top-0 z-0 h-screen w-full p-4">
           {VISUAL_ELEMENTS.map((element, index) => <BentoCell key={index} className="overflow-hidden rounded-xl shadow-2xl">
               <div className={`size-full flex items-center justify-center ${index === 0 || index === 2 ? 'bg-cover bg-center' : element.type === "gradient" ? `bg-gradient-to-br ${element.colors}` : element.color}`} style={index === 0 ? { backgroundImage: `url(${cursuriImage})` } : index === 2 ? { backgroundImage: `url(${comunitateImage})` } : {}}>
-                <div className="text-center p-8 text-white/20 font-bold text-4xl">
-                  {index === 1 && "Tool-uri"}
-                  {index === 3 && "Progres"}
-                  {index === 4 && "Succes"}
+                <div className="text-center p-8">
+                  {index === 1 && <span className="text-white/20 font-bold text-4xl">Tool-uri</span>}
+                  {index === 3 && (
+                    <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-center justify-center text-white">
+                      <div className="flex flex-col items-center">
+                        <div className="text-5xl md:text-6xl font-bold mb-2">
+                          <AnimatedCounter end={50} suffix="+" />
+                        </div>
+                        <div className="text-lg md:text-xl text-white/80">cursuri</div>
+                      </div>
+                      <div className="flex flex-col items-center">
+                        <div className="text-5xl md:text-6xl font-bold mb-2">
+                          <AnimatedCounter end={15} suffix="+" />
+                        </div>
+                        <div className="text-lg md:text-xl text-white/80">tool-uri</div>
+                      </div>
+                      <div className="flex flex-col items-center">
+                        <div className="text-5xl md:text-6xl font-bold mb-2">
+                          <AnimatedCounter end={20} suffix="+" />
+                        </div>
+                        <div className="text-lg md:text-xl text-white/80">teste practice</div>
+                      </div>
+                    </div>
+                  )}
+                  {index === 4 && <span className="text-white/20 font-bold text-4xl">Succes</span>}
                 </div>
               </div>
             </BentoCell>)}
