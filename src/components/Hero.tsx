@@ -78,8 +78,8 @@ const Hero = () => {
                         Conectează-te cu alți consultanți financiari și învață împreună
                       </p>
                     </div>
-                    <div className="flex-shrink-0 w-80 md:w-96 h-full flex items-center">
-                      <img src={taurSeifImage} alt="Comunitate Finora" className="w-full h-full object-contain" />
+                    <div className="flex-shrink-0 h-full flex items-center">
+                      <img src={taurSeifImage} alt="Comunitate Finora" className="h-full w-auto" />
                     </div>
                   </div>
                 ) : (
