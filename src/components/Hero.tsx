@@ -5,7 +5,7 @@ import consultant3 from "@/assets/consultant-3.jpg";
 import { BentoCell, BentoGrid, ContainerScale, ContainerScroll } from "@/components/ui/hero-gallery-scroll-animation";
 import { Button } from "@/components/ui/button";
 import cursuriImage from "@/assets/cursuri-hero-new.svg";
-import comunitateImage from "@/assets/comunitate-hero.svg";
+import backgroundVerdeImage from "@/assets/background-verde.jpeg";
 import taurSeifImage from "@/assets/taur-seif.svg";
 import bullHeroImage from "@/assets/bull-hero.jpeg";
 import { useEffect, useState } from "react";
@@ -64,8 +64,8 @@ const Hero = () => {
       <ContainerScroll className="h-[350vh] bg-gradient-to-br from-[hsl(var(--deep-teal))] to-[hsl(var(--background))]">
         <BentoGrid className="sticky left-0 top-0 z-0 h-screen w-full p-4">
           {VISUAL_ELEMENTS.map((element, index) => <BentoCell key={index} className="overflow-hidden rounded-xl shadow-2xl">
-              <div className={`size-full ${index === 0 ? 'bg-cover bg-center' : index === 2 ? 'bg-cover bg-center' : index === 4 ? 'bg-cover bg-center' : element.type === "gradient" ? `bg-gradient-to-br ${element.colors}` : element.color}`} style={index === 0 ? {
-            backgroundImage: `url(${comunitateImage})`
+            <div className={`size-full ${index === 0 ? 'bg-cover bg-center' : index === 2 ? 'bg-cover bg-center' : index === 4 ? 'bg-cover bg-center' : element.type === "gradient" ? `bg-gradient-to-br ${element.colors}` : element.color}`} style={index === 0 ? {
+            backgroundImage: `url(${backgroundVerdeImage})`
           } : index === 2 ? {
             backgroundImage: `url(${cursuriImage})`
           } : index === 4 ? {
