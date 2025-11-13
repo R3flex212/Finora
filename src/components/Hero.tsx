@@ -63,24 +63,24 @@ const Hero = () => {
                 <div className="text-center p-8">
                   {index === 1 && <span className="text-white/20 font-bold text-4xl">Tool-uri</span>}
                   {index === 3 && (
-                    <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-center justify-center text-white">
+                    <div className="flex flex-row gap-8 md:gap-16 items-start justify-center">
                       <div className="flex flex-col items-center">
-                        <div className="text-5xl md:text-6xl font-bold mb-2">
+                        <div className="text-2xl md:text-3xl font-bold mb-1 text-[hsl(var(--deep-teal))]">
                           <AnimatedCounter end={50} suffix="+" />
                         </div>
-                        <div className="text-lg md:text-xl text-white/80">cursuri</div>
+                        <div className="text-xs md:text-sm text-foreground/70">Cursuri</div>
                       </div>
                       <div className="flex flex-col items-center">
-                        <div className="text-5xl md:text-6xl font-bold mb-2">
+                        <div className="text-2xl md:text-3xl font-bold mb-1 text-[hsl(var(--deep-teal))]">
                           <AnimatedCounter end={15} suffix="+" />
                         </div>
-                        <div className="text-lg md:text-xl text-white/80">tool-uri</div>
+                        <div className="text-xs md:text-sm text-foreground/70">Tool-uri</div>
                       </div>
                       <div className="flex flex-col items-center">
-                        <div className="text-5xl md:text-6xl font-bold mb-2">
+                        <div className="text-2xl md:text-3xl font-bold mb-1 text-[hsl(var(--deep-teal))]">
                           <AnimatedCounter end={20} suffix="+" />
                         </div>
-                        <div className="text-lg md:text-xl text-white/80">teste practice</div>
+                        <div className="text-xs md:text-sm text-foreground/70">Teste practice</div>
                       </div>
                     </div>
                   )}
