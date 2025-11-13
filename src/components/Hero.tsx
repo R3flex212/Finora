@@ -66,24 +66,24 @@ const Hero = () => {
           } : {}}>
                 <div className="text-center p-8">
                   {index === 1 && <span className="text-white/20 font-bold text-4xl">Tool-uri</span>}
-                  {index === 3 && <div className="flex flex-row gap-8 md:gap-16 items-start justify-center">
+                    {index === 3 && <div className="flex flex-row gap-8 md:gap-16 items-start justify-center">
                       <div className="flex flex-col items-center">
-                        <div className="text-2xl md:text-3xl font-bold mb-1 text-slate-900">
+                        <div className="text-3xl md:text-4xl font-bold mb-1 text-slate-900">
                           <AnimatedCounter end={50} suffix="+" />
                         </div>
-                        <div className="text-xs md:text-sm text-slate-900">Cursuri</div>
+                        <div className="text-sm md:text-base text-slate-900">Cursuri</div>
                       </div>
                       <div className="flex flex-col items-center">
-                        <div className="text-2xl md:text-3xl font-bold mb-1 text-slate-900">
+                        <div className="text-3xl md:text-4xl font-bold mb-1 text-slate-900">
                           <AnimatedCounter end={15} suffix="+" />
                         </div>
-                        <div className="text-xs md:text-sm text-slate-900">Tool-uri</div>
+                        <div className="text-sm md:text-base text-slate-900">Tool-uri</div>
                       </div>
                       <div className="flex flex-col items-center">
-                        <div className="text-2xl md:text-3xl font-bold mb-1 text-slate-900">
+                        <div className="text-3xl md:text-4xl font-bold mb-1 text-slate-900">
                           <AnimatedCounter end={20} suffix="+" />
                         </div>
-                        <div className="text-xs md:text-sm text-slate-900">Teste practice</div>
+                        <div className="text-sm md:text-base text-slate-900">Teste practice</div>
                       </div>
                     </div>}
                   {index === 4 && <span className="text-white/20 font-bold text-4xl">Succes</span>}
