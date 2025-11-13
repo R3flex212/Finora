@@ -67,8 +67,20 @@ const Hero = () => {
           } : index === 2 ? {
             backgroundImage: `url(${comunitateImage})`
           } : {}}>
-                <div className="text-center p-8">
-                  {index === 1 && <span className="text-white/20 font-bold text-4xl">Tool-uri</span>}
+                <div className="text-center p-8 flex flex-col items-center justify-center h-full">
+                  {index === 1 && (
+                    <div className="flex flex-col items-center justify-center gap-3 md:gap-4">
+                      <div className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight">
+                        Gestionează
+                      </div>
+                      <div className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-[hsl(var(--deep-teal))] to-[hsl(var(--aqua))] bg-clip-text text-transparent leading-tight">
+                        Inteligent
+                      </div>
+                      <div className="text-base md:text-lg text-slate-700 mt-2 max-w-xs">
+                        Tool-uri puternice pentru controlul complet al finanțelor tale
+                      </div>
+                    </div>
+                  )}
                     {index === 3 && <div className="flex flex-row gap-8 md:gap-16 items-start justify-center">
                       <div className="flex flex-col items-center">
                         <div className="text-3xl md:text-4xl font-bold mb-1 text-slate-900">
