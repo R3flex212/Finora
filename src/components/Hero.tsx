@@ -46,12 +46,12 @@ const VISUAL_ELEMENTS = [{
   type: "image",
   image: businessHeroImage
 }, {
+  type: "solid",
+  color: "bg-[hsl(var(--aqua))]"
+}, {
   type: "custom-image",
   colors: "from-[hsl(var(--deep-teal))] to-[hsl(var(--aqua))]",
   image: cursuriImage
-}, {
-  type: "solid",
-  color: "bg-[hsl(var(--aqua))]"
 }, {
   type: "image",
   image: bullHeroImage
