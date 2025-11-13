@@ -1,7 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import consultant1 from "@/assets/consultant-1.jpg";
-import consultant2 from "@/assets/consultant-2.jpg";
-import consultant3 from "@/assets/consultant-3.jpg";
+import bullIcon from "@/assets/bull-icon.svg";
 import { BentoCell, BentoGrid, ContainerScale, ContainerScroll } from "@/components/ui/hero-gallery-scroll-animation";
 import { Button } from "@/components/ui/button";
 import cursuriImage from "@/assets/cursuri-hero.jpeg";
@@ -89,15 +87,17 @@ const Hero = () => {
                         <div className="text-sm md:text-base text-slate-900">Teste practice</div>
                       </div>
                     </div>}
-                  {index === 4 && <div className="flex flex-row items-center gap-4 md:gap-6 px-4 py-2">
-                    <div className="flex items-center -space-x-2">
-                      <img src={consultant1} alt="Consultant 1" className="w-12 h-12 md:w-14 md:h-14 rounded-full border-3 border-white object-cover" />
-                      <img src={consultant2} alt="Consultant 2" className="w-12 h-12 md:w-14 md:h-14 rounded-full border-3 border-white object-cover" />
-                      <img src={consultant3} alt="Consultant 3" className="w-12 h-12 md:w-14 md:h-14 rounded-full border-3 border-white object-cover" />
+                  {index === 4 && <div className="flex flex-row items-center justify-between w-full h-full px-6 md:px-8 py-6">
+                    <div className="flex flex-col items-start gap-2 flex-1">
+                      <h3 className="text-2xl md:text-3xl font-bold text-slate-900 leading-tight">
+                        Gestionează<br />inteligent
+                      </h3>
+                      <p className="text-sm md:text-base text-slate-800 max-w-[200px]">
+                        Controlează-ți finanțele cu instrumente profesionale
+                      </p>
                     </div>
-                    <div className="flex flex-col items-start gap-0.5">
-                      <div className="text-xl md:text-2xl font-bold text-slate-900 leading-tight">100+</div>
-                      <div className="text-sm md:text-base text-slate-800 leading-snug">Consultanți financiar<br />recomandă Finora</div>
+                    <div className="flex items-center justify-center w-24 h-24 md:w-32 md:h-32">
+                      <img src={bullIcon} alt="Bull" className="w-full h-full object-contain opacity-90" />
                     </div>
                   </div>}
                 </div>
