@@ -71,8 +71,14 @@ const Hero = () => {
                 {index === 0 ? <div className="size-full flex items-center justify-between p-8 md:p-12">
                     <div className="flex-1 pr-8">
                       <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4 leading-tight">
-                        Tot ce trebuie să știi despre finanțe            
+                        Tot ce trebuie să știi despre finanțe            
                       </h2>
+                      <div className="h-px bg-slate-300 my-4"></div>
+                      <ul className="list-disc list-inside space-y-2 mb-4 text-slate-800">
+                        <li className="text-base md:text-lg">Cursuri - invata de la experti in domeniul financiar</li>
+                        <li className="text-base md:text-lg">Gestioneaza datoriile SMART</li>
+                        <li className="text-base md:text-lg">Creaza si urmareste propriul portofoliu</li>
+                      </ul>
                       <p className="text-lg md:text-xl text-slate-800 leading-relaxed">
                         Conectează-te cu alți consultanți financiari și învață împreună
                       </p>
