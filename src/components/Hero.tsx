@@ -89,15 +89,15 @@ const Hero = () => {
                         <div className="text-sm md:text-base text-slate-900">Teste practice</div>
                       </div>
                     </div>}
-                  {index === 4 && <div className="flex flex-row items-center gap-3 md:gap-4 px-4">
-                    <div className="flex items-center -space-x-3">
-                      <img src={consultant1} alt="Consultant 1" className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white object-cover" />
-                      <img src={consultant2} alt="Consultant 2" className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white object-cover" />
-                      <img src={consultant3} alt="Consultant 3" className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white object-cover" />
+                  {index === 4 && <div className="flex flex-row items-center gap-4 md:gap-6 px-4 py-2">
+                    <div className="flex items-center -space-x-2">
+                      <img src={consultant1} alt="Consultant 1" className="w-12 h-12 md:w-14 md:h-14 rounded-full border-3 border-white object-cover" />
+                      <img src={consultant2} alt="Consultant 2" className="w-12 h-12 md:w-14 md:h-14 rounded-full border-3 border-white object-cover" />
+                      <img src={consultant3} alt="Consultant 3" className="w-12 h-12 md:w-14 md:h-14 rounded-full border-3 border-white object-cover" />
                     </div>
-                    <div className="flex flex-col items-start">
-                      <div className="text-lg md:text-xl font-bold text-slate-900">100+</div>
-                      <div className="text-xs md:text-sm text-slate-700">Consultanți financiar recomandă Finora</div>
+                    <div className="flex flex-col items-start gap-0.5">
+                      <div className="text-xl md:text-2xl font-bold text-slate-900 leading-tight">100+</div>
+                      <div className="text-sm md:text-base text-slate-800 leading-snug">Consultanți financiar<br />recomandă Finora</div>
                     </div>
                   </div>}
                 </div>
