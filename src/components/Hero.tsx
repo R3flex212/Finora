@@ -1,4 +1,4 @@
-import { ArrowRight, Star } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import consultant1 from "@/assets/consultant-1.jpg";
 import consultant2 from "@/assets/consultant-2.jpg";
 import consultant3 from "@/assets/consultant-3.jpg";
@@ -89,23 +89,15 @@ const Hero = () => {
                         <div className="text-sm md:text-base text-slate-900">Teste practice</div>
                       </div>
                     </div>}
-                  {index === 4 && <div className="flex flex-col items-center gap-3 px-4">
-                    <div className="flex items-center gap-2">
-                      <span className="text-2xl md:text-3xl font-bold text-slate-900">4.9</span>
-                      <div className="flex gap-0.5">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <Star key={star} className="w-4 h-4 md:w-5 md:h-5 fill-yellow-400 text-yellow-400" />
-                        ))}
-                      </div>
-                    </div>
+                  {index === 4 && <div className="flex flex-row items-center gap-3 md:gap-4 px-4">
                     <div className="flex items-center -space-x-3">
                       <img src={consultant1} alt="Consultant 1" className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white object-cover" />
                       <img src={consultant2} alt="Consultant 2" className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white object-cover" />
                       <img src={consultant3} alt="Consultant 3" className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white object-cover" />
                     </div>
-                    <div className="text-center">
-                      <div className="text-base md:text-lg font-semibold text-slate-900">100+</div>
-                      <div className="text-xs md:text-sm text-slate-700">Consultanți financiar<br className="md:hidden" /> recomandă Finora</div>
+                    <div className="flex flex-col items-start">
+                      <div className="text-lg md:text-xl font-bold text-slate-900">100+</div>
+                      <div className="text-xs md:text-sm text-slate-700">Consultanți financiar recomandă Finora</div>
                     </div>
                   </div>}
                 </div>
