@@ -84,8 +84,25 @@ const Hero = () => {
                     <div className="flex-shrink-0 h-full flex items-center">
                       <img src={taurSeifImage} alt="Comunitate Finora" className="h-full w-auto" />
                     </div>
-                  </div> : <div className="text-center p-8 flex items-center justify-center size-full">
-                    {index === 1 && <span className="text-white/20 font-bold text-4xl">Tool-uri</span>}
+                  </div> : <div className="text-center p-8 flex flex-col items-center justify-center size-full gap-4">
+                    {index === 1 && (
+                      <>
+                        <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
+                          Tool-uri financiare inteligente
+                        </h3>
+                        <p className="text-base md:text-lg text-slate-800 mb-4 max-w-md">
+                          Gestionează bugetul, calculează investițiile și planifică-ți viitorul financiar cu tool-uri practice
+                        </p>
+                        <Button 
+                          size="lg" 
+                          className="font-semibold px-8"
+                          onClick={() => window.location.href = '/auth'}
+                        >
+                          Creează cont gratuit
+                          <ArrowRight className="ml-2" size={20} />
+                        </Button>
+                      </>
+                    )}
                     {index === 3 && <div className="flex flex-row gap-8 md:gap-16 items-start justify-center">
                       <div className="flex flex-col items-center">
                         <div className="text-3xl md:text-4xl font-bold mb-1 text-slate-900">
