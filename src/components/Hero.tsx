@@ -73,7 +73,7 @@ const Hero = () => {
                       <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4 leading-tight">
                         Tot ce trebuie să știi despre finanțe            
                       </h2>
-                      <div className="h-px bg-slate-300 my-4"></div>
+                      <div className="h-px my-4 bg-slate-900"></div>
                       <ul className="list-disc list-inside space-y-2 mb-4 text-slate-800">
                         <li className="text-base md:text-lg">Cursuri - invata de la experti in domeniul financiar</li>
                         <li className="text-base md:text-lg">Gestioneaza datoriile SMART</li>
