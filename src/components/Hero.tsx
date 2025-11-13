@@ -7,8 +7,6 @@ import { Button } from "@/components/ui/button";
 import cursuriImage from "@/assets/cursuri-hero-new.svg";
 import comunitateImage from "@/assets/comunitate-hero.svg";
 import taurSeifImage from "@/assets/taur-seif.svg";
-import taurTopImage from "@/assets/taur-top.jpeg";
-import taurBottomImage from "@/assets/taur-bottom.jpeg";
 import { useEffect, useState } from "react";
 const AnimatedCounter = ({
   end,
@@ -65,14 +63,10 @@ const Hero = () => {
       <ContainerScroll className="h-[350vh] bg-gradient-to-br from-[hsl(var(--deep-teal))] to-[hsl(var(--background))]">
         <BentoGrid className="sticky left-0 top-0 z-0 h-screen w-full p-4">
           {VISUAL_ELEMENTS.map((element, index) => <BentoCell key={index} className="overflow-hidden rounded-xl shadow-2xl">
-              <div className={`size-full ${index === 0 ? 'bg-cover bg-center' : index === 2 ? 'bg-cover bg-center' : index === 3 ? 'bg-cover bg-bottom' : index === 4 ? 'bg-cover bg-top' : element.type === "gradient" ? `bg-gradient-to-br ${element.colors}` : element.color}`} style={index === 0 ? {
+              <div className={`size-full ${index === 0 ? 'bg-cover bg-center' : index === 2 ? 'bg-cover bg-center' : index === 4 ? 'bg-[#51c882]' : element.type === "gradient" ? `bg-gradient-to-br ${element.colors}` : element.color}`} style={index === 0 ? {
             backgroundImage: `url(${comunitateImage})`
           } : index === 2 ? {
             backgroundImage: `url(${cursuriImage})`
-          } : index === 3 ? {
-            backgroundImage: `url(${taurBottomImage})`
-          } : index === 4 ? {
-            backgroundImage: `url(${taurTopImage})`
           } : {}}>
                 {index === 0 ? <div className="size-full flex items-center justify-between p-8 md:p-12">
                     <div className="flex-1 pr-8">
