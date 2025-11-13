@@ -99,12 +99,13 @@ const BentoCell = React.forwardRef<HTMLDivElement, HTMLMotionProps<"div">>(
     const { scrollYProgress } = useContainerScrollContext()
     const translate = useTransform(scrollYProgress, [0.1, 0.9], ["-35%", "0%"])
     const scale = useTransform(scrollYProgress, [0, 0.9], [0.5, 1])
+    const opacity = useTransform(scrollYProgress, [0, 0.15], [0, 1])
 
     return (
       <motion.div
         ref={ref}
         className={className}
-        style={{ translate, scale, ...style }}
+        style={{ translate, scale, opacity, ...style }}
         {...props}
       ></motion.div>
     )
