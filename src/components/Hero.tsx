@@ -114,7 +114,11 @@ const Hero = () => {
                       </div>
                     </div>}
                   {index === 4 && <>
-                      <p className="text-lg md:text-xl font-semibold text-slate-900 mb-2">Inscrie-te:</p>
+                      <h3 className="text-2xl md:text-3xl font-bold text-slate-900" style={{
+                        textShadow: '0 0 20px rgba(81, 199, 129, 0.6), 0 0 40px rgba(81, 199, 129, 0.3)'
+                      }}>
+                        Înscrie-te:
+                      </h3>
                       <Button size="lg" className="font-semibold px-8" onClick={() => window.location.href = '/auth'}>
                         Creează cont gratuit
                         <ArrowRight className="ml-2" size={20} />
