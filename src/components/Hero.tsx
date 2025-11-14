@@ -92,7 +92,7 @@ const Hero = () => {
                     <div className="flex-shrink-0 h-full flex items-center">
                       <img src={taurSeifImage} alt="Comunitate Finora" className="h-full w-auto" />
                     </div>
-                  </div> : <div className="text-center p-8 flex flex-col items-center justify-center size-full gap-4">
+                  </div> : <div className="p-8 flex flex-col items-center size-full gap-4" style={index === 4 ? {justifyContent: 'flex-end', paddingBottom: '15%'} : {justifyContent: 'center'}}>
                     {index === 3 && <div className="flex flex-row gap-8 md:gap-16 items-start justify-center">
                       <div className="flex flex-col items-center">
                         <div className="text-3xl md:text-4xl font-bold mb-1 text-slate-900">
