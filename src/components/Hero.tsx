@@ -92,7 +92,7 @@ const Hero = () => {
                     <div className="flex-shrink-0 h-full flex items-center">
                       <img src={taurSeifImage} alt="Comunitate Finora" className="h-full w-auto" />
                     </div>
-                  </div> : <div className="p-8 flex flex-col items-center size-full gap-4" style={index === 4 ? {justifyContent: 'flex-end', paddingBottom: '15%'} : {justifyContent: 'center'}}>
+                  </div> : <div className="text-center p-8 flex flex-col items-center justify-center size-full gap-4">
                     {index === 3 && <div className="flex flex-row gap-8 md:gap-16 items-start justify-center">
                       <div className="flex flex-col items-center">
                         <div className="text-3xl md:text-4xl font-bold mb-1 text-slate-900">
@@ -114,11 +114,8 @@ const Hero = () => {
                       </div>
                     </div>}
                   {index === 4 && <>
-                      <h3 className="text-2xl md:text-3xl font-bold text-slate-900" style={{
-                        textShadow: '0 0 20px rgba(81, 199, 129, 0.6), 0 0 40px rgba(81, 199, 129, 0.3)'
-                      }}>
-                        Înscrie-te:
-                      </h3>
+                      
+                      
                       <Button size="lg" className="font-semibold px-8" onClick={() => window.location.href = '/auth'}>
                         Creează cont gratuit
                         <ArrowRight className="ml-2" size={20} />
