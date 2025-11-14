@@ -66,7 +66,7 @@ const Hero = () => {
       <ContainerScroll className="h-[350vh] bg-gradient-to-br from-[hsl(var(--deep-teal))] to-[hsl(var(--background))]">
         <BentoGrid className="sticky left-0 top-0 z-0 h-screen w-full p-4">
           {VISUAL_ELEMENTS.map((element, index) => <BentoCell key={index} className="overflow-hidden rounded-xl shadow-2xl">
-              <div className={`size-full ${index === 0 ? 'bg-cover bg-center' : index === 1 ? 'bg-cover bg-center' : index === 2 ? 'bg-cover bg-center' : index === 4 ? 'bg-contain bg-center bg-no-repeat' : element.type === "gradient" ? `bg-gradient-to-br ${element.colors}` : element.color}`} style={index === 0 ? {
+              <div className={`size-full ${index === 0 ? 'bg-cover bg-center' : index === 1 ? 'bg-cover bg-center' : index === 2 ? 'bg-cover bg-center' : index === 4 ? 'bg-cover bg-center' : element.type === "gradient" ? `bg-gradient-to-br ${element.colors}` : element.color}`} style={index === 0 ? {
             backgroundImage: `url(${comunitateImage})`
           } : index === 1 ? {
             backgroundImage: `url(${greenBackgroundImage})`
