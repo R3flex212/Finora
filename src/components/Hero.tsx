@@ -119,9 +119,7 @@ const Hero = () => {
                       </div>
                     </div>}
                   {index === 4 && <>
-                      <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
-                        Începe schimbarea de astăzi         
-                      </h3>
+                      
                       
                       <Button size="lg" className="font-semibold px-8" onClick={() => window.location.href = '/auth'}>
                         Creează cont gratuit
