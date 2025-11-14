@@ -40,7 +40,7 @@ const VISUAL_ELEMENTS = [{
   colors: "from-[hsl(var(--aqua))] to-[hsl(var(--minty-green))]"
 }, {
   type: "solid",
-  color: "bg-[hsl(var(--minty-green))]"
+  color: "bg-[#51c781]"
 }, {
   type: "gradient",
   colors: "from-[hsl(var(--deep-teal))] to-[hsl(var(--aqua))]"
