@@ -114,8 +114,8 @@ const Hero = () => {
                       </div>
                     </div>}
                   {index === 4 && <>
-                      <h3 className="text-2xl md:text-3xl font-bold text-slate-900 -mt-[60px]" style={{
-                  textShadow: '0 0 20px rgba(81, 199, 129, 0.6), 0 0 40px rgba(81, 199, 129, 0.3)'
+                  <h3 className="text-2xl md:text-3xl font-bold text-slate-900 -mt-[60px]" style={{
+                  textShadow: '0 0 20px rgba(0, 241, 241, 0.8), 0 0 40px rgba(0, 241, 241, 0.5), 0 0 60px rgba(0, 241, 241, 0.3)'
                 }}>
                         Înscrie-te acum!
                       </h3>
