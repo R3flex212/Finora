@@ -117,7 +117,7 @@ const Hero = () => {
                       <h3 className="text-2xl md:text-3xl font-bold text-slate-900 -mt-[60px]" style={{
                   textShadow: '0 0 20px rgba(81, 199, 129, 0.6), 0 0 40px rgba(81, 199, 129, 0.3)'
                 }}>
-                        Înscrie-te acum:
+                        Înscrie-te acum!
                       </h3>
                       <Button size="lg" className="font-semibold px-8" onClick={() => window.location.href = '/auth'}>
                         Creează cont gratuit
