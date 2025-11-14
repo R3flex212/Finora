@@ -5,7 +5,7 @@ import consultant3 from "@/assets/consultant-3.jpg";
 import { BentoCell, BentoGrid, ContainerScale, ContainerScroll } from "@/components/ui/hero-gallery-scroll-animation";
 import { Button } from "@/components/ui/button";
 import cursuriImage from "@/assets/cursuri-hero-new.svg";
-import comunitateImage from "@/assets/comunitate-hero.svg";
+import comunitateImage from "@/assets/comunitate-hero-new.svg";
 import taurSeifImage from "@/assets/taur-seif.svg";
 import bullHeroImage from "@/assets/bull-hero.jpeg";
 import greenBackgroundImage from "@/assets/green-background.svg";
