@@ -10,7 +10,6 @@ import taurSeifImage from "@/assets/taur-seif.svg";
 import bullHeroImage from "@/assets/bull-hero.jpeg";
 import greenBackgroundImage from "@/assets/green-background.svg";
 import taurButonImage from "@/assets/taur-buton.svg";
-import statsBackgroundImage from "@/assets/stats-background.svg";
 import { useEffect, useState } from "react";
 const AnimatedCounter = ({
   end,
@@ -67,14 +66,12 @@ const Hero = () => {
       <ContainerScroll className="h-[350vh] bg-gradient-to-br from-[hsl(var(--deep-teal))] to-[hsl(var(--background))]">
         <BentoGrid className="sticky left-0 top-0 z-0 h-screen w-full p-4">
           {VISUAL_ELEMENTS.map((element, index) => <BentoCell key={index} className="overflow-hidden rounded-xl shadow-2xl">
-              <div className={`size-full ${index === 0 ? 'bg-cover bg-center' : index === 1 ? 'bg-cover bg-center' : index === 2 ? 'bg-cover bg-center' : index === 3 ? 'bg-cover bg-center' : index === 4 ? 'bg-cover bg-center' : element.type === "gradient" ? `bg-gradient-to-br ${element.colors}` : element.color}`} style={index === 0 ? {
+              <div className={`size-full ${index === 0 ? 'bg-cover bg-center' : index === 1 ? 'bg-cover bg-center' : index === 2 ? 'bg-cover bg-center' : index === 4 ? 'bg-cover bg-center' : element.type === "gradient" ? `bg-gradient-to-br ${element.colors}` : element.color}`} style={index === 0 ? {
             backgroundImage: `url(${comunitateImage})`
           } : index === 1 ? {
             backgroundImage: `url(${greenBackgroundImage})`
           } : index === 2 ? {
             backgroundImage: `url(${cursuriImage})`
-          } : index === 3 ? {
-            backgroundImage: `url(${statsBackgroundImage})`
           } : index === 4 ? {
             backgroundImage: `url(${taurButonImage})`,
             backgroundPosition: 'center 60%'
@@ -96,7 +93,27 @@ const Hero = () => {
                       <img src={taurSeifImage} alt="Comunitate Finora" className="h-full w-auto" />
                     </div>
                   </div> : <div className="text-center p-8 flex flex-col items-center justify-center size-full gap-4">
-                    {index === 4 && <>
+                    {index === 3 && <div className="flex flex-row gap-8 md:gap-16 items-start justify-center">
+                      <div className="flex flex-col items-center">
+                        <div className="text-3xl md:text-4xl font-bold mb-1 text-slate-900">
+                          <AnimatedCounter end={50} suffix="+" />
+                        </div>
+                        <div className="text-sm md:text-base text-slate-900">Cursuri</div>
+                      </div>
+                      <div className="flex flex-col items-center">
+                        <div className="text-3xl md:text-4xl font-bold mb-1 text-slate-900">
+                          <AnimatedCounter end={15} suffix="+" />
+                        </div>
+                        <div className="text-sm md:text-base text-slate-900">Tool-uri</div>
+                      </div>
+                      <div className="flex flex-col items-center">
+                        <div className="text-3xl md:text-4xl font-bold mb-1 text-slate-900">
+                          <AnimatedCounter end={20} suffix="+" />
+                        </div>
+                        <div className="text-sm md:text-base text-slate-900">Teste practice</div>
+                      </div>
+                    </div>}
+                  {index === 4 && <>
                       
                       
                       <Button size="lg" className="font-semibold px-8" onClick={() => window.location.href = '/auth'}>
