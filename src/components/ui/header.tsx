@@ -157,7 +157,7 @@ function Header1() {
             onClick={() => navigate("/")}
             className="hover:opacity-80 transition-opacity cursor-pointer flex items-center"
           >
-            <img src={finoraLogo} alt="Finora" className="h-10 w-auto lg:h-14" />
+            <img src={finoraLogo} alt="Finora" className="h-8 w-auto lg:h-10" />
           </button>
         </div>
         
