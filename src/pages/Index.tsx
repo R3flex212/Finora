@@ -1,4 +1,4 @@
-import Navbar from "@/components/Navbar";
+import { Header1 } from "@/components/ui/header";
 import Hero from "@/components/Hero";
 import WhyFinora from "@/components/WhyFinora";
 import HowItWorks from "@/components/HowItWorks";
@@ -10,8 +10,8 @@ import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
-      <Navbar />
+    <div className="min-h-screen pt-20">
+      <Header1 />
       <Hero />
       <WhyFinora />
       <HowItWorks />
