@@ -11,6 +11,7 @@ import bullHeroImage from "@/assets/bull-hero.jpeg";
 import greenBackgroundImage from "@/assets/green-background.svg";
 import taurButonImage from "@/assets/taur-buton.svg";
 import { useEffect, useState } from "react";
+import { DottedSurface } from "@/components/ui/dotted-surface";
 const AnimatedCounter = ({
   end,
   duration = 2000,
@@ -63,6 +64,7 @@ const Hero = () => {
     }
   };
   return <section className="relative">
+      <DottedSurface className="absolute inset-0 opacity-30" />
       <ContainerScroll className="h-[350vh] bg-gradient-to-br from-[hsl(var(--deep-teal))] to-[hsl(var(--background))]">
         <BentoGrid className="sticky left-0 top-0 z-0 h-screen w-full p-4">
           {VISUAL_ELEMENTS.map((element, index) => <BentoCell key={index} className="overflow-hidden rounded-xl shadow-2xl">
