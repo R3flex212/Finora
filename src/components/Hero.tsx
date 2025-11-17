@@ -11,6 +11,7 @@ import bullHeroImage from "@/assets/bull-hero.jpeg";
 import greenBackgroundImage from "@/assets/green-background.svg";
 import taurButonImage from "@/assets/taur-buton.svg";
 import { useEffect, useState } from "react";
+import { Boxes } from "@/components/ui/background-boxes";
 const AnimatedCounter = ({
   end,
   duration = 2000,
@@ -62,8 +63,10 @@ const Hero = () => {
       });
     }
   };
-  return <section className="relative">
-      <ContainerScroll className="h-[350vh] bg-gradient-to-br from-[hsl(var(--deep-teal))] to-[hsl(var(--background))]">
+  return <section className="relative overflow-hidden">
+      <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-[hsl(var(--deep-teal))] to-[hsl(var(--background))] z-10 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+      <Boxes />
+      <ContainerScroll className="h-[350vh] bg-gradient-to-br from-[hsl(var(--deep-teal))] to-[hsl(var(--background))] relative z-20">
         <BentoGrid className="sticky left-0 top-0 z-0 h-screen w-full p-4">
           {VISUAL_ELEMENTS.map((element, index) => <BentoCell key={index} className="overflow-hidden rounded-xl shadow-2xl">
               <div className={`size-full ${index === 0 ? 'bg-cover bg-center' : index === 1 ? 'bg-cover bg-center' : index === 2 ? 'bg-cover bg-center' : index === 4 ? 'bg-cover bg-center' : element.type === "gradient" ? `bg-gradient-to-br ${element.colors}` : element.color}`} style={index === 0 ? {
