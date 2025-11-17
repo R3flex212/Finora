@@ -14,7 +14,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { User as SupabaseUser } from "@supabase/supabase-js";
-import finoraLogo from "@/assets/finora-logo.png";
+import finoraLogo from "@/assets/finora-logo-new.png";
 
 function Header1() {
   const [user, setUser] = useState<SupabaseUser | null>(null);
@@ -151,10 +151,19 @@ function Header1() {
         isVisible ? 'top-0' : '-top-24'
       }`}
     >
-      <div className="container relative mx-auto min-h-20 flex gap-4 flex-row lg:grid lg:grid-cols-3 items-center px-4">
-        <div className="justify-start items-center gap-4 lg:flex hidden flex-row">
-          <NavigationMenu className="flex justify-start items-start">
-            <NavigationMenuList className="flex justify-start gap-4 flex-row">
+      <div className="container relative mx-auto min-h-20 flex gap-4 flex-row lg:grid lg:grid-cols-[200px_1fr_auto] items-center px-4">
+        <div className="flex justify-start items-center">
+          <button 
+            onClick={() => navigate("/")}
+            className="hover:opacity-80 transition-opacity cursor-pointer flex items-center"
+          >
+            <img src={finoraLogo} alt="Finora" className="h-12 w-auto lg:h-16" />
+          </button>
+        </div>
+        
+        <div className="justify-center items-center gap-4 lg:flex hidden flex-row">
+          <NavigationMenu className="flex justify-center items-center">
+            <NavigationMenuList className="flex justify-center gap-4 flex-row">
               {navigationItems.map((item) => (
                 <NavigationMenuItem key={item.title}>
                   <button onClick={item.onClick}>
@@ -169,15 +178,6 @@ function Header1() {
               ))}
             </NavigationMenuList>
           </NavigationMenu>
-        </div>
-        
-        <div className="flex lg:justify-center">
-          <button 
-            onClick={() => navigate("/")}
-            className="hover:opacity-80 transition-opacity cursor-pointer flex items-center"
-          >
-            <img src={finoraLogo} alt="Finora" className="h-16 w-16" />
-          </button>
         </div>
         
         <div className="hidden lg:flex justify-end w-full gap-4">
