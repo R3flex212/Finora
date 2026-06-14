@@ -81,37 +81,47 @@ const Navbar = () => {
     navigate("/");
   };
 
-  const navItems = [
-    { 
-      name: "Cursuri", 
-      onClick: () => handleNavigation("cursuri", isHomePage ? undefined : "/courses"),
-      icon: Home,
-      isActive: location.pathname === "/courses" || (isHomePage && location.hash === "#cursuri")
-    },
-    { 
-      name: "Prețuri", 
-      onClick: () => handleNavigation("preturi"),
-      icon: DollarSign,
-      isActive: isHomePage && location.hash === "#preturi"
-    },
-    { 
-      name: "Despre", 
-      onClick: () => handleNavigation("despre"),
-      icon: Info,
-      isActive: isHomePage && location.hash === "#despre"
-    },
-    ...(user ? [{
-      name: "Lista Cursuri",
-      onClick: () => navigate("/courses"),
-      icon: BookOpen,
-      isActive: location.pathname === "/courses"
-    }, {
-      name: "Unelte",
-      onClick: () => navigate("/tools"),
-      icon: Calculator,
-      isActive: location.pathname === "/tools"
-    }] : [])
-  ];
+  const navItems = user
+    ? [
+        {
+          name: "Lista Cursuri",
+          onClick: () => navigate("/courses"),
+          icon: BookOpen,
+          isActive: location.pathname === "/courses",
+        },
+        {
+          name: "Unelte",
+          onClick: () => navigate("/tools"),
+          icon: Calculator,
+          isActive: location.pathname === "/tools",
+        },
+        {
+          name: "Buget",
+          onClick: () => navigate("/budget"),
+          icon: Wallet,
+          isActive: location.pathname === "/budget",
+        },
+      ]
+    : [
+        {
+          name: "Cursuri",
+          onClick: () => handleNavigation("cursuri", isHomePage ? undefined : "/courses"),
+          icon: Home,
+          isActive: location.pathname === "/courses" || (isHomePage && location.hash === "#cursuri"),
+        },
+        {
+          name: "Prețuri",
+          onClick: () => handleNavigation("preturi"),
+          icon: DollarSign,
+          isActive: isHomePage && location.hash === "#preturi",
+        },
+        {
+          name: "Despre",
+          onClick: () => handleNavigation("despre"),
+          icon: Info,
+          isActive: isHomePage && location.hash === "#despre",
+        },
+      ];
 
   const logo = (
     <button 
