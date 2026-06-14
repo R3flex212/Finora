@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Courses from "./pages/Courses";
 import Tools from "./pages/Tools";
+import Budget from "./pages/Budget";
 import CourseView from "./pages/CourseView";
 import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
