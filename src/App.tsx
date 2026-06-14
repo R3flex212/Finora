@@ -50,6 +50,14 @@ const App = () => (
             } 
           />
           <Route 
+            path="/budget" 
+            element={
+              <AuthGuard>
+                {(user, session) => <Budget user={user} />}
+              </AuthGuard>
+            } 
+          />
+          <Route 
             path="/profile" 
             element={
               <AuthGuard>
