@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Courses from "./pages/Courses";
+import Tools from "./pages/Tools";
 import CourseView from "./pages/CourseView";
 import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
@@ -36,6 +37,14 @@ const App = () => (
             element={
               <AuthGuard>
                 {(user, session) => <CourseView user={user} />}
+              </AuthGuard>
+            } 
+          />
+          <Route 
+            path="/tools" 
+            element={
+              <AuthGuard>
+                {(user, session) => <Tools user={user} />}
               </AuthGuard>
             } 
           />
