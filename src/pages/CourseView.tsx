@@ -91,7 +91,7 @@ const CourseView = ({ user }: CourseViewProps) => {
 
   const playerRef = useRef<any>(null);
   const ytPlayerRef = useRef<any>(null);
-  const progressSaveTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const progressSaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastSavedProgressRef = useRef(0);
 
   useEffect(() => {
