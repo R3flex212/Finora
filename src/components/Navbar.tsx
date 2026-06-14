@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { NavBar } from "@/components/ui/tubelight-navbar";
-import { Home, DollarSign, Info, User, LogOut, Settings, BookOpen, Calculator } from "lucide-react";
+import { Home, DollarSign, Info, User, LogOut, Settings, BookOpen, Calculator, Wallet } from "lucide-react";
 import { User as SupabaseUser } from "@supabase/supabase-js";
 import finoraLogo from "@/assets/finora-logo.png";
 
